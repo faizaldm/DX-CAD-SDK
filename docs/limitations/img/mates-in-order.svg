@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="220" viewBox="0 0 480 220" role="img" aria-labelledby="title desc">
+<title id="title">No simultaneous assembly solver</title>
+<desc id="desc">Three parts placed by mates. Mate 1 places B against A, then mate 2 places C against B, each in the order written: green. A mate from C back to A closes a loop that would need all three solved together: red dashed, refused.</desc>
+<style>
+.ink{stroke:#495057;fill:none;stroke-width:2}
+.thin{stroke:#495057;fill:none;stroke-width:1}
+.text{fill:#495057;font:14px sans-serif}
+.small{fill:#495057;font:12px sans-serif}
+.ok{stroke:#2f9e44;fill:none;stroke-width:2.5}
+.okt{fill:#2f9e44;font:bold 14px sans-serif}
+.bad{stroke:#e03131;fill:none;stroke-width:2.5;stroke-dasharray:7 5}
+.badt{fill:#e03131;font:bold 14px sans-serif}
+@media (prefers-color-scheme: dark){
+.ink,.thin{stroke:#ced4da}.text,.small{fill:#ced4da}
+.ok{stroke:#51cf66}.okt{fill:#51cf66}.bad{stroke:#ff6b6b}.badt{fill:#ff6b6b}
+}
+</style>
+<rect class="ink" x="40" y="80" width="80" height="60"/>
+<text class="text" x="74" y="116">A</text>
+<rect class="ink" x="200" y="80" width="80" height="60"/>
+<text class="text" x="234" y="116">B</text>
+<rect class="ink" x="360" y="80" width="80" height="60"/>
+<text class="text" x="394" y="116">C</text>
+<path class="ok" d="M200,100 H124 M134,92 L124,100 L134,108"/>
+<text class="okt" x="150" y="90">1</text>
+<path class="ok" d="M360,100 H284 M294,92 L284,100 L294,108"/>
+<text class="okt" x="310" y="90">2</text>
+<path class="bad" d="M400,144 V180 H80 V146 M72,156 L80,146 L88,156"/>
+<text class="badt" x="160" y="205">C back to A: a loop</text>
+</svg>

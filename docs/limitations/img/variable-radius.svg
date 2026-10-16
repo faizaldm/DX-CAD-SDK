@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="220" viewBox="0 0 480 220" role="img" aria-labelledby="title desc">
+<title id="title">Variable-radius fillets</title>
+<desc id="desc">One edge seen side on. Above, a fillet of one radius along the whole edge: valid. Below, a fillet growing from 2 mm to 8 mm along the edge: not offered.</desc>
+<style>
+.ink{stroke:#495057;fill:none;stroke-width:2}
+.thin{stroke:#495057;fill:none;stroke-width:1}
+.text{fill:#495057;font:14px sans-serif}
+.small{fill:#495057;font:12px sans-serif}
+.ok{stroke:#2f9e44;fill:none;stroke-width:2.5}
+.okt{fill:#2f9e44;font:bold 14px sans-serif}
+.bad{stroke:#e03131;fill:none;stroke-width:2.5;stroke-dasharray:7 5}
+.badt{fill:#e03131;font:bold 14px sans-serif}
+@media (prefers-color-scheme: dark){
+.ink,.thin{stroke:#ced4da}.text,.small{fill:#ced4da}
+.ok{stroke:#51cf66}.okt{fill:#51cf66}.bad{stroke:#ff6b6b}.badt{fill:#ff6b6b}
+}
+</style>
+<line class="ink" x1="40" y1="60" x2="440" y2="60"/>
+<path class="ok" d="M40,72 H440"/>
+<text class="okt" x="40" y="96">one radius: valid</text>
+<line class="ink" x1="40" y1="140" x2="440" y2="140"/>
+<path class="bad" d="M40,146 L440,172"/>
+<text class="badt" x="40" y="200">2 mm growing to 8 mm: not offered</text>
+</svg>

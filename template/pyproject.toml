@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 Designmatix Ltd
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dxcad-myplugin"
+version = "0.1.0"
+description = "A DX-CAD plugin"
+requires-python = ">=3.12"
+
+[project.entry-points."dxcad.plugins"]
+myplugin = "dxcad_myplugin:register"
+
+[tool.setuptools]
+py-modules = ["dxcad_myplugin"]

@@ -1,0 +1,20 @@
+{
+  "format": "dxcaddrg",
+  "format_version": 1,
+  "model": "angle.dxcprt",
+  "sheet": "ISO-A3",
+  "scale": null,
+  "views": {},
+  "dimensions": true,
+  "parts_list": true,
+  "fields": {
+    "company_name": "Designmatix Ltd",
+    "drawn_by": "DX-CAD",
+    "material": "Galvanised steel",
+    "drawing_no": "TUT-0001",
+    "rev_number": "A"
+  },
+  "hidden_off": [],
+  "font": null,
+  "text_height": null
+}

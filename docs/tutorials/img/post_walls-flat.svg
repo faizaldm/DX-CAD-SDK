@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="303.0716802635079mm" height="259.5716802635079mm" viewBox="-143.28584013175396 -229.78584013175396 303.0716802635079 259.5716802635079">
+<g fill="none" stroke="black" stroke-width="0.25" transform="scale(1,-1)">
+<path class="CUT" d="M -138.28584013175396 197.0 L -138.28584013175396 3.0 L 3.0 3.0 L 3.0 -24.785840131753957 L 118.5 -24.785840131753957 L 118.5 -17.785840131753957 L 127.0 -17.785840131753957 L 127.0 3.0 L 154.78584013175396 3.0 L 154.78584013175396 197.0 L 127.0 197.0 L 127.0 217.78584013175396 L 118.5 217.78584013175396 L 118.5 224.78584013175396 L 3.0 224.78584013175396 L 3.0 197.0 Z"/>
+<line class="BEND" x1="1.3035399670615115" y1="197.0" x2="1.3035399670615115" y2="3.0" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="-116.08938009881547" y1="197.0" x2="-116.08938009881547" y2="3.0" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="128.6964600329385" y1="3.0" x2="128.6964600329385" y2="197.0" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="146.08938009881547" y1="3.0" x2="146.08938009881547" y2="197.0" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="3.0" y1="1.3035399670615115" x2="127.0" y2="1.3035399670615115" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="3.0" y1="-16.089380098815468" x2="127.0" y2="-16.089380098815468" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="127.0" y1="198.6964600329385" x2="3.0" y2="198.6964600329385" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="127.0" y1="216.08938009881547" x2="3.0" y2="216.08938009881547" stroke-dasharray="12.7 6.35"/>
+<text class="NOTES" transform="translate(1.3035399670615115,100.0) scale(1,-1)" font-size="2.5" fill="black" stroke="none">DOWN 90 R1.5</text>
+<text class="NOTES" transform="translate(-116.08938009881547,100.0) scale(1,-1)" font-size="2.5" fill="black" stroke="none">DOWN 90 R1.5</text>
+<text class="NOTES" transform="translate(128.6964600329385,100.0) scale(1,-1)" font-size="2.5" fill="black" stroke="none">DOWN 90 R1.5</text>
+<text class="NOTES" transform="translate(146.08938009881547,100.0) scale(1,-1)" font-size="2.5" fill="black" stroke="none">DOWN 90 R1.5</text>
+<text class="NOTES" transform="translate(65.0,1.3035399670615115) scale(1,-1)" font-size="2.5" fill="black" stroke="none">DOWN 90 R1.5</text>
+<text class="NOTES" transform="translate(65.0,-16.089380098815468) scale(1,-1)" font-size="2.5" fill="black" stroke="none">DOWN 90 R1.5</text>
+<text class="NOTES" transform="translate(65.0,198.6964600329385) scale(1,-1)" font-size="2.5" fill="black" stroke="none">DOWN 90 R1.5</text>
+<text class="NOTES" transform="translate(65.0,216.08938009881547) scale(1,-1)" font-size="2.5" fill="black" stroke="none">DOWN 90 R1.5</text>
+</g>
+</svg>

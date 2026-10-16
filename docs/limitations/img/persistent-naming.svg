@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="220" viewBox="0 0 480 220" role="img" aria-labelledby="title desc">
+<title id="title">Persistent naming</title>
+<desc id="desc">A plate with one hole, then the same plate after a second hole is added. The kernel's face number 7 moves to the new hole: red dashed. DX-CAD's name, hole 1, stays on the first hole: green.</desc>
+<style>
+.ink{stroke:#495057;fill:none;stroke-width:2}
+.thin{stroke:#495057;fill:none;stroke-width:1}
+.text{fill:#495057;font:14px sans-serif}
+.small{fill:#495057;font:12px sans-serif}
+.ok{stroke:#2f9e44;fill:none;stroke-width:2.5}
+.okt{fill:#2f9e44;font:bold 14px sans-serif}
+.bad{stroke:#e03131;fill:none;stroke-width:2.5;stroke-dasharray:7 5}
+.badt{fill:#e03131;font:bold 14px sans-serif}
+@media (prefers-color-scheme: dark){
+.ink,.thin{stroke:#ced4da}.text,.small{fill:#ced4da}
+.ok{stroke:#51cf66}.okt{fill:#51cf66}.bad{stroke:#ff6b6b}.badt{fill:#ff6b6b}
+}
+</style>
+<rect class="ink" x="30" y="60" width="170" height="100"/>
+<circle class="ok" cx="80" cy="110" r="16"/>
+<text class="okt" x="56" y="150">hole 1</text>
+<text class="small" x="56" y="80">face 7</text>
+<path class="ink" d="M215,110 H250 M240,100 L250,110 L240,120"/>
+<rect class="ink" x="270" y="60" width="170" height="100"/>
+<circle class="ok" cx="320" cy="110" r="16"/>
+<circle class="ink" cx="390" cy="110" r="16"/>
+<text class="okt" x="296" y="150">hole 1</text>
+<text class="badt" x="366" y="80">face 7</text>
+<path class="bad" d="M395,86 L392,92"/>
+<text class="small" x="270" y="190">"face 7" moved; "hole 1" stayed</text>
+</svg>

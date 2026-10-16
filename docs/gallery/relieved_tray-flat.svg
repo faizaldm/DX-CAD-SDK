@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="130.0mm" height="146.78584013175396mm" viewBox="-5.0 -113.39292006587698 130.0 146.78584013175396">
+<g fill="none" stroke="black" stroke-width="0.25" transform="scale(1,-1)">
+<path class="CUT" d="M 0.0 0.0 L 8.5 0.0 L 8.5 3.0 L 10.0 3.0 L 10.0 -28.39292006587698 L 110.0 -28.39292006587698 L 110.0 3.0 L 111.5 3.0 L 111.5 0.0 L 120.0 0.0 L 120.0 80.0 L 111.5 80.0 L 111.5 77.0 L 110.0 77.0 L 110.0 108.39292006587698 L 10.0 108.39292006587698 L 10.0 77.0 L 8.5 77.0 L 8.5 80.0 L 0.0 80.0 Z"/>
+<circle class="CUT" cx="30.0" cy="40.0" r="3.0"/>
+<circle class="CUT" cx="90.0" cy="40.0" r="3.0"/>
+<line class="BEND" x1="10.0" y1="-1.6964600329384885" x2="110.0" y2="-1.6964600329384885" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="110.0" y1="81.69646003293849" x2="10.0" y2="81.69646003293849" stroke-dasharray="12.7 6.35"/>
+<text class="NOTES" transform="translate(60.0,-1.6964600329384885) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+<text class="NOTES" transform="translate(60.0,81.69646003293849) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+</g>
+</svg>

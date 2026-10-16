@@ -1,0 +1,98 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 Designmatix Ltd
+# The DX-CAD SDK's own CI, written by python -m dxcad.sdkexport (item 650):
+# the SDK built and its examples and template checked on every push; the docs
+# site built strictly; on a v* tag dxcad-sdk published to PyPI with the
+# PYPI_API_TOKEN secret, and the site to GitHub Pages.
+name: SDK
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Build the wheel and the source distribution
+        run: |
+          python -m pip install "build==1.6.1"
+          python -m build
+      - name: Install the wheel in a fresh venv
+        run: |
+          python -m venv fresh
+          fresh/bin/python -m pip install dist/*.whl
+      - name: Check the examples and the template
+        run: |
+          for folder in examples/* template; do
+            fresh/bin/dxcad-sdk check "$folder"
+          done
+      - uses: actions/upload-artifact@v6
+        with:
+          name: dist
+          path: dist/
+
+  docs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install MkDocs
+        run: python -m pip install "mkdocs==1.6.1"
+      - name: Build the site, strictly
+        run: python -m mkdocs build --strict --site-dir site
+      - uses: actions/upload-pages-artifact@v4
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          path: site
+
+  docs-deploy:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: docs
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  publish:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v6
+        with:
+          name: dist
+          path: dist/
+      - name: Upload to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          python -m pip install "twine==6.1.0"
+          python -m twine check --strict dist/*
+          python -m twine upload dist/*

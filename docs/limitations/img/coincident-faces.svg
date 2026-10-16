@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="220" viewBox="0 0 480 220" role="img" aria-labelledby="title desc">
+<title id="title">Booleans on coincident faces</title>
+<desc id="desc">Two blocks side by side sharing a face. Zoomed in, a hairline gap of a few millionths of a millimetre makes the fuse fail: red dashed. After DX-CAD's retry with a tolerance of 0.00001 mm, one clean solid: green.</desc>
+<style>
+.ink{stroke:#495057;fill:none;stroke-width:2}
+.thin{stroke:#495057;fill:none;stroke-width:1}
+.text{fill:#495057;font:14px sans-serif}
+.small{fill:#495057;font:12px sans-serif}
+.ok{stroke:#2f9e44;fill:none;stroke-width:2.5}
+.okt{fill:#2f9e44;font:bold 14px sans-serif}
+.bad{stroke:#e03131;fill:none;stroke-width:2.5;stroke-dasharray:7 5}
+.badt{fill:#e03131;font:bold 14px sans-serif}
+@media (prefers-color-scheme: dark){
+.ink,.thin{stroke:#ced4da}.text,.small{fill:#ced4da}
+.ok{stroke:#51cf66}.okt{fill:#51cf66}.bad{stroke:#ff6b6b}.badt{fill:#ff6b6b}
+}
+</style>
+<rect class="ink" x="30" y="70" width="80" height="80"/>
+<rect class="ink" x="110" y="70" width="80" height="80"/>
+<circle class="thin" cx="110" cy="110" r="22"/>
+<line class="bad" x1="108" y1="92" x2="108" y2="128"/>
+<line class="bad" x1="112" y1="92" x2="112" y2="128"/>
+<text class="badt" x="30" y="185">hairline gap: fuse fails</text>
+<path class="ink" d="M215,110 H250 M240,100 L250,110 L240,120"/>
+<rect class="ok" x="280" y="70" width="160" height="80"/>
+<text class="okt" x="270" y="185">1e-5 mm retry: one solid</text>
+</svg>

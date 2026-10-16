@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 Designmatix Ltd
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dxcad-spacer"
+version = "0.1.0"
+description = "A DX-CAD SDK example: a dialog that adds a spacer and its statement"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+
+[project.entry-points."dxcad.plugins"]
+spacer = "dxcad_spacer:register"
+
+[tool.setuptools]
+py-modules = ["dxcad_spacer"]

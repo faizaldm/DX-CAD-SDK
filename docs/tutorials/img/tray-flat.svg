@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="236.24391539900972mm" height="176.24391539900972mm" viewBox="-38.121957699504854 -138.12195769950486 236.24391539900972 176.24391539900972">
+<g fill="none" stroke="black" stroke-width="0.25" transform="scale(1,-1)">
+<path class="CUT" d="M 0.0 0.0 L 0.0 -33.121957699504854 L 160.0 -33.121957699504854 L 160.0 0.0 L 193.12195769950486 0.0 L 193.12195769950486 100.0 L 160.0 100.0 L 160.0 133.12195769950486 L 0.0 133.12195769950486 L 0.0 100.0 L -33.121957699504854 100.0 L -33.121957699504854 0.0 Z"/>
+<circle class="CUT" cx="80.0" cy="50.0" r="5.0"/>
+<line class="BEND" x1="0.0" y1="-1.5609788497524284" x2="160.0" y2="-1.5609788497524284" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="161.56097884975242" y1="0.0" x2="161.56097884975242" y2="100.0" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="160.0" y1="101.56097884975243" x2="0.0" y2="101.56097884975243" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="-1.5609788497524284" y1="100.0" x2="-1.5609788497524284" y2="0.0" stroke-dasharray="12.7 6.35"/>
+<text class="NOTES" transform="translate(80.0,-1.5609788497524284) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+<text class="NOTES" transform="translate(161.56097884975242,50.0) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+<text class="NOTES" transform="translate(80.0,101.56097884975243) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+<text class="NOTES" transform="translate(-1.5609788497524284,50.0) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+</g>
+</svg>

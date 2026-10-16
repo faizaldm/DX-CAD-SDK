@@ -1,0 +1,60 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 Designmatix Ltd
+# The docs site, built with `python -m mkdocs build --strict`. The pages are
+# the markdown under docs/, in the order docs/index.md's table gives them;
+# a page added there is added to the nav here, and a test holds the two to
+# the same list.
+site_name: DX-CAD
+repo_url: https://github.com/faizaldm/DX-CAD-SDK
+# The theme's "Edit on GitHub" link; MkDocs' default names master, and the
+# branch is main.
+edit_uri: edit/main/docs/
+docs_dir: docs
+theme:
+  name: mkdocs
+
+# Markdown inside a <details> block: the gallery shows each example's script
+# folded away (612). Python-Markdown's own extension, nothing to install.
+markdown_extensions:
+  - md_in_html
+
+# The handoff note is the repo's own, written for whoever takes the project
+# on, and no page of the site. Caches a test run leaves beside the examples
+# are not either, nor is the list of help animations still to make (817),
+# which is the project's own working list.
+exclude_docs: |
+  /DXCADContext.md
+  /help-todo.md
+  __pycache__/
+
+# RELEASING.md lives at the repo root, outside docs_dir, so the site reaches
+# it where it is kept rather than carrying a second copy.
+nav:
+  - DX-CAD: index.md
+  - Installing DX-CAD: install.md
+  - The command line: cli.md
+  - The model language: kernel.md
+  - The window: gui.md
+  - The two-minute demo: demo.md
+  - DX-CAD for agents: agents.md
+  - Plugins: plugins.md
+  - Drawings and model.py: drawing.md
+  - Sheet metal: sheetmetal.md
+  - Gallery: gallery.md
+  - Contributing: contributing.md
+  - Running the tests: testing.md
+  - AI policy for IT departments: admin.md
+  - Known limitations: limitations.md
+  - Settings and their scope: settings.md
+  - Example parts: examples/README.md
+  - A bracket with four holes: examples/bracket.md
+  - Where the fastener figures come from: examples/dimensions.md
+  - Tutorials:
+      - Your first part: tutorials/first-part.md
+      - Sheet metal in 10 minutes: tutorials/sheet-metal.md
+      - Corner post in the window: tutorials/corner-post.md
+      - Assemblies with mates: tutorials/assemblies.md
+      - Drawing a part: tutorials/drawing.md
+      - DX-CAD with Claude Desktop: tutorials/claude-desktop.md
+  - The DX-CAD SDK: sdk.md
+  - File formats: format.md

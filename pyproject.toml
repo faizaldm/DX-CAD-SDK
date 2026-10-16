@@ -1,0 +1,43 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 Designmatix Ltd
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dxcad-sdk"
+dynamic = ["version"]
+description = "The DX-CAD SDK: plugin API, model.py type stubs, docs and examples"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{name = "Designmatix Ltd"}]
+keywords = ["cad", "dxcad", "plugin", "sdk"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Graphics :: 3D Modeling",
+    "Typing :: Stubs Only",
+]
+# Nothing: the SDK is interfaces, and DX-CAD itself is installed apart.
+dependencies = []
+
+[project.scripts]
+dxcad-sdk = "dxcad_sdk.check:main"
+
+# dxcad-stubs is a stub-only package (PEP 561) for the dxcad.model namespace,
+# partial, so a type checker takes the rest of dxcad from DX-CAD itself.
+[tool.setuptools]
+include-package-data = false
+packages = ["dxcad_sdk", "dxcad-stubs"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.package-data]
+dxcad_sdk = ["py.typed"]
+"dxcad-stubs" = ["*.pyi", "py.typed"]
+
+[tool.setuptools.dynamic]
+version = {attr = "dxcad_sdk.__version__"}

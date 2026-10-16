@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="659.5716802635079mm" height="459.5716802635079mm" viewBox="-32.78584013175396 -426.78584013175396 659.5716802635079 459.5716802635079">
+<g fill="none" stroke="black" stroke-width="0.25" transform="scale(1,-1)">
+<path class="CUT" d="M 3.0 0.0 L 1.5 0.0 L 1.5 -20.785840131753957 L 8.5 -20.785840131753957 L 8.5 -27.785840131753957 L 585.5 -27.785840131753957 L 585.5 -20.785840131753957 L 592.5 -20.785840131753957 L 592.5 0.0 L 591.0 0.0 L 591.0 1.5 L 592.5 1.5 L 592.5 3.0 L 594.0 3.0 L 594.0 1.5 L 614.785840131754 1.5 L 614.785840131754 8.5 L 621.785840131754 8.5 L 621.785840131754 385.5 L 614.785840131754 385.5 L 614.785840131754 392.5 L 594.0 392.5 L 594.0 391.0 L 592.5 391.0 L 592.5 392.5 L 591.0 392.5 L 591.0 394.0 L 592.5 394.0 L 592.5 414.78584013175396 L 585.5 414.78584013175396 L 585.5 421.78584013175396 L 8.5 421.78584013175396 L 8.5 414.78584013175396 L 1.5 414.78584013175396 L 1.5 394.0 L 3.0 394.0 L 3.0 392.5 L 1.5 392.5 L 1.5 391.0 L 0.0 391.0 L 0.0 392.5 L -20.785840131753957 392.5 L -20.785840131753957 385.5 L -27.785840131753957 385.5 L -27.785840131753957 8.5 L -20.785840131753957 8.5 L -20.785840131753957 1.5 L 0.0 1.5 L 0.0 3.0 L 1.5 3.0 L 1.5 1.5 L 3.0 1.5 Z"/>
+<circle class="CUT" cx="73.0" cy="-10.392920065876977" r="2.0"/>
+<circle class="CUT" cx="107.0" cy="-10.392920065876977" r="2.0"/>
+<circle class="CUT" cx="487.0" cy="-10.392920065876977" r="2.0"/>
+<circle class="CUT" cx="521.0" cy="-10.392920065876977" r="2.0"/>
+<path class="CUT" d="M 237.0 321.5 L 357.0 321.5 L 357.0 346.5 L 237.0 346.5 Z"/>
+<line class="BEND" x1="1.5" y1="-1.6964600329384885" x2="592.5" y2="-1.6964600329384885" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="1.5" y1="-19.089380098815468" x2="592.5" y2="-19.089380098815468" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="595.6964600329385" y1="1.5" x2="595.6964600329385" y2="392.5" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="613.0893800988155" y1="1.5" x2="613.0893800988155" y2="392.5" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="592.5" y1="395.6964600329385" x2="1.5" y2="395.6964600329385" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="592.5" y1="413.08938009881547" x2="1.5" y2="413.08938009881547" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="-1.6964600329384885" y1="392.5" x2="-1.6964600329384885" y2="1.5" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="-19.089380098815468" y1="392.5" x2="-19.089380098815468" y2="1.5" stroke-dasharray="12.7 6.35"/>
+<text class="NOTES" transform="translate(297.0,-1.6964600329384885) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+<text class="NOTES" transform="translate(297.0,-19.089380098815468) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+<text class="NOTES" transform="translate(595.6964600329385,197.0) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+<text class="NOTES" transform="translate(613.0893800988155,197.0) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+<text class="NOTES" transform="translate(297.0,395.6964600329385) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+<text class="NOTES" transform="translate(297.0,413.08938009881547) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+<text class="NOTES" transform="translate(-1.6964600329384885,197.0) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+<text class="NOTES" transform="translate(-19.089380098815468,197.0) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+</g>
+</svg>

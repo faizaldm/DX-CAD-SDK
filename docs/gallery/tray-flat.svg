@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="186.78584013175396mm" height="146.78584013175396mm" viewBox="-33.39292006587698 -113.39292006587698 186.78584013175396 146.78584013175396">
+<g fill="none" stroke="black" stroke-width="0.25" transform="scale(1,-1)">
+<path class="CUT" d="M 0.0 0.0 L 0.0 -28.39292006587698 L 120.0 -28.39292006587698 L 120.0 0.0 L 148.39292006587698 0.0 L 148.39292006587698 80.0 L 120.0 80.0 L 120.0 108.39292006587698 L 0.0 108.39292006587698 L 0.0 80.0 L -28.39292006587698 80.0 L -28.39292006587698 0.0 Z"/>
+<line class="BEND" x1="0.0" y1="-1.6964600329384885" x2="120.0" y2="-1.6964600329384885" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="121.69646003293849" y1="0.0" x2="121.69646003293849" y2="80.0" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="120.0" y1="81.69646003293849" x2="0.0" y2="81.69646003293849" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="-1.6964600329384885" y1="80.0" x2="-1.6964600329384885" y2="0.0" stroke-dasharray="12.7 6.35"/>
+<text class="NOTES" transform="translate(60.0,-1.6964600329384885) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+<text class="NOTES" transform="translate(121.69646003293849,40.0) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+<text class="NOTES" transform="translate(60.0,81.69646003293849) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+<text class="NOTES" transform="translate(-1.6964600329384885,40.0) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R1.5</text>
+</g>
+</svg>

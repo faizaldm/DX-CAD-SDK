@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="200" viewBox="0 0 480 200" role="img" aria-labelledby="title desc">
+<title id="title">Large assemblies</title>
+<desc id="desc">On the left, an assembly of a few dozen parts: quick to open and turn. On the right, thousands of parts, each its own shape in the view: slow to open, turn and save.</desc>
+<style>
+.ink{stroke:#495057;fill:none;stroke-width:2}
+.thin{stroke:#495057;fill:none;stroke-width:1}
+.text{fill:#495057;font:14px sans-serif}
+.small{fill:#495057;font:12px sans-serif}
+.ok{stroke:#2f9e44;fill:none;stroke-width:2.5}
+.okt{fill:#2f9e44;font:bold 14px sans-serif}
+.bad{stroke:#e03131;fill:none;stroke-width:2.5;stroke-dasharray:7 5}
+.badt{fill:#e03131;font:bold 14px sans-serif}
+@media (prefers-color-scheme: dark){
+.ink,.thin{stroke:#ced4da}.text,.small{fill:#ced4da}
+.ok{stroke:#51cf66}.okt{fill:#51cf66}.bad{stroke:#ff6b6b}.badt{fill:#ff6b6b}
+}
+</style>
+<g class="ok">
+<rect x="40" y="60" width="30" height="30"/><rect x="80" y="60" width="30" height="30"/>
+<rect x="120" y="60" width="30" height="30"/><rect x="40" y="100" width="30" height="30"/>
+<rect x="80" y="100" width="30" height="30"/><rect x="120" y="100" width="30" height="30"/>
+</g>
+<text class="okt" x="30" y="170">dozens of parts: quick</text>
+<g class="bad">
+<rect x="270" y="50" width="170" height="100"/>
+<path d="M270,70 H440 M270,90 H440 M270,110 H440 M270,130 H440"/>
+<path d="M290,50 V150 M310,50 V150 M330,50 V150 M350,50 V150 M370,50 V150 M390,50 V150 M410,50 V150 M430,50 V150"/>
+</g>
+<text class="badt" x="262" y="170">thousands: slow</text>
+</svg>

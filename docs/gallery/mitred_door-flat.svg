@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1136.0955736846772mm" height="936.0955736846772mm" viewBox="-72.04778684233861 -864.0477868423386 1136.0955736846772 936.0955736846772">
+<g fill="none" stroke="black" stroke-width="0.25" transform="scale(1,-1)">
+<path class="CUT" d="M 992.0 792.0 L 992.0 838.0477868423386 L 990.5857864376269 838.0477868423386 L 969.5857864376269 859.0477868423386 L 22.414213562373106 859.0477868423386 L 1.4142135623731065 838.0477868423386 L 0.0 838.0477868423386 L 0.0 792.0 L -46.04778684233861 792.0 L -46.04778684233861 790.5857864376269 L -67.04778684233861 769.5857864376269 L -67.04778684233861 22.414213562373106 L -46.04778684233861 1.4142135623731065 L -46.04778684233861 0.0 L 0.0 0.0 L 0.0 -46.04778684233861 L 1.414213562373095 -46.04778684233861 L 22.414213562373103 -67.04778684233861 L 969.5857864376269 -67.04778684233861 L 990.5857864376269 -46.04778684233861 L 992.0 -46.04778684233861 L 992.0 0.0 L 1038.0477868423386 0.0 L 1038.0477868423386 1.414213562373095 L 1059.0477868423386 22.414213562373103 L 1059.0477868423386 769.5857864376269 L 1038.0477868423386 790.5857864376269 L 1038.0477868423386 792.0 Z"/>
+<line class="BEND" x1="0.0" y1="-2.261946710584651" x2="992.0" y2="-2.261946710584651" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="0.0" y1="-43.78584013175396" x2="992.0" y2="-43.78584013175396" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="994.2619467105847" y1="0.0" x2="994.2619467105847" y2="792.0" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="1035.785840131754" y1="0.0" x2="1035.785840131754" y2="792.0" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="992.0" y1="794.2619467105847" x2="0.0" y2="794.2619467105847" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="992.0" y1="835.785840131754" x2="0.0" y2="835.785840131754" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="-2.261946710584651" y1="792.0" x2="-2.261946710584651" y2="0.0" stroke-dasharray="12.7 6.35"/>
+<line class="BEND" x1="-43.78584013175396" y1="792.0" x2="-43.78584013175396" y2="0.0" stroke-dasharray="12.7 6.35"/>
+<text class="NOTES" transform="translate(496.0,-2.261946710584651) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R2</text>
+<text class="NOTES" transform="translate(496.0,-43.78584013175396) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R2</text>
+<text class="NOTES" transform="translate(994.2619467105847,396.0) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R2</text>
+<text class="NOTES" transform="translate(1035.785840131754,396.0) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R2</text>
+<text class="NOTES" transform="translate(496.0,794.2619467105847) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R2</text>
+<text class="NOTES" transform="translate(496.0,835.785840131754) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R2</text>
+<text class="NOTES" transform="translate(-2.261946710584651,396.0) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R2</text>
+<text class="NOTES" transform="translate(-43.78584013175396,396.0) scale(1,-1)" font-size="2.5" fill="black" stroke="none">UP 90 R2</text>
+</g>
+</svg>

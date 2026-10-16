@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 Designmatix Ltd
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dxcad-partcount"
+version = "0.1.0"
+description = "A DX-CAD SDK example: an MCP tool that counts the document's parts"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+
+[project.entry-points."dxcad.plugins"]
+partcount = "dxcad_partcount:register"
+
+[tool.setuptools]
+py-modules = ["dxcad_partcount"]

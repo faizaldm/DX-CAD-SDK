@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="220" viewBox="0 0 480 220" role="img" aria-labelledby="title desc">
+<title id="title">Shelling against a thin feature</title>
+<desc id="desc">A plate with a boss, cut through its middle. On the left, a 1 mm wall fits inside the 4 mm boss: valid. On the right, a 3 mm wall is wider than half the boss, so the walls cross: refused.</desc>
+<style>
+.ink{stroke:#495057;fill:none;stroke-width:2}
+.thin{stroke:#495057;fill:none;stroke-width:1}
+.text{fill:#495057;font:14px sans-serif}
+.small{fill:#495057;font:12px sans-serif}
+.ok{stroke:#2f9e44;fill:none;stroke-width:2.5}
+.okt{fill:#2f9e44;font:bold 14px sans-serif}
+.bad{stroke:#e03131;fill:none;stroke-width:2.5;stroke-dasharray:7 5}
+.badt{fill:#e03131;font:bold 14px sans-serif}
+@media (prefers-color-scheme: dark){
+.ink,.thin{stroke:#ced4da}.text,.small{fill:#ced4da}
+.ok{stroke:#51cf66}.okt{fill:#51cf66}.bad{stroke:#ff6b6b}.badt{fill:#ff6b6b}
+}
+</style>
+<path class="ink" d="M30,170 V130 H100 V70 H120 V130 H190 V170 Z"/>
+<path class="ok" d="M38,162 V138 H108 V78 H112 V138 H182 V162 Z"/>
+<text class="okt" x="40" y="200">1 mm wall: valid</text>
+<path class="ink" d="M270,170 V130 H340 V70 H360 V130 H430 V170 Z"/>
+<path class="bad" d="M282,158 V142 H352 V82 H348 V142 H418 V158 Z"/>
+<text class="badt" x="280" y="200">3 mm wall: walls cross</text>
+</svg>

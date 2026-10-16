@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="220" viewBox="0 0 480 220" role="img" aria-labelledby="title desc">
+<title id="title">STEP files that need healing</title>
+<desc id="desc">One face of a part read from a STEP file. On the left, its boundary does not close: a small gap between two edges, red dashed, so the solid is not valid. On the right, the same face healed and closed in the program that wrote it, then read again: green.</desc>
+<style>
+.ink{stroke:#495057;fill:none;stroke-width:2}
+.thin{stroke:#495057;fill:none;stroke-width:1}
+.text{fill:#495057;font:14px sans-serif}
+.small{fill:#495057;font:12px sans-serif}
+.ok{stroke:#2f9e44;fill:none;stroke-width:2.5}
+.okt{fill:#2f9e44;font:bold 14px sans-serif}
+.bad{stroke:#e03131;fill:none;stroke-width:2.5;stroke-dasharray:7 5}
+.badt{fill:#e03131;font:bold 14px sans-serif}
+@media (prefers-color-scheme: dark){
+.ink,.thin{stroke:#ced4da}.text,.small{fill:#ced4da}
+.ok{stroke:#51cf66}.okt{fill:#51cf66}.bad{stroke:#ff6b6b}.badt{fill:#ff6b6b}
+}
+</style>
+<path class="bad" d="M60,160 L60,60 L180,60 L180,150"/>
+<path class="bad" d="M172,160 L60,160"/>
+<circle class="thin" cx="178" cy="157" r="12"/>
+<text class="badt" x="40" y="195">gap: not a valid solid</text>
+<path class="ink" d="M215,110 H250 M240,100 L250,110 L240,120"/>
+<path class="ok" d="M300,160 L300,60 L420,60 L420,160 Z"/>
+<text class="okt" x="280" y="195">healed: valid</text>
+</svg>

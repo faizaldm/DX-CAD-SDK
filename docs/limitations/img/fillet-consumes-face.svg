@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="220" viewBox="0 0 480 220" role="img" aria-labelledby="title desc">
+<title id="title">Fillets that would consume a face</title>
+<desc id="desc">Two 100 mm blocks seen from the front. On the left, 40 mm fillets on the top edges leave a flat top face: valid. On the right, 50 mm fillets meet in the middle and take the whole top face: refused.</desc>
+<style>
+.ink{stroke:#495057;fill:none;stroke-width:2}
+.thin{stroke:#495057;fill:none;stroke-width:1}
+.text{fill:#495057;font:14px sans-serif}
+.small{fill:#495057;font:12px sans-serif}
+.ok{stroke:#2f9e44;fill:none;stroke-width:2.5}
+.okt{fill:#2f9e44;font:bold 14px sans-serif}
+.bad{stroke:#e03131;fill:none;stroke-width:2.5;stroke-dasharray:7 5}
+.badt{fill:#e03131;font:bold 14px sans-serif}
+@media (prefers-color-scheme: dark){
+.ink,.thin{stroke:#ced4da}.text,.small{fill:#ced4da}
+.ok{stroke:#51cf66}.okt{fill:#51cf66}.bad{stroke:#ff6b6b}.badt{fill:#ff6b6b}
+}
+</style>
+<path class="ok" d="M40,180 V108 A48,48 0 0 1 88,60 H112 A48,48 0 0 1 160,108 V180 Z"/>
+<text class="okt" x="40" y="206">40 mm fillets: valid</text>
+<path class="bad" d="M300,180 V120 A60,60 0 0 1 360,60 A60,60 0 0 1 420,120 V180 Z"/>
+<text class="badt" x="290" y="206">50 mm: top face gone</text>
+<text class="small" x="70" y="40">100 mm block</text>
+<text class="small" x="320" y="40">100 mm block</text>
+</svg>

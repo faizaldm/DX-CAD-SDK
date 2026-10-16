@@ -1,0 +1,13 @@
+SPDX-License-Identifier: Apache-2.0
+
+DX-CAD SDK
+Copyright 2026 Designmatix Ltd
+
+This product is the DX-CAD SDK, licensed under the Apache License, Version
+2.0 (see LICENSE). The Work, as that licence uses the word, is the DX-CAD SDK
+only: the files of this folder and of the dxcad-sdk package built from it,
+which are interfaces, type stubs, documentation and examples.
+
+DX-CAD itself is not part of the Work and is not licensed by this licence.
+Nothing in the SDK, its licence or its patent grant (section 3) covers DX-CAD,
+its source or its builds, which are licensed by their own terms.

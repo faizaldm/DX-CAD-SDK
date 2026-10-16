@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="200" viewBox="0 0 480 200" role="img" aria-labelledby="title desc">
+<title id="title">Pictures without a window on macOS</title>
+<desc id="desc">On the left, a picture of a part drawn with no window open, on Windows and on Linux with a display: drawn. On the right, the same request on macOS: refused with a plain message.</desc>
+<style>
+.ink{stroke:#495057;fill:none;stroke-width:2}
+.thin{stroke:#495057;fill:none;stroke-width:1}
+.text{fill:#495057;font:14px sans-serif}
+.small{fill:#495057;font:12px sans-serif}
+.ok{stroke:#2f9e44;fill:none;stroke-width:2.5}
+.okt{fill:#2f9e44;font:bold 14px sans-serif}
+.bad{stroke:#e03131;fill:none;stroke-width:2.5;stroke-dasharray:7 5}
+.badt{fill:#e03131;font:bold 14px sans-serif}
+@media (prefers-color-scheme: dark){
+.ink,.thin{stroke:#ced4da}.text,.small{fill:#ced4da}
+.ok{stroke:#51cf66}.okt{fill:#51cf66}.bad{stroke:#ff6b6b}.badt{fill:#ff6b6b}
+}
+</style>
+<g class="ok">
+<rect x="40" y="40" width="160" height="110"/>
+<path d="M90,120 L90,80 L130,65 L170,80 L170,120 L130,135 Z M90,80 L130,95 L170,80 M130,95 V135"/>
+</g>
+<text class="okt" x="40" y="175">Windows, Linux: drawn</text>
+<g class="bad">
+<rect x="280" y="40" width="160" height="110"/>
+<path d="M330,65 L390,125 M390,65 L330,125"/>
+</g>
+<text class="badt" x="290" y="175">macOS: refused</text>
+</svg>
