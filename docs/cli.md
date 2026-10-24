@@ -1,6 +1,6 @@
 # The command line
 
-`dxcad` is the widest door into DX-CAD: every operation the kernel has is
+`dxcad` is the widest door into DX-CAD&trade;: every operation the kernel has is
 reachable from it, no window is opened unless one is asked for, and every
 command reads and writes plain files. This page has one section per
 subcommand, in the order `dxcad --help` lists them, and each says what the
@@ -1086,8 +1086,8 @@ Which plugins are installed and what each one brings. The first line is
 each plugin gives its name, its version and the distribution it came from,
 and four indented lines list the model names, commands, tools and window
 actions it registered, `none` where it registered nothing. A plugin that was
-skipped gives its reason instead, such as `needs plugin API 2, this DX-CAD
-has 1`. With no plugin installed it prints `no plugins`. See
+skipped gives its reason instead, such as `needs plugin API 3, this DX-CAD
+has 2`. With no plugin installed it prints `no plugins`. See
 [plugins.md](plugins.md) for how to write one.
 
 Takes nothing. Writes nothing but its own output.

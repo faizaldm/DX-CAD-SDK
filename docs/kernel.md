@@ -1,6 +1,6 @@
 # The model language
 
-A model.py imports nothing. DX-CAD runs it with every name below already in
+A model.py imports nothing. DX-CAD&trade; runs it with every name below already in
 scope, so a model is a short file of arithmetic and calls, and the first thing
 to know about it is what those names are. This page is that list, and it is
 written from `dxcad.model.__all__` itself: the test suite compares every row

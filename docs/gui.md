@@ -5,7 +5,7 @@ in a pane on the right, and the output of the last run under it. Everything
 the window does to a document is an edit that can be undone, and everything it
 builds it builds through the same kernel the command line uses.
 
-The window is the one part of DX-CAD that needs a display. Every other command
+The window is the one part of DX-CAD&trade; that needs a display. Every other command
 runs on a machine with none.
 
 ## Opening it
@@ -94,7 +94,7 @@ add-on's command is greyed the same way where it says it does not apply.
 | `Send to Slicer` | | Write the picked entry, or every entry when none is picked, to a 3MF and open it in the slicer, which is asked for once and remembered. |
 | `Where Used...` | | On a saved file: the assemblies and drawings in a folder chosen, and every folder below it, that use this file, each with how many copies it holds, as `dxcad where-used` lists them. Every part keeps a stable id through renames, so an assembly that uses a part by its old name still finds it, saying the new name in the model's output. |
 | `Title Block...` | | The fields a person fills in once for every drawing: company, drawn by, checked by, material, finish, general tolerance, drawing number and revision; and the font the drawing is lettered in, the bundled DejaVuSans (the default) or any TrueType font the system has, with the height of its dimensions, labels and fields, 2.5, 3.5, 5 or 7 mm. Kept from one session to the next and used by every sheet File > Drawing makes. |
-| `Settings...` | | Settings, in groups. Mode, the first, is 2D drafting or 3D modelling, 3D modelling at the start: 2D drafting hides every action that acts on a solid (Extrude, Revolve, Edit > Mirror's part option, Sketch on Face, the printability actions and Send to Slicer) and names itself in the title, and 3D modelling shows everything. The mode changes the window only, not the kernel, the command line or the agent door, and is remembered between runs. View, the second, holds Show Planes; Recovery, the minutes between keeps of the unsaved tabs; Parts, the Default material: what a part with no material of its own is made of, mild steel as shipped, which the Parts dock and the Bill of Materials mark "(default)" (a sheet part is its spec's metal); Updates, Check for updates at start, off as shipped (Help > Check for Updates). On macOS it is under the application menu. Controls (item 686) is DX-CAD's own or Classic CAD controls (middle-button orbit): under the second the middle button rotates, Ctrl+middle pans and Shift+middle and the wheel zoom, the left button only picks, `Ctrl+1` to `Ctrl+7` are Front, Back, Left, Right, Top, Bottom and Iso, `Ctrl+8` Normal To, and in the 3D view `F` fits, `Space` shows the View Selector and `S` the Shortcut Bar. The first start asks "Used to another CAD program?" once. |
+| `Settings...` | | Settings, in groups. Mode, the first, is 2D drafting or 3D modelling, 3D modelling at the start: 2D drafting hides every action that acts on a solid (Extrude, Revolve, Edit > Mirror's part option, Sketch on Face, the printability actions and Send to Slicer) and names itself in the title, and 3D modelling shows everything. The mode changes the window only, not the kernel, the command line or the agent door, and is remembered between runs. View, the second, holds Show Planes; Recovery, the minutes between keeps of the unsaved tabs; Parts, the Default material: what a part with no material of its own is made of, mild steel as shipped, which the Parts dock and the Bill of Materials mark "(default)" (a sheet part is its spec's metal); Updates, Check for updates at start, on as shipped (Help > Check for Updates). On macOS it is under the application menu. Controls (item 686) is DX-CAD's own or Classic CAD controls (middle-button orbit): under the second the middle button rotates, Ctrl+middle pans and Shift+middle and the wheel zoom, the left button only picks, `Ctrl+1` to `Ctrl+7` are Front, Back, Left, Right, Top, Bottom and Iso, `Ctrl+8` Normal To, and in the 3D view `F` fits, `Space` shows the View Selector and `S` the Shortcut Bar. The first start asks "Used to another CAD program?" once. |
 | `Quit` | | Close the window, asking first when there is an unsaved edit. |
 
 ### Edit
@@ -151,7 +151,8 @@ add-on's command is greyed the same way where it says it does not apply.
 | `Feature Tree` | | Open or close the Feature Tree dock: each part in the order the model builds it, and beneath it its features, the calls of the statement that makes it, innermost first, then its sketches and its mates in the model's order. A click on a row picks the part and puts the model pane on that row's line. Nothing in the tree is dragged or re-ordered: the order of mates changes only by editing the model. Closed until opened. |
 | `Assistant` | `Ctrl+Shift+A` | Show or hide the Assistant dock, along the bottom of the 3D view until it is moved (after an update from a version that kept it down the side it is moved to the bottom once, and then stays where it is put), "Assistant (powered by Claude)", also on the Display toolbar: type a request and Claude builds or changes the document in front with DX-CAD's own tools, each step shown in the chat, written into the model and one Undo, a render shown inline. It uses your own Anthropic API key (Set Key), kept encrypted for you by Windows; nothing is sent until you enable it, and the first use says what is sent (PRIVACY.md). While a turn runs, an hourglass drawn as a wireframe turns a quarter between steps (still when Windows' animations are off), a bar shows the steps done over the steps Claude planned, and a line says what is happening now, also on the status bar while the dock is shut. Stop ends a turn; the tokens each turn used show under the chat; Settings > Assistant chooses the provider (your own Anthropic key; OpenAI; Azure OpenAI, a deployment in your company's own tenant; Google Gemini; an OpenAI-compatible endpoint, such as a company gateway or a local model under Ollama or LM Studio, which needs no key; or the DX-CAD account), its model (for Azure OpenAI the deployment's name) and its address; the dock's title names the provider, keys are kept per provider, each provider's note on what it is sent shows the first time it is used, and switching keeps the chat. Each document has its own chat. Asked to change a part by its name ("add returns to sheet"), an answer that builds the part again under a new name where the part is asks first, with nothing written yet, whether to change the part or make a copy: Yes changes the part itself, its solid and its line in the model, and No keeps it and places the new part beside it, 20 mm clear, named as a copy; a request that asks for a copy in so many words gets the copy without the question. Either way the answer is one Undo. |
 | `Start Page` | | Bring back the start page in the view's place: New, Open, the recent files, the launch examples as pictures (one click opens an example as a new unsaved tab, "NAME (example)", and builds it; nothing is written until Save, which starts in Documents\DX-CAD and puts any file the example reads beside it), a link to these docs, and Connect Claude Desktop, which links Claude Desktop to this copy of DX-CAD in one click: with no DX-CAD in Claude Desktop's settings it writes this one, driving the open window, as `dxcad serve --install` does, says "Connected to Claude Desktop." and offers Restart Claude Desktop now, which closes Claude Desktop and opens it again once you have said yes; with this copy's already there it says "Connected to Claude Desktop." and nothing else; with another copy of DX-CAD there (an old environment, another install) it asks one question, "Claude Desktop is linked to another copy of DX-CAD. Link it to this one?", with Link to this copy and Keep, and keeps the old settings beside the new; and with no Claude Desktop on the machine it says so, with where to get it, and writes nothing. The Python with a console (`python.exe`) and the one without (`pythonw.exe`) of one folder are one copy, and the one written is always the first, whichever started the window. The page is up when DX-CAD starts with nothing open and when the last tab closes, and gives way the moment a document opens. |
-| `Toolbars` | | Show or hide each of the six toolbars: View (Fit, Zoom Window, Measure and the seven views), Display (the four modes, Section View, Continuous Orbit and the Assistant), Edit (Undo, Redo, Rename, Duplicate, Delete), Sketch (the drawing tools, then the sketch actions), Operations (Run Script, Extrude, Revolve, Fuse, Cut, Common, Pattern) and Sheet Metal (Base Flange, Flange, Export Flat Pattern, Show Flat Pattern). The same list is on the right-click menu of any toolbar; the choice is remembered between runs. When the window is too narrow for them in one row, the toolbars wrap to a second. |
+| `Toolbars` | | Show or hide each of the six toolbars: View (Fit, Zoom Window, Measure and the seven views), Display (the four modes, Section View, Continuous Orbit and the Assistant), Edit (Undo, Redo, Rename, Duplicate, Delete), Sketch (the drawing tools, then the sketch actions), Operations (Run Script, Extrude, Revolve, Fuse, Cut, Common, Pattern) and Sheet Metal (Base Flange, Flange, Export Flat Pattern, Show Flat Pattern). Then one toolbar for each menu, so that every menu command is also on a toolbar: File Menu, Edit Menu, View Menu, Model Menu, Sketch Menu, Sheet Metal Menu, Drawing Menu, Window Menu and Help Menu, each with every command of its menu that the six above do not have, in the menu's order, each with an icon of its own. They are hidden until you switch them on here, in View > Toolbars. Left out are Open Recent's list of files, these toggles themselves, and the add-ons' commands, which come with each add-on's own toolbar. The same list is on the right-click menu of any toolbar; the choice is remembered between runs. On every start the toolbars stand from the top left in the menus' order: File Menu, then Edit Menu and Edit, View Menu, View and Display, Model Menu and Operations, Sketch Menu and Sketch, Sheet Metal Menu and Sheet Metal, Drawing Menu, Window Menu and Help Menu, and last each add-on's, in the order of its menu; one switched off leaves no gap, and one dragged elsewhere is back in its place at the next start. When the window is too narrow for them in one row, the toolbars wrap to the next. A toolbar button has the toolbar's own grey background, and a checked one (the view looked from, the display mode, Measure while it is on) a pale blue one with a blue edge. |
+| `Toolbars...` | | Every toolbar in one box, the Toolbars box, in the order they stand: tick the ones to show, or Show All or Hide All, and OK shows and hides them together; Cancel changes nothing. Also from the Toolbars... button in File > Settings. |
 | `Reset Layout` | | Put every dock back where a fresh install has it: the model pane on the right, the output pane and the Assistant under it along the bottom, Parts, History and the drawing's properties as tabs on the left with the Feature Tree under them, none floating. Which docks are open stays as it is. The Assistant's remembered place and height are forgotten, so it opens along the bottom at the next start too. |
 
 ### Model
@@ -244,7 +245,7 @@ The same three are on the Sheet Metal toolbar.
 | `Flange...` | | Bend a flange on an edge of the picked sheet part. One dialog holds every choice: the edge (edge n runs from corner n to corner n + 1), from its list or by clicking it in the view, where the free edges are highlighted and the ones with a flange already are drawn grey and cannot be chosen, and after the outline's edges the list offers the edges of each flange already there, the two ends of its leg and its free edge, named as "Edge 3 leg, start end, 114 mm" and "Edge 3 return, free edge, 194 mm", each clicked in the view as the outline's are and written into the model as `(3, 'start')` or `(3, 'free')`; the length, and whether it runs to the leg or to the outside mould line (`length_from="outside"` is written only then); the angle (180 for an open hem); up or down; the flange's own bend radius (offered as the sheet's; `bend_radius=` is written only when it differs); how far in from the edge's start and end it begins and stops (0 for the full edge); whether to cut a bend relief slot beside each inset end; its return length, a second 90 degree bend at the leg's end and a return leg that long (0 for none; `return_length=` is written only when it is above 0); the holes through its leg, as one line `u, v, d; u, v, d` (u along the edge, v out from the bend, d the diameter; empty for none; `holes=` is written only when there are some); and the cutouts through its leg, as one line `u, v, w, h; u, v, w, h` (the centre's u and v as a hole's, w along the edge and h along the leg; empty for none; `cutouts=` is written only when there are some). Beside the fields a cross-section diagram shows what each means, the element of the field in focus highlighted. Each value is checked as it is typed, the reason beside its field; the view shows the flanged part faintly as it would be made; and OK is enabled only once it can be made, so nothing is refused after it. OK wraps the part's line in the model in `flange`, one undo entry. |
 | `Export Flat Pattern...` | | Write the picked sheet part's flat pattern as a DXF for a laser or a plasma table: the outline on layer CUT, the bend lines on BEND and each bend's label on NOTES, its number and its note, turned along its bend line and placed so that no two labels touch and none touches the outline; the blank's rectangle and its size on BLANK; and the bend table on BEND-TABLE, a row a bend with its angle, up or down, its radius, its allowance and how far its line lies from the blank's edge chosen in Settings > View, and an ORDER column left empty to be filled in by whoever bends the part. A shop's export profile writes the flat its own way, without these. The save dialog offers DXF and SVG: a name ending .svg is written as an SVG, with the bend lines dashed, and any other as a DXF, as `dxcad flat --output` does. |
 | `Show Flat Pattern` | `Ctrl+Shift+F` | Switch the view between Formed and Flat, the toggle staying pressed while Flat is shown; it is on the view's right-click menu too. Flat draws the picked sheet part as its flat alone, the other parts hidden and nothing of the formed part: the flat outline extruded by the sheet's thickness, every hole and cutout cut through it, flat on the XY plane, looked at straight down and fitted, with each bend's line and its label, turned along the line and clear of the others, the blank's rectangle drawn faintly with its size over it, and the bend table under it. Again, Formed puts the part, the other parts and the camera back as they were. It is a view, so the model, the parts and the undo history are unchanged, and the part is still counted once. Settings > View can show the formed part faintly behind the flat. |
-| `Bend Table` | | On the Sheet Metal menu only, not its toolbar: show the picked sheet part's bend table in a box, one line per bend as `dxcad flat --bends` prints it, such as `bend 1: UP 90 R2, allowance 4.524 mm, length 50.000 mm`, or `No bends.` for a part with none. With no sheet part picked it is refused as Export Flat Pattern is. Changes nothing and adds no undo step. |
+| `Bend Table` | | On the Sheet Metal menu and the Sheet Metal Menu toolbar, not the Sheet Metal toolbar: show the picked sheet part's bend table in a box, one line per bend as `dxcad flat --bends` prints it, such as `bend 1: UP 90 R2, allowance 4.524 mm, length 50.000 mm`, or `No bends.` for a part with none. With no sheet part picked it is refused as Export Flat Pattern is. Changes nothing and adds no undo step. |
 
 ### Drawing
 
@@ -271,38 +272,38 @@ last window left them.
 
 ### Drafting Pro
 
-Drafting Pro is a paid add-on (item 742). Until it is installed, its commands are listed here in italics with a padlock, each named with the add-on's name; command search finds them too. Once it is installed its own commands take their places.
+Drafting Pro is a paid add-on (item 742). Until it is installed, its commands are listed here in italics with a padlock, each named with the add-on's name; command search finds them too. Once it is installed, enabled or disabled, its own menu is the only Drafting Pro menu and none of these is listed (item 901): it counts as installed when a plugin named Drafting Pro, or from the dxcad-drafting-pro distribution, is there. What a listed command's panel says depends on where your licence stands: during your 30-day trial, the add-on is free, so the panel says "Free during your trial": download Drafting Pro and install it with Help > Add-ons > Install from File, with a Download button, and Help > Add-ons says the same. After the lock day, unless a licence names it, the panel gives its price and a Buy link.
 
 | Action | Shortcut | What it does |
 | --- | --- | --- |
-| `Dimensions - Drafting Pro` | | Place dimensions on a drawing's views by picking edges and points. Greyed: it opens a panel saying what Drafting Pro adds, its price and a Buy link, and runs nothing. |
-| `Balloons - Drafting Pro` | | Number the parts on a drawing with balloons that match its parts list. Greyed: it opens a panel saying what Drafting Pro adds, its price and a Buy link, and runs nothing. |
-| `Hole tables - Drafting Pro` | | List a view's holes in a table, with their positions and sizes. Greyed: it opens a panel saying what Drafting Pro adds, its price and a Buy link, and runs nothing. |
-| `Tolerances - Drafting Pro` | | Give a dimension its limits or fits. Greyed: it opens a panel saying what Drafting Pro adds, its price and a Buy link, and runs nothing. |
-| `GD&T frames and datums - Drafting Pro` | | Add geometric tolerance frames and datum symbols. Greyed: it opens a panel saying what Drafting Pro adds, its price and a Buy link, and runs nothing. |
-| `Surface texture and weld symbols - Drafting Pro` | | Add surface texture and weld symbols to a drawing. Greyed: it opens a panel saying what Drafting Pro adds, its price and a Buy link, and runs nothing. |
-| `Revision table and notes - Drafting Pro` | | Keep a drawing's revisions in a table, and its general notes. Greyed: it opens a panel saying what Drafting Pro adds, its price and a Buy link, and runs nothing. |
-| `Automatic dimensioning and ballooning - Drafting Pro` | | Dimension and balloon a drawing's views in one step. Greyed: it opens a panel saying what Drafting Pro adds, its price and a Buy link, and runs nothing. |
-| `Section view - Drafting Pro` | | A drawing view cut along a line through the part. Greyed: it opens a panel saying what Drafting Pro adds, its price and a Buy link, and runs nothing. |
-| `Detail view - Drafting Pro` | | An enlarged view of part of another view. Greyed: it opens a panel saying what Drafting Pro adds, its price and a Buy link, and runs nothing. |
-| `Shaded view - Drafting Pro` | | A drawing view shaded as the 3D view shows the part. Greyed: it opens a panel saying what Drafting Pro adds, its price and a Buy link, and runs nothing. |
-| `Exploded view - Drafting Pro` | | A drawing view of an assembly with its parts drawn apart. Greyed: it opens a panel saying what Drafting Pro adds, its price and a Buy link, and runs nothing. |
+| `Dimensions - Drafting Pro` | | Place dimensions on a drawing's views by picking edges and points. Greyed: it opens a panel saying what Drafting Pro adds, and how to get it, and runs nothing. |
+| `Balloons - Drafting Pro` | | Number the parts on a drawing with balloons that match its parts list. Greyed: it opens a panel saying what Drafting Pro adds, and how to get it, and runs nothing. |
+| `Hole tables - Drafting Pro` | | List a view's holes in a table, with their positions and sizes. Greyed: it opens a panel saying what Drafting Pro adds, and how to get it, and runs nothing. |
+| `Tolerances - Drafting Pro` | | Give a dimension its limits or fits. Greyed: it opens a panel saying what Drafting Pro adds, and how to get it, and runs nothing. |
+| `GD&T frames and datums - Drafting Pro` | | Add geometric tolerance frames and datum symbols. Greyed: it opens a panel saying what Drafting Pro adds, and how to get it, and runs nothing. |
+| `Surface texture and weld symbols - Drafting Pro` | | Add surface texture and weld symbols to a drawing. Greyed: it opens a panel saying what Drafting Pro adds, and how to get it, and runs nothing. |
+| `Revision table and notes - Drafting Pro` | | Keep a drawing's revisions in a table, and its general notes. Greyed: it opens a panel saying what Drafting Pro adds, and how to get it, and runs nothing. |
+| `Automatic dimensioning and ballooning - Drafting Pro` | | Dimension and balloon a drawing's views in one step. Greyed: it opens a panel saying what Drafting Pro adds, and how to get it, and runs nothing. |
+| `Section view - Drafting Pro` | | A drawing view cut along a line through the part. Greyed: it opens a panel saying what Drafting Pro adds, and how to get it, and runs nothing. |
+| `Detail view - Drafting Pro` | | An enlarged view of part of another view. Greyed: it opens a panel saying what Drafting Pro adds, and how to get it, and runs nothing. |
+| `Shaded view - Drafting Pro` | | A drawing view shaded as the 3D view shows the part. Greyed: it opens a panel saying what Drafting Pro adds, and how to get it, and runs nothing. |
+| `Exploded view - Drafting Pro` | | A drawing view of an assembly with its parts drawn apart. Greyed: it opens a panel saying what Drafting Pro adds, and how to get it, and runs nothing. |
 
 ### Fabrication
 
-Fabrication is a paid add-on (item 742). Until it is installed, its commands are listed here in italics with a padlock, each named with the add-on's name; command search finds them too. Once it is installed its own commands take their places.
+Fabrication is a paid add-on (item 742). Until it is installed, its commands are listed here in italics with a padlock, each named with the add-on's name; command search finds them too. Once it is installed, enabled or disabled, its own menu is the only Fabrication menu and none of these is listed (item 901): it counts as installed when a plugin named Fabrication, or from the dxcad-fabrication distribution, is there. What a listed command's panel says depends on where your licence stands: during your 30-day trial, the add-on is free, so the panel says "Free during your trial": download Fabrication and install it with Help > Add-ons > Install from File, with a Download button, and Help > Add-ons says the same. After the lock day, unless a licence names it, the panel gives its price and a Buy link.
 
 | Action | Shortcut | What it does |
 | --- | --- | --- |
-| `Shape library - Fabrication` | | Ready-made sheet-metal shapes, sized from a few numbers. Greyed: it opens a panel saying what Fabrication adds, its price and a Buy link, and runs nothing. |
-| `Cones - Fabrication` | | A sheet-metal cone or frustum, and its flat. Greyed: it opens a panel saying what Fabrication adds, its price and a Buy link, and runs nothing. |
-| `Transitions - Fabrication` | | Square-to-round and other transitions, and their flats. Greyed: it opens a panel saying what Fabrication adds, its price and a Buy link, and runs nothing. |
-| `Elbows - Fabrication` | | Segmented elbows for ducts and pipes, and their flats. Greyed: it opens a panel saying what Fabrication adds, its price and a Buy link, and runs nothing. |
-| `Branches - Fabrication` | | Tees and branches where two ducts meet, and their flats. Greyed: it opens a panel saying what Fabrication adds, its price and a Buy link, and runs nothing. |
-| `Weldments - Fabrication` | | Frames of structural members, cut and listed. Greyed: it opens a panel saying what Fabrication adds, its price and a Buy link, and runs nothing. |
-| `Nesting - Fabrication` | | Lay the flats out on sheets of stock with as little waste as fits. Greyed: it opens a panel saying what Fabrication adds, its price and a Buy link, and runs nothing. |
-| `Bend allowance tables - Fabrication` | | A shop's own bend allowances by material, thickness and tool. Greyed: it opens a panel saying what Fabrication adds, its price and a Buy link, and runs nothing. |
-| `Calibration wizard - Fabrication` | | Work out a press brake's K-factors from test bends. Greyed: it opens a panel saying what Fabrication adds, its price and a Buy link, and runs nothing. |
+| `Shape library - Fabrication` | | Ready-made sheet-metal shapes, sized from a few numbers. Greyed: it opens a panel saying what Fabrication adds, and how to get it, and runs nothing. |
+| `Cones - Fabrication` | | A sheet-metal cone or frustum, and its flat. Greyed: it opens a panel saying what Fabrication adds, and how to get it, and runs nothing. |
+| `Transitions - Fabrication` | | Square-to-round and other transitions, and their flats. Greyed: it opens a panel saying what Fabrication adds, and how to get it, and runs nothing. |
+| `Elbows - Fabrication` | | Segmented elbows for ducts and pipes, and their flats. Greyed: it opens a panel saying what Fabrication adds, and how to get it, and runs nothing. |
+| `Branches - Fabrication` | | Tees and branches where two ducts meet, and their flats. Greyed: it opens a panel saying what Fabrication adds, and how to get it, and runs nothing. |
+| `Weldments - Fabrication` | | Frames of structural members, cut and listed. Greyed: it opens a panel saying what Fabrication adds, and how to get it, and runs nothing. |
+| `Nesting - Fabrication` | | Lay the flats out on sheets of stock with as little waste as fits. Greyed: it opens a panel saying what Fabrication adds, and how to get it, and runs nothing. |
+| `Bend allowance tables - Fabrication` | | A shop's own bend allowances by material, thickness and tool. Greyed: it opens a panel saying what Fabrication adds, and how to get it, and runs nothing. |
+| `Calibration wizard - Fabrication` | | Work out a press brake's K-factors from test bends. Greyed: it opens a panel saying what Fabrication adds, and how to get it, and runs nothing. |
 
 ### Help
 
@@ -310,15 +311,15 @@ Fabrication is a paid add-on (item 742). Until it is installed, its commands are
 | --- | --- | --- |
 | `User Guide` | | Open this guide inside DX-CAD, in a help window of its own, at its first page. The pages are the ones DX-CAD was installed with, so it opens with no network. |
 | `Help on This` | `F1` | Open the guide at the topic of what you are at: the dialog that is open, the command a menu has highlighted or the toolbar button under the pointer, the command being carried out, or the panel the focus is in; see [The help window](#the-help-window). With none of those it opens the first page. |
-| `Licence...` | | Where this install's licence stands: free under the launch offer until 23:59 UK time on 15 November 2026 (from 30 days before, the notice "Free launch offer ends on 15 November 2026", also shown at start 30, 14 and 7 days before), or until the 30-day trial ends if that is later (it counts from this install's first start, during the offer too), then a licence. The add-ons the launch offer grants, Fabrication and Drafting Pro, stay free through that trial while no licence key is held, and lock with editing on the lock day; the line under the status names them and the day, as the notices do. Type a key (DXC-XXXXX-XXXXX-XXXXX-XXXXX) and press Activate, or sign in with your email: type the address the licence was bought with, press Send code, type the six digits from the email and press Sign in (one licence activates at once; several are listed to choose from); Deactivate gives the seat back for another computer. An activated licence works offline for up to 14 days. With no offer, trial or licence, every file still opens, shows and exports, and only editing and saving are locked. The box shows the install id the licence service counts a seat by. |
-| `Add-ons...` | | List every installed plugin with its version, publisher, licence state and whether it is enabled. Install from File... takes a plugin wheel (.whl), checks it is a DX-CAD plugin for this platform and plugin API, refusing it with the reason if not, and installs it into DX-CAD's own add-ons folder; Disable keeps the plugin picked installed but not loaded, Enable loads it again, and Remove uninstalls it. Each change takes effect when DX-CAD is restarted. `dxcad addons` does the same from the command line. |
+| `Licence...` | | Where this install's licence stands: free for 30 days from this install's first start, then a licence; editing locks at 23:59 UK time on the trial's last day (from 30 days before, the notice "Your 30-day trial ends on DATE", also shown at start 30, 14 and 7 days before). An install first started under 0.1.0 keeps until 23:59 UK time on 15 November 2026, if that is later than its 30 days. The paid add-ons, Fabrication and Drafting Pro, are free through the trial while no licence key is held, and lock with editing on the lock day; the line under the status names them and the day, as the notices do. Type a key (DXC-XXXXX-XXXXX-XXXXX-XXXXX) and press Activate, or sign in with your email: type the address the licence was bought with, press Send code, type the six digits from the email and press Sign in (one licence activates at once; several are listed to choose from); Deactivate gives the seat back for another computer. An activated licence works offline for up to 14 days. With no trial or licence, every file still opens, shows and exports, and only editing and saving are locked. The box shows the install id the licence service counts a seat by. |
+| `Add-ons...` | | List every installed plugin with its version, publisher, licence state and whether it is enabled. Install from File... takes a plugin wheel (.whl), checks it is a DX-CAD plugin for this platform and plugin API, refusing it with the reason if not, and installs it into DX-CAD's own add-ons folder; Disable keeps the plugin picked installed but not loaded, Enable loads it again, and Remove uninstalls it. Each change takes effect when DX-CAD is restarted. `dxcad addons` does the same from the command line. While your trial makes Fabrication or Drafting Pro free and it is not installed, a line over the list says so, "Free during your trial: download Fabrication and install it with Help > Add-ons > Install from File.", with a Download button for each. |
 | `Licences...` | | Show THIRD-PARTY-NOTICES.md as this copy of DX-CAD ships it: every library it runs on with its version and licence, and the LGPL texts in full. |
 | `Keyboard Shortcuts` | | A table of every action that has a shortcut, by menu, action and keys, read from the window's own actions, with a box to search it. The same table is under [Keyboard shortcuts](#keyboard-shortcuts) below. |
 | `Search Commands...` | `Ctrl+K` | A box over every command that can be used now: each word typed narrows the list to the commands whose name holds it, or another name it commonly goes by (Base Flange/Tab, Edge Flange, Hem, Miter Flange, Flat Pattern, Flatten, Mate, SmartMates, Exploded View, Bill of Materials), and Enter or a double click runs the one picked. Those commands' tooltips say the other names too ("Also called: ..."). |
 | `Open Log Folder` | | Open the folder DX-CAD's log is kept in, `DX-CAD\logs` under your local app data on Windows. The log holds the version, the platform, each action and each refusal, and any error in full, in five files of up to 1 MB; nothing in it is sent anywhere. |
 | `Copy Support Report` | | Put the support report on the clipboard, the text `dxcad doctor --report` prints, for a bug report: the versions of DX-CAD, Python, OCCT and Qt, the OS, the OpenGL renderer and version, where the settings and the log are kept, the plugins and their state, the theme and the log's last 50 lines. Your own folder is written as `~`, and nothing personal is in it. |
-| `Check for Updates` | | Ask GitHub for DX-CAD's latest release and say either "DX-CAD is up to date" or "Version X is available", with a link to the release. Offline, or on any error, the status bar says it could not check. Nothing is sent but the request itself. Settings > Updates > Check for updates at start, off until you switch it on, asks as the window opens and says only a newer release, in the status bar. |
-| `About DX-CAD` | | Say which version of DX-CAD this is and the commit it was built from, the Python, OCCT (cadquery-ocp) and Qt it runs on, and the platform; the licence (the DX-CAD EULA, free until 15 November 2026, then a 30-day trial; the SDK under Apache 2.0), with a link to the third-party notices; the patent line and Designmatix Ltd; and links to the website, these docs and the issues. Copy puts the version lines on the clipboard for a bug report: the same lines `dxcad --version --verbose` prints. |
+| `Check for Updates` | | Ask GitHub for DX-CAD's latest release and say either "DX-CAD is up to date" or "Version X is available", with a link to the release. Offline, or on any error, the status bar says it could not check. Nothing is sent but the request itself. Settings > Updates > Check for updates at start, on as shipped, asks as the window opens (one request to github.io for latest.json, with no identifier) and says only a newer release, in the status bar; with no network it says nothing and the window does not wait. Untick it there to switch it off. |
+| `About DX-CAD` | | Say which version of DX-CAD this is and the commit it was built from, the Python, OCCT (cadquery-ocp) and Qt it runs on, and the platform; the licence (the DX-CAD EULA, free for 30 days from first start, then a licence, with opening, viewing and exporting free; the SDK under Apache 2.0), with a link to the third-party notices; the patent line and Designmatix Ltd; and links to the website, these docs and the issues. Copy puts the version lines on the clipboard for a bug report: the same lines `dxcad --version --verbose` prints. |
 
 Every 5 minutes, and each time a model is run, every tab with changes that
 are not saved is kept in a recovery folder (`DX-CAD\recovery` under your
@@ -421,6 +422,13 @@ written into the model and one Undo. Stop ends a turn. View > Assistant, or
 `Ctrl+Shift+A`, shows or hides it, and File > Settings > Assistant chooses
 the provider and its model.
 
+Each request carries model.py whole, as far as the provider has room for
+it: 200,000 characters to Claude (your own Anthropic key or the DX-CAD
+account), 100,000 to OpenAI, Azure OpenAI and Gemini, and 24,000 to an
+OpenAI-compatible endpoint, or two characters for each token of its Context
+size (tokens) in Settings > Assistant where you give it. A longer script is
+cut at the end of a line, and the request says after which line it was cut.
+
 ### Drawing properties
 
 While a drawing tab is in front, the left dock shows the sheet's size, its
@@ -489,6 +497,11 @@ Help > Add-ons...: every installed plugin with its version, publisher,
 licence state and whether it is enabled. Install from File... takes a plugin
 wheel, Disable and Enable switch the one picked off and on, and Remove
 uninstalls it. Each change takes effect when DX-CAD is started again.
+While your trial makes an add-on on sale free and it is
+not installed, a line over the list says where to download it, with a
+Download button; one installed, enabled or disabled, is never offered. It
+counts as installed by its plugin's name or its distribution's, as its
+menu does (item 901). Install from File... installs the wheel downloaded.
 
 ### The Bill of Materials box
 
@@ -587,6 +600,33 @@ bought with: Send code, then the six digits from the email and Sign in.
 Deactivate gives the seat back for another computer. The box shows the
 install id a seat is counted by.
 
+An activated licence is checked online at least every 14 days: at each start
+and every 8 hours while DX-CAD is open, the status bar saying "Checking the
+licence..." at a start that needs it until the answer comes. If it could
+not be (the computer offline that long, or the clock set back past the last
+check), the box, the status bar and the command line say "Your licence could
+not be checked online in the last 14 days", not that a trial has ended; the
+next start with the network back checks it again with nothing typed, and the
+key box holds the key last used, ready to activate again.
+
+DX-CAD keeps the latest date and time it has seen on this computer, a moment
+and nothing else, and never moves it back. If the computer's clock is set
+more than a day before it and no licence is active, the box and the status
+bar say "The computer's clock is set earlier than the last time DX-CAD ran",
+with that day, and editing and saving wait until the clock is set right;
+opening, viewing and exporting still work. This keeps a clock set back from
+reopening a trial that has ended. It never locks before that day has
+really passed, so never during the trial, which lets everyone edit
+whatever the clock says, and never with a licence active, whose
+add-ons stay granted too; a clock that jumps more
+than two days ahead is not believed until a server's date agrees, so a
+clock set ahead by mistake and set right again locks nothing; and a server's
+date wins over the computer's. When DX-CAD has asked the network anyway
+(the update check, the licence service), it compares the computer's clock
+with the server's: more than an hour apart, the box says so ("Your
+computer's clock is 3 hours behind the server's"), and a server more than a
+day ahead counts as the latest time seen. Nothing locks on the gap alone.
+
 ### An add-on's panel
 
 A greyed command of an add-on that is not installed opens a short panel:
@@ -615,7 +655,8 @@ modelling; View holds Show Planes; Recovery, the minutes between keeps of
 the unsaved tabs; Parts, the default material; Updates, whether to check at
 the start; Controls, DX-CAD's own mouse and keys or the classic CAD
 controls; and Assistant, its provider, model and address. OK keeps the
-changes and Cancel leaves everything as it was.
+changes and Cancel leaves everything as it was. View's Toolbars... button
+opens the Toolbars box, whose OK shows and hides the toolbars at once.
 
 ### The Keyboard Shortcuts box
 
@@ -636,6 +677,14 @@ File > Title Block...: the fields filled in once for every drawing,
 company, drawn by, checked by, material, finish, general tolerance, drawing
 number and revision, and the font and height the drawing is lettered in. OK
 keeps them for every drawing made after; Cancel leaves them as they were.
+
+### The Toolbars box
+
+View > Toolbars..., or the Toolbars... button in File > Settings: every
+toolbar the window has, the add-ons' too, in the order they stand, ticked
+if it is shown. Show All ticks every one and Hide All unticks them; OK shows
+and hides them together and keeps the choice for the next start, and Cancel
+leaves them as they were.
 
 ### The What's New box
 

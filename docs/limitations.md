@@ -1,6 +1,6 @@
 # Known limitations
 
-DX-CAD builds every solid with OpenCASCADE (OCCT), the geometry kernel
+DX-CAD&trade; builds every solid with OpenCASCADE (OCCT), the geometry kernel
 underneath it; its release notes are at
 [github.com/Open-Cascade-SAS/OCCT/releases](https://github.com/Open-Cascade-SAS/OCCT/releases).
 This page says plainly what DX-CAD cannot do, or does unreliably, why, and

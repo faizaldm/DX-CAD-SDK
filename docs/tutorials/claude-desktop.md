@@ -1,6 +1,6 @@
 # DX-CAD with Claude Desktop
 
-DX-CAD has a door for agents: `dxcad serve`, an MCP server. Claude Desktop
+DX-CAD&trade; has a door for agents: `dxcad serve`, an MCP server. Claude Desktop
 can drive it to make, change, measure and export parts. With the live
 window link, Claude works on the window you have open, so each part it
 makes appears in the view as it is made, and each step is one undo in the

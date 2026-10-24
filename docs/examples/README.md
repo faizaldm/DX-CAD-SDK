@@ -10,7 +10,7 @@ dxcad describe bracket.dxcprt
 dxcad gui bracket.py
 ```
 
-Change a number and run it again: that is the whole of DX-CAD's parametric
+Change a number and run it again: that is the whole of DX-CAD&trade;'s parametric
 model. The test suite runs every model on this page, checks each part it
 builds against arithmetic, and builds it again with one number changed, so
 what is written here is what the script does.

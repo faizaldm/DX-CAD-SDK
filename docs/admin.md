@@ -1,6 +1,6 @@
 # AI policy for IT departments
 
-A company decides which AI DX-CAD may use, and whether it may use any. The
+A company decides which AI DX-CAD&trade; may use, and whether it may use any. The
 policy is set by IT, in the registry or in a policy file; users cannot
 override it. A setting the policy makes is not offered to the user, and
 Settings says "set by your organisation" beside it. `dxcad doctor --report`
@@ -89,7 +89,7 @@ unattended install takes it as `/NOAI`, which writes this value (under
 for a per-user install):
 
 ```bat
-DX-CAD-0.1.0-windows-x64-setup.exe /VERYSILENT /NOAI
+DX-CAD-0.1.1-windows-x64-setup.exe /VERYSILENT /NOAI
 ```
 
 `dxcad doctor --report` then says "AI features: off (set by your
@@ -103,7 +103,7 @@ nothing, saying how to quit Claude Desktop by hand, unless it is given
 `/CLOSECONNECTION`:
 
 ```bat
-DX-CAD-0.1.0-windows-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /CLOSECONNECTION
+DX-CAD-0.1.1-windows-x64-setup.exe /VERYSILENT /SUPPRESSMSGBOXES /CLOSECONNECTION
 ```
 
 Claude Desktop connects to DX-CAD again the next time it is started. DX-CAD's

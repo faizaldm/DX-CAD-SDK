@@ -25,6 +25,7 @@ markdown_extensions:
 exclude_docs: |
   /DXCADContext.md
   /help-todo.md
+  /announcements/
   __pycache__/
 
 # RELEASING.md lives at the repo root, outside docs_dir, so the site reaches
@@ -35,14 +36,12 @@ nav:
   - The command line: cli.md
   - The model language: kernel.md
   - The window: gui.md
-  - The two-minute demo: demo.md
   - DX-CAD for agents: agents.md
   - Plugins: plugins.md
   - Drawings and model.py: drawing.md
   - Sheet metal: sheetmetal.md
   - Gallery: gallery.md
   - Contributing: contributing.md
-  - Running the tests: testing.md
   - AI policy for IT departments: admin.md
   - Known limitations: limitations.md
   - Settings and their scope: settings.md

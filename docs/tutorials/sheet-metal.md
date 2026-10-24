@@ -1,7 +1,7 @@
 # Sheet metal in 10 minutes
 
 A sheet part is cut from one sheet and bent along the edges of its outline.
-DX-CAD keeps the record of how the part was made: the outline, each
+DX-CAD&trade; keeps the record of how the part was made: the outline, each
 flange, the sheet's thickness, bend radius and K-factor. It unfolds the part
 from that record, so the flat pattern sent to a laser comes from the design
 itself and not from a guess at the solid. This tutorial makes a tray with a

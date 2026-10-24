@@ -16,7 +16,7 @@ and `model_set`, so the server needs `--allow-run` for it: see
 
 ## Before anything else
 
-Install DX-CAD and check that it works, as README's Install section says:
+Install DX-CAD&trade; and check that it works, as README's Install section says:
 
 ```
 pip install dxcad

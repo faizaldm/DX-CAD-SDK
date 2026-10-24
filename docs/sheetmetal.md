@@ -1,7 +1,7 @@
 # Sheet metal
 
 A sheet part is one sheet of constant thickness, cut to an outline and bent
-up or down along the outline's edges. DX-CAD builds one from the record a
+up or down along the outline's edges. DX-CAD&trade; builds one from the record a
 model.py writes, a base flange and its flanges, and unfolds it from that
 same record, so the flat pattern a laser or a plasma table cuts is worked
 out from what the part was made of rather than read back out of the solid.

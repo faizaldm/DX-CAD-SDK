@@ -1,6 +1,6 @@
 # Assemblies with mates
 
-An assembly in DX-CAD is a model.py that places several parts. A part can
+An assembly in DX-CAD&trade; is a model.py that places several parts. A part can
 be placed by numbers, or by mates, which place it by its faces and axes,
 so it follows whatever it is mated to. This tutorial bolts a plate, then
 uses that bolted pair twice in a bigger assembly.

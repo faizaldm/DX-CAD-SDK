@@ -72,7 +72,7 @@ like every path a tool is given; it is then handed that file, and
 `set_annotations` writes the file again. With neither, the call is answered
 with an error saying so. The argument is added to the tool's schema for it.
 
-DX-CAD adds no tool or function of its own that suggests dimensions or
+DX-CAD&trade; adds no tool or function of its own that suggests dimensions or
 balloons: it hands plugins the drawing, and what they place there is theirs.
 
 ## Where the user adds a view

@@ -1,6 +1,6 @@
 # Drawing a part
 
-A drawing in DX-CAD is a .dxcdrg file. It holds no geometry: it names
+A drawing in DX-CAD&trade; is a .dxcdrg file. It holds no geometry: it names
 the model, the sheet, the title block's fields and where each view has
 been moved. Each time it is opened or exported it is drawn again from the
 model, so it never goes stale. This tutorial draws an angle bracket and its

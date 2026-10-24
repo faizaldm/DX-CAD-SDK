@@ -24,6 +24,7 @@ say it needs an entitlement, held by a provider in ENTITLEMENT_GROUP.
 
 from __future__ import annotations
 
+import datetime
 import os
 from collections.abc import Callable, Iterator, Sequence
 from typing import Any, Protocol, runtime_checkable
@@ -37,8 +38,9 @@ ENTRY_POINT_GROUP = "dxcad.plugins"
 ENTITLEMENT_GROUP = "dxcad.entitlements"
 
 #: The version of the plugin API this SDK describes; a plugin that needs it
-#: says so with Registry.require(API_VERSION).
-API_VERSION = 1
+#: says so with Registry.require(API_VERSION). 2 (DX-CAD item 889):
+#: Registry.licence_words, offer_end and trial_end.
+API_VERSION = 2
 
 #: What a locked plugin's actions, tools and files say.
 LOCKED = "Requires {name}: see {link}"
@@ -938,6 +940,26 @@ class Registry(Protocol):
         as or its licence's product id; this plugin's own with no name. It is the
         link DX-CAD last read for that add-on, and DX-CAD's own buy link for an
         add-on it does not know (DX-CAD item 845)."""
+        ...
+
+    def licence_words(self, name: str | None = None) -> str:
+        """The line DX-CAD shows for an add-on's licence now, by its name, the plugin it
+        installs as or its licence's product id; this plugin's own with no name
+        (plugin API 2, DX-CAD item 889). "Free until your trial ends on DATE"
+        while the install's 30-day trial grants it (DX-CAD item 913), the
+        licence's line while a licence naming it is active, the words for a
+        licence that could not be checked online or a clock set back, else LOCKED
+        as its commands say it."""
+        ...
+
+    def offer_end(self) -> datetime.date:
+        """Kept for plugin API 2 (DX-CAD item 913): there is no offer now, so the same
+        day as trial_end()."""
+        ...
+
+    def trial_end(self) -> datetime.date:
+        """The last day of this install's own 30-day trial, counted from its first
+        start; editing locks at 23:59 UK time on it (plugin API 2)."""
         ...
 
     def add_name(self, name: str, value: object) -> None:

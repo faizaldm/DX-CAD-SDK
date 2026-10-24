@@ -1,13 +1,13 @@
 # Contributing
 
-The rules for a contribution are kept in one place,
-[CONTRIBUTING.md](https://github.com/faizaldm/DX-CAD/blob/main/CONTRIBUTING.md)
-at the root of the repository: how to set up, the four commands a change
-must pass, the form a piece of work is proposed in, and the sign-off every
-commit carries. This page walks one first contribution through them: a new
-part for the [gallery](gallery.md), from an empty file to a signed-off
-commit. Every command below is run from the root of a checkout, with the
-environment [SETUP.md](https://github.com/faizaldm/DX-CAD/blob/main/SETUP.md)
+The rules for a contribution are kept in one place, DX-CAD&trade;'s
+CONTRIBUTING.md:
+how to set up, the four commands a change must pass, the form a piece of
+work is proposed in, and the sign-off every commit carries. This page walks
+one first contribution through them: a new part for the
+[gallery](gallery.md), from an empty file to a signed-off commit. Every
+command below is run from the root of a checkout, with the environment
+DX-CAD's SETUP.md
 makes.
 
 ## 1. Start a part
@@ -45,8 +45,8 @@ edit changed.
 
 ## 3. Write the item
 
-Work is queued in
-[BACKLOG.md](https://github.com/faizaldm/DX-CAD/blob/main/BACKLOG.md), one
+Work is queued in DX-CAD's
+BACKLOG.md, one
 item per change. A part for the gallery is one item, for example:
 
 ```text

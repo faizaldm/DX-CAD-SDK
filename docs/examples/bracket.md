@@ -61,7 +61,7 @@ An agent that was asked for four holes has to be able to count them:
 
 ## The same part as a model
 
-Every DX-CAD model is a script. The agent writes the part down as one,
+Every DX-CAD&trade; model is a script. The agent writes the part down as one,
 [bracket.py](bracket.py), whose numbers are names at the top of the file, and
 runs it with `run_model`. That tool and `model_set` run Python, so the server
 must have been started with `--allow-run`; without it both are refused. The server answers `"changed": []`: the model

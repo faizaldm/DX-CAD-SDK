@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import datetime
 import importlib
 import inspect
 import re
@@ -173,6 +174,16 @@ class Recorder:
     def buy_link(self, name: str | None = None) -> str:
         # The host answers its own link; a check has no host to ask.
         return ""
+
+    def licence_words(self, name: str | None = None) -> str:
+        # The host answers its own words (DX-CAD item 889); a check has no host to ask.
+        return ""
+
+    def offer_end(self) -> datetime.date:
+        return datetime.date.min
+
+    def trial_end(self) -> datetime.date:
+        return datetime.date.min
 
     def add_name(self, name: str, value: object) -> None:
         if not isinstance(name, str) or not name.isidentifier() or name.startswith("_"):

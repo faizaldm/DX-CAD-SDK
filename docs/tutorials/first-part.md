@@ -1,6 +1,6 @@
 # Your first part
 
-A part in DX-CAD is a short Python file, a model.py, that says how the
+A part in DX-CAD&trade; is a short Python file, a model.py, that says how the
 part is made. The window draws what the file builds, and the command line
 builds the same file with no window at all. This tutorial makes a plate,
 then drills it, then exports it for a CAM program. Every model on this page
