@@ -5800,7 +5800,7 @@ The file: [relieved_tray.py](examples/relieved_tray.py).
 
 ### A cabinet door bent from 1.5 mm mild steel, with flanges and return lips
 
-600 x 400 overall, as a drawing gives it: a 20 mm flange on every edge, each with a 10 mm return lip, both measured to the outside, relieved at their ends, the corners left open. The base is the overall size less a bend radius and a thickness each side, 594 x 394. Each 20 mm flange with its return is a 14 mm leg and a 7 mm lip, once both bends' setbacks (1.5 + 1.5 = 3) are taken off, and each bend allows pi / 2 x (1.5 + 0.44 x 1.5) = 3.39292 mm, so every side of the flat reaches 2 x 3.39292 + 14 + 7 = 27.78584 mm past the base. Its flat is 649.572 x 449.572 mm. The long edge at y = 0 carries two pairs of hinge holes; the handle is a cut-out in the face. It hangs on the solid door's hinge, door-hinge.dxcasm, used twice and placed by mates. Copy door-hinge.dxcasm beside this file; `dxcad examples sheet_door` does.
+600 x 400 overall, as a drawing gives it: a 20 mm flange on every edge, each with a 10 mm return lip, both measured to the outside, relieved at their ends, the corners left open. The base is the overall size less a bend radius and a thickness each side, 594 x 394. Each 20 mm flange with its return is a 14 mm leg and a 7 mm lip, once both bends' setbacks (1.5 + 1.5 = 3) are taken off, and each bend allows pi / 2 x (1.5 + 0.44 x 1.5) = 3.39292 mm, so every side of the flat reaches 2 x 3.39292 + 14 + 7 = 27.78584 mm past the base. Its flat is 649.572 x 449.572 mm. The long edge at y = 0 carries two pairs of hinge holes; the handle is a cut-out in the face, and two rounded vent slots, 90 long and 10 wide, run across it below the handle, each two lines and two arcs on the flat's DXF. It hangs on the solid door's hinge, door-hinge.dxcasm, used twice and placed by mates. Copy door-hinge.dxcasm beside this file; `dxcad examples sheet_door` does.
 
 Tags: sheet, mates, assembly
 
@@ -5823,7 +5823,9 @@ and a thickness each side, 594 x 394. Each 20 mm flange with its return is a
 taken off, and each bend allows pi / 2 x (1.5 + 0.44 x 1.5) = 3.39292 mm,
 so every side of the flat reaches 2 x 3.39292 + 14 + 7 = 27.78584 mm past
 the base. Its flat is 649.572 x 449.572 mm. The long edge at y = 0 carries
-two pairs of hinge holes; the handle is a cut-out in the face. It hangs on
+two pairs of hinge holes; the handle is a cut-out in the face, and two
+rounded vent slots, 90 long and 10 wide, run across it below the handle,
+each two lines and two arcs on the flat's DXF. It hangs on
 the solid door's hinge, door-hinge.dxcasm, used twice and placed by mates.
 Copy door-hinge.dxcasm beside this file; `dxcad examples sheet_door` does.
 
@@ -5843,16 +5845,22 @@ K_FACTOR = 0.44
 HOLE = 4.0
 HINGES = (60.0, 474.0)
 HANDLE = (120.0, 25.0)
+VENT = (80.0, 10.0)
 
 spec = SheetSpec(THICKNESS, BEND_RADIUS, K_FACTOR)
 out = BEND_RADIUS + THICKNESS
 base_x, base_y = WIDTH - 2 * out, HEIGHT - 2 * out
 handle = (base_x / 2, base_y - 60.0, *HANDLE)
+# Each vent: the centres of its two round ends, VENT[0] apart, and its width.
+vents = [
+    (base_x / 2 - VENT[0] / 2, y, base_x / 2 + VENT[0] / 2, y, VENT[1]) for y in (60.0, 85.0)
+]
 panel = base_flange(
     [(0, 0), (base_x, 0), (base_x, base_y), (0, base_y)],
     spec,
     cutouts=[handle],
     corner_treatment="open",
+    slots=vents,
 )
 # Each hinge's leaf covers a pair of holes 34 apart, half way up the leg.
 leg = FLANGE - 2 * out

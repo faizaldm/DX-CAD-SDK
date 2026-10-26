@@ -91,7 +91,8 @@ class FlatPattern:
     cuts: tuple[tuple[Vec2, ...], ...]
     openings: tuple[tuple[Vec2, ...], ...]
     arcs: Any
-    def __init__(self, outline: tuple[Vec2, ...], bends: tuple[Bend, ...], spec: SheetSpec, holes: Any = ..., cutouts: Any = ..., leg_cutouts: tuple[tuple[Vec2, Vec2, Vec2, Vec2], ...] = ..., notes: tuple[tuple[float, float, str] | tuple[float, float, str, float], ...] = ..., cuts: tuple[tuple[Vec2, ...], ...] = ..., openings: tuple[tuple[Vec2, ...], ...] = ..., arcs: Any = ...) -> None: ...
+    slots: Any
+    def __init__(self, outline: tuple[Vec2, ...], bends: tuple[Bend, ...], spec: SheetSpec, holes: Any = ..., cutouts: Any = ..., leg_cutouts: tuple[tuple[Vec2, Vec2, Vec2, Vec2], ...] = ..., notes: tuple[tuple[float, float, str] | tuple[float, float, str, float], ...] = ..., cuts: tuple[tuple[Vec2, ...], ...] = ..., openings: tuple[tuple[Vec2, ...], ...] = ..., arcs: Any = ..., slots: Any = ...) -> None: ...
     def bounds(self) -> tuple[Vec2, Vec2]:
         """The outline's lowest and highest (x, y), an arc's own reach counted (item 837)."""
         ...
@@ -167,9 +168,12 @@ class SheetPart:
     corner_gap: float | None
     notes: tuple[str, ...]
     arcs: Any
+    slots: Any
+    flange_slots: Any
+    return_slots: Any
     kind: str | None
     record: object
-    def __init__(self, solid: Shape, spec: SheetSpec, profile: tuple[Vec2, ...], plane: Plane, flanges: Any = ..., holes: Any = ..., flange_holes: Any = ..., cutouts: Any = ..., flange_cutouts: Any = ..., return_holes: Any = ..., return_cutouts: Any = ..., corner_trims: tuple[tuple[int, tuple[Vec2, ...]], ...] = ..., corner_cuts: Any = ..., corner_tabs: Any = ..., return_turns: Any = ..., corner_treatment: str | None = ..., corner_gap: float | None = ..., notes: tuple[str, ...] = ..., arcs: Any = ..., kind: str | None = ..., record: object = ...) -> None: ...
+    def __init__(self, solid: Shape, spec: SheetSpec, profile: tuple[Vec2, ...], plane: Plane, flanges: Any = ..., holes: Any = ..., flange_holes: Any = ..., cutouts: Any = ..., flange_cutouts: Any = ..., return_holes: Any = ..., return_cutouts: Any = ..., corner_trims: tuple[tuple[int, tuple[Vec2, ...]], ...] = ..., corner_cuts: Any = ..., corner_tabs: Any = ..., return_turns: Any = ..., corner_treatment: str | None = ..., corner_gap: float | None = ..., notes: tuple[str, ...] = ..., arcs: Any = ..., slots: Any = ..., flange_slots: Any = ..., return_slots: Any = ..., kind: str | None = ..., record: object = ...) -> None: ...
 
 class SheetSpec:
     """The sheet a part is cut and bent from."""
@@ -307,7 +311,7 @@ def angle_between(a: Shape, b: Shape) -> float:
     """The angle in degrees between the normals of two planar faces, 0 to 180."""
     ...
 
-def base_flange(points: Any, spec: SheetSpec, plane: Plane = ..., holes: Any = ..., cutouts: Any = ..., corner_treatment: str | None = ..., corner_gap: float | None = ...) -> SheetPart:
+def base_flange(points: Any, spec: SheetSpec, plane: Plane = ..., holes: Any = ..., cutouts: Any = ..., corner_treatment: str | None = ..., corner_gap: float | None = ..., slots: Any = ...) -> SheetPart:
     """A base flange: the closed profile on `plane`, `spec.thickness` thick."""
     ...
 
@@ -439,7 +443,7 @@ def fillet_all(solid: Shape, radius: float) -> Shape:
     """Round every edge of a solid at once, which is what a cast part wants."""
     ...
 
-def flange(part: SheetPart, edge: int | tuple[int, str], length: float, angle: float = ..., direction: str = ..., start_inset: float = ..., end_inset: float = ..., relief: bool = ..., bend_radius: float | None = ..., holes: Any = ..., return_length: float = ..., cutouts: Any = ..., length_from: str = ..., corner_treatment: str | dict | None = ..., corner_gap: float | None = ..., return_angle: float = ..., return_direction: str = ..., hem: str | None = ..., teardrop_radius: float | None = ...) -> SheetPart:
+def flange(part: SheetPart, edge: int | tuple[int, str], length: float, angle: float = ..., direction: str = ..., start_inset: float = ..., end_inset: float = ..., relief: bool = ..., bend_radius: float | None = ..., holes: Any = ..., return_length: float = ..., cutouts: Any = ..., length_from: str = ..., corner_treatment: str | dict | None = ..., corner_gap: float | None = ..., return_angle: float = ..., return_direction: str = ..., hem: str | None = ..., teardrop_radius: float | None = ..., slots: Any = ...) -> SheetPart:
     """A new SheetPart with a flange bent `angle` degrees on `edge`: a profile edge or a flange's."""
     ...
 

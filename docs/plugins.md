@@ -32,7 +32,7 @@ toolbar in the window carry it.
 | Call | What it adds |
 | --- | --- |
 | `registry.require(version)` | Nothing: it says the plugin needs plugin API `version`, a whole number from 1. A DX-CAD whose plugin API is older skips the plugin, saying "needs plugin API 3, this DX-CAD has 2", and uses nothing it registered. Call it first. |
-| `registry.licence_words(name=None)`, `registry.offer_end()`, `registry.trial_end()` | Nothing: plugin API 2 (item 889), so a plugin that calls them says `registry.require(2)`. `licence_words` answers the line DX-CAD shows for an add-on's licence now, by its name, the plugin it installs as or its licence's product id, this plugin's own with no name: "Free until your trial ends on DATE" while the install's own 30-day trial grants it, the licence's line ("Licensed (licence 42, 3 seats); works offline until DATE.") while a licence naming it is active, the words for a licence that could not be checked online in 14 days or a computer clock set back, and else what its commands say while it is locked, "Requires NAME: see LINK". `trial_end()` answers the last day of this install's own 30-day trial (a `datetime.date`; editing locks at 23:59 UK time on it), and `offer_end()`, kept for plugin API 2 now that there is no offer, answers the same. An add-on's About box shows them so it says what Help > Licence says, with no import of `dxcad.licence`, which is private to a plugin. |
+| `registry.licence_words(name=None)`, `registry.offer_end()`, `registry.trial_end()` | Nothing: plugin API 2 (item 889), so a plugin that calls them says `registry.require(2)`. `licence_words` answers the line DX-CAD shows for an add-on's licence now, by its name, the plugin it installs as or its licence's product id, this plugin's own with no name: "Free during your 30-day trial (ends DATE)" while the install's own 30-day trial grants it, the licence's line ("Licensed (licence 42, 3 seats); works offline until DATE.") while a licence naming it is active, the words for a licence that could not be checked online in 14 days or a computer clock set back, and else what its commands say while it is locked, "Requires NAME: see LINK". `trial_end()` answers the last day of this install's own 30-day trial (a `datetime.date`; editing locks at 23:59 UK time on it), and `offer_end()`, kept for plugin API 2 now that there is no offer, answers the same. An add-on's About box shows them so it says what Help > Licence says, with no import of `dxcad.licence`, which is private to a plugin. |
 | `registry.add_name(name, value)` | A name every model.py starts with, as `part` and `make_box` are. |
 | `registry.command(name, help, run, configure=None)` | A subcommand of the command line called `name`: `configure(parser)` adds its arguments to an argparse parser, `run(args)` does it and answers the exit status. |
 | `registry.tool(name, description, input_schema, call, reads=False, drawing=False)` | An MCP tool: its arguments are held to `input_schema` first, then `call(document, arguments)` answers what JSON can carry. `reads=True` says it changes nothing. `drawing=True` hands `call` a third argument, the drawing it works on: the drawing tab in front, or the `.dxcdrg` file the call names as `"drawing"` (see [Drawings and model.py](drawing.md)). |
@@ -325,6 +325,34 @@ Importing `dxcad.gauges`, `dxcad.script`, `dxcad.project` or `dxcad.cli`
 still works for one release, with a DeprecationWarning once per plugin
 naming what to use instead, and `dxcad-sdk check` warns of it (WARN, which
 fails nothing).
+
+## What an add-on may import
+
+The installed DX-CAD (the Windows installer, the macOS app, the AppImage)
+runs an add-on in its own Python, which carries only what it was built
+with. An add-on may import there, at the top of a module or inside a
+function alike:
+
+- any OCP module, such as `OCP.BRepLProp`: every module of OpenCASCADE's
+  Python layer is carried, whether DX-CAD itself uses it or not;
+- any module of the Python standard library, but `tkinter` and what is
+  built on it (`turtle`, `turtledemo`, `idlelib`), which need Tcl/Tk that
+  DX-CAD does not ship; `test`, the interpreter's own regression tests;
+  and `ensurepip` and `venv`, which need an interpreter to work on; and on
+  Windows `curses`, `pty`, `tty` and `crypt`, which need what Python on
+  Windows has not got;
+- these Qt modules of PySide6: `QtCore`, `QtGui`, `QtWidgets`, `QtSvg`,
+  `QtSvgWidgets`, `QtNetwork`, `QtPrintSupport`, `QtOpenGL`,
+  `QtOpenGLWidgets` and `QtPdf`;
+- and nothing outside DX-CAD's own dependencies (cadquery-ocp, PySide6
+  and cryptography) unless the add-on's wheel carries it.
+
+`dxcad doctor --addons` imports every module of every installed add-on,
+every OCP module and those Qt modules, and names each that fails with its
+error; DX-CAD's CI runs it over every build it makes, with a test add-on
+whose command imports `OCP.BRepLProp` and `PySide6.QtSvgWidgets` inside a
+function. A sheet tool's hover that fails says so once on the status bar,
+naming the add-on and the tool, as well as in the log.
 
 ## Testing a plugin
 

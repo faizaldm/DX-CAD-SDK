@@ -87,3 +87,21 @@ UTF-8 JSON, one object:
 | `"plugins"` | object | each plugin's section, by name: its `"views"` (each `{"kind", "at", "data"}`), its `"annotations"` (each `{"kind", "view", "ref", "data"}`) and the `"output"` it last drew (`{"strokes", "texts", "images"}` in the sheet's millimetres, each image a PNG as base64 and the box it fills), shown in its place, with a notice, where the plugin is not installed or is locked; empty when absent |
 
 A drawing whose model is not there is reported by the model's path.
+
+## latest.json: what DX-CAD reads of a release
+
+Help > Check for Updates, and the check at start, read latest.json from the
+SDK's site, written by the core's export. DX-CAD keeps what it reads of buying
+in the user's settings, so the last answer holds offline. Every key but the
+first four may be absent; one that is not of its kind is passed over.
+
+| Key | Kind | Meaning |
+|---|---|---|
+| `"version"` | text | the newest release, such as 0.1.2 |
+| `"date"` | text | the day it was released, as an ISO date (2026-10-25) |
+| `"note"` | text | a line saying what it is |
+| `"url"` | text | where it is downloaded |
+| `"buy_url"` | text | where a licence is bought; DX-CAD's own site when absent |
+| `"addons"` | object | the add-ons on sale, by name |
+| `"licences_from"` | text | the day licences go on sale, as an ISO date (DX-CAD item 919): until that day, UK time, Help > Licence's Activate, Send code and Sign in contact nothing and say from which day licences are available, and no buy link is shown; 2026-11-01 when absent |
+| `"trial_until"` | text | an ISO date (DX-CAD item 919): no trial locks before 23:59 UK time on it, so it can only put a trial's end later; it changes nothing for a licensed install, or once the day has passed |

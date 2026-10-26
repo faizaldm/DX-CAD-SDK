@@ -78,7 +78,7 @@ These are kept for you across starts, whatever file is open. Most are changed in
 | Flat pattern profiles | none | `flat/profiles` |
 | The Assistant: on or off, its provider, model, address and limits, and its panel's place | off | `assistant/enabled`, `assistant/model`, `assistant/reply_limit`, `assistant/context_tokens`, `assistant/provider`, `assistant/endpoint`, `assistant/models/{provider}`, `assistant/addresses/{provider}`, `assistant/noted/{provider}`, `assistant/warn_at`, `assistant/area`, `assistant/floating`, `assistant/height` |
 | Add-ons bought, and where they are bought | none | `paid/addons`, `paid/assistant_endpoint`, `paid/buy_url` |
-| The licence: this install, its key and what it was last told | a trial | `licence/install_id`, `licence/token`, `licence/key`, `licence/noticed`, `licence/trial_started/{install}`, `licence/latest_seen`, `licence/latest_pending`, `licence/clock_gap` |
+| The licence: this install, its key and what it was last told | a trial | `licence/install_id`, `licence/token`, `licence/key`, `licence/noticed`, `licence/trial_started/{install}`, `licence/latest_seen`, `licence/latest_pending`, `licence/clock_gap`, `licence/licences_from`, `licence/trial_until` |
 | What an add-on keeps for you | the add-on's own | `plugins/{name}` |
 
 ## Add-ons

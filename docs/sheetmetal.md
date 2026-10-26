@@ -46,7 +46,7 @@ are 2 and 2.5".
 
 ## The base flange
 
-`base_flange(points, spec, plane=Plane.XY, holes=(), cutouts=(), corner_treatment=None, corner_gap=None)` is the
+`base_flange(points, spec, plane=Plane.XY, holes=(), cutouts=(), corner_treatment=None, corner_gap=None, slots=())` is the
 part's start: a closed outline of at least three corners on the plane, the first not
 repeated at the end, extruded a thickness along the plane's normal. Edge n
 of the outline runs from corner n to corner n + 1, the last closing the
@@ -56,6 +56,15 @@ the outline and clear of the others. `cutouts` are rectangles cut through
 it, each an (x, y, width, height) centred on (x, y) with its sides along
 the plane's axes, each wholly inside the outline and clear of the holes and
 the other cutouts; they lie on the flat where they lie on the base.
+`slots` are rounded slots cut through it, each an (x1, y1, x2, y2, width):
+the centres of its two round ends and its width, as `Sketch.slot(start,
+end, width)` draws one, in any direction, not only along x or y. Each lies
+wholly inside the outline, clear of the holes, the cutouts and the other
+slots; one that does not is refused naming the slot, and so is one whose
+two centres are one point, which is a hole. A slot 80 between its ends'
+centres and 10 wide takes (80 x 10 + pi x 10² / 4) x the thickness out
+of the plate: its length end to end is 90. On the flat it lies where it
+lies on the base, and its DXF cuts it as two LINEs and two ARCs on CUT.
 `corner_treatment` and `corner_gap` are the part's own, for every corner
 where two returns meet that a flange is not given one for (see Corners).
 
@@ -93,7 +102,8 @@ arcs are traced as, within 0.01 mm of them.
 `flange(part, edge, length, angle=90, direction="up", start_inset=0,
 end_inset=0, relief=False, bend_radius=None, holes=(), return_length=0,
 cutouts=(), length_from="leg", corner_treatment=None, corner_gap=None,
-return_angle=90, return_direction="same", hem=None, teardrop_radius=None)`
+return_angle=90, return_direction="same", hem=None, teardrop_radius=None,
+slots=())`
 bends a flange on
 one edge of the outline and answers a new part; the part given is left
 alone. The flange is a bend of the spec's inside radius, or its own, then a
@@ -151,6 +161,13 @@ straight leg `length` long.
   along the edge and its height along the leg. Each lies wholly inside the
   leg by the holes' rule and clear of its holes and the other cutouts. On
   the flat each lies on the strip as its four corners.
+- `slots` are rounded slots cut through the flange's leg, each a
+  (u1, v1, u2, v2, width): the centres of its two round ends, u and v as a
+  hole's, and its width, in any direction. Each lies wholly inside the leg,
+  clear of its holes, its cutouts and the other slots; one that reaches the
+  bend zone (v within half its width of 0) is refused saying so, naming the
+  slot. On the flat its centres follow the leg's holes. A slot that would
+  cross a bend, or holes and slots across several faces, are not made here.
 - `return_length` above 0 makes a return flange: a second 90 degree bend of
   the flange's radius at the leg's free end, turning the same way as the
   first, then a straight return leg that long, so an up flange's return
@@ -301,11 +318,14 @@ bend allowance further out, its angle, its direction and its inside radius.
 Relief slots are cut into the outline, the base's holes lie on the flat
 where they lie on the base, and each flange's holes and cutouts lie on its
 strip, a flange's cutout as its four corners, since a strip may run at any
-angle. A hem unfolds by half a turn's bend allowance.
+angle. A hem unfolds by half a turn's bend allowance. The slots, the base's
+where they lie on it and a leg's by their centres as its holes, are the
+flat's `slots`, each (x1, y1, x2, y2, width).
 
 `write_flat_dxf()` writes it as an AutoCAD 2000 DXF in millimetres: the
 outline and each cutout, the base's and then the flanges', as a closed
-polyline and each hole as a circle on layer CUT, each
+polyline and each hole as a circle on layer CUT, each slot as two LINE
+and two ARC entities on CUT, its sides and its round ends, each
 bend as one line down the middle of its zone on layer BEND, which is drawn
 DASHED (12.7 mm on, 6.35 off, defined in the file itself), and a note
 beside each bend on layer NOTES, such as `UP 90 R2`. With `bend_zones`,
@@ -337,9 +357,17 @@ it.
 
 `flat_cut_length()` answers how far the cut runs, in mm: the outline's
 perimeter plus every hole's circumference and every cutout's perimeter,
-the base's and the flanges'. `flat_area()` answers the flat's area in mm²,
-the outline's less every hole and cutout. Together they quote a laser or a
-plasma table.
+the base's and the flanges', and every slot's, 2 (L - W) + pi W for one L
+long end to end and W wide. `flat_area()` answers the flat's area in mm²,
+the outline's less every hole, cutout and slot. Together they quote a laser
+or a plasma table. `dxcad flat` counts the slots on its size line, after
+the holes and cutouts.
+
+A drawing of a sheet part, or of its flat, shows each slot, and a view that
+sees slots face on names them under it in its holes note, in their own
+groups after the holes: `SLOT 90 x 10`, length end to end then width, with
+`2x` before it for two alike. `dxcad describe` and the `sheet_*` tools list
+a sheet part's slots as they do its holes.
 
 `flat_annotations(pattern, edge="left")` answers what is written on a flat
 besides its cut and bend lines, each where it goes:
@@ -504,8 +532,9 @@ bends.
 The Sheet Metal toolbar and menu hold four actions, Base Flange, Flange,
 Export Flat Pattern and Show Flat Pattern; see [gui.md](gui.md). Base
 Flange makes the closed sketch in hand a sheet part, a line-tool outline or
-one rectangle with the circles drawn inside it as holes and the rectangles
-drawn inside it as cutouts, and asks the metal and then its gauge from the
+one rectangle with the circles drawn inside it as holes, the rectangles
+drawn inside it as cutouts and the slots drawn inside it with the slot tool
+as slots, and asks the metal and then its gauge from the
 table, or Custom for the thickness, the bend radius and the K-factor as
 numbers. Flange bends one on an edge of the picked sheet part, or on an
 edge of a flange it already has, the two ends of its leg and its free edge,
@@ -515,8 +544,10 @@ edge, the length, the angle (180 for an open hem), the direction, a
 closed or a teardrop hem by name with the teardrop's radius, the two
 insets, whether to cut relief, the flange's own bend radius, offered as the
 sheet's, its return length, offered as 0, the holes through its leg, as one
-line `u, v, d; u, v, d`, and the cutouts through its leg, as one line
-`u, v, w, h; u, v, w, h`, each empty for none. With All edges ticked it
+line `u, v, d; u, v, d`, the cutouts through its leg, as one line
+`u, v, w, h; u, v, w, h`, and the slots through its leg, as one line
+`u1, v1, u2, v2, w; ...`, each empty for none, each checked as it is typed
+and shown on the faint preview. With All edges ticked it
 bends one on every free edge of the outline, each from its row of a table,
 and a flange already made is changed by a double click on its row in the
 Feature tree ([the Flange dialog](gui.md#the-flange-dialog)). Export

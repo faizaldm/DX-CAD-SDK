@@ -40,3 +40,17 @@ that draws on drawings registers view kinds, annotation kinds and sheet tools
 plugin takes from DX-CAD (`from dxcad.model import ...`) is imported inside
 the functions that use it, so the checker can import the plugin without
 DX-CAD.
+
+## What an add-on may import
+
+The installed DX-CAD runs an add-on in its own Python, which carries only
+what it was built with. An add-on may import there, at the top of a module
+or inside a function alike: any OCP module, such as `OCP.BRepLProp`; any
+module of the Python standard library, but `tkinter` and what is built on it
+(`turtle`, `turtledemo`, `idlelib`), `test`, `ensurepip` and `venv`, and on
+Windows `curses`, `pty`, `tty` and `crypt`; these Qt modules of PySide6:
+`QtCore`, `QtGui`, `QtWidgets`, `QtSvg`, `QtSvgWidgets`, `QtNetwork`,
+`QtPrintSupport`, `QtOpenGL`, `QtOpenGLWidgets` and `QtPdf`; and nothing
+outside DX-CAD's own dependencies (cadquery-ocp, PySide6 and cryptography)
+unless the add-on's wheel carries it. `dxcad doctor --addons` imports every
+installed add-on's modules with these and names each that fails.

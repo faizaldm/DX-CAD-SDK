@@ -945,8 +945,8 @@ class Registry(Protocol):
     def licence_words(self, name: str | None = None) -> str:
         """The line DX-CAD shows for an add-on's licence now, by its name, the plugin it
         installs as or its licence's product id; this plugin's own with no name
-        (plugin API 2, DX-CAD item 889). "Free until your trial ends on DATE"
-        while the install's 30-day trial grants it (DX-CAD item 913), the
+        (plugin API 2, DX-CAD item 889). "Free during your 30-day trial (ends DATE)"
+        while the install's 30-day trial grants it (DX-CAD items 913 and 919), the
         licence's line while a licence naming it is active, the words for a
         licence that could not be checked online or a clock set back, else LOCKED
         as its commands say it."""
