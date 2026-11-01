@@ -92,7 +92,8 @@ class FlatPattern:
     openings: tuple[tuple[Vec2, ...], ...]
     arcs: Any
     slots: Any
-    def __init__(self, outline: tuple[Vec2, ...], bends: tuple[Bend, ...], spec: SheetSpec, holes: Any = ..., cutouts: Any = ..., leg_cutouts: tuple[tuple[Vec2, Vec2, Vec2, Vec2], ...] = ..., notes: tuple[tuple[float, float, str] | tuple[float, float, str, float], ...] = ..., cuts: tuple[tuple[Vec2, ...], ...] = ..., openings: tuple[tuple[Vec2, ...], ...] = ..., arcs: Any = ..., slots: Any = ...) -> None: ...
+    bend_cuts: Any
+    def __init__(self, outline: tuple[Vec2, ...], bends: tuple[Bend, ...], spec: SheetSpec, holes: Any = ..., cutouts: Any = ..., leg_cutouts: tuple[tuple[Vec2, Vec2, Vec2, Vec2], ...] = ..., notes: tuple[tuple[float, float, str] | tuple[float, float, str, float], ...] = ..., cuts: tuple[tuple[Vec2, ...], ...] = ..., openings: tuple[tuple[Vec2, ...], ...] = ..., arcs: Any = ..., slots: Any = ..., bend_cuts: Any = ...) -> None: ...
     def bounds(self) -> tuple[Vec2, Vec2]:
         """The outline's lowest and highest (x, y), an arc's own reach counted (item 837)."""
         ...
@@ -171,9 +172,10 @@ class SheetPart:
     slots: Any
     flange_slots: Any
     return_slots: Any
+    bend_cuts: Any
     kind: str | None
     record: object
-    def __init__(self, solid: Shape, spec: SheetSpec, profile: tuple[Vec2, ...], plane: Plane, flanges: Any = ..., holes: Any = ..., flange_holes: Any = ..., cutouts: Any = ..., flange_cutouts: Any = ..., return_holes: Any = ..., return_cutouts: Any = ..., corner_trims: tuple[tuple[int, tuple[Vec2, ...]], ...] = ..., corner_cuts: Any = ..., corner_tabs: Any = ..., return_turns: Any = ..., corner_treatment: str | None = ..., corner_gap: float | None = ..., notes: tuple[str, ...] = ..., arcs: Any = ..., slots: Any = ..., flange_slots: Any = ..., return_slots: Any = ..., kind: str | None = ..., record: object = ...) -> None: ...
+    def __init__(self, solid: Shape, spec: SheetSpec, profile: tuple[Vec2, ...], plane: Plane, flanges: Any = ..., holes: Any = ..., flange_holes: Any = ..., cutouts: Any = ..., flange_cutouts: Any = ..., return_holes: Any = ..., return_cutouts: Any = ..., corner_trims: tuple[tuple[int, tuple[Vec2, ...]], ...] = ..., corner_cuts: Any = ..., corner_tabs: Any = ..., return_turns: Any = ..., corner_treatment: str | None = ..., corner_gap: float | None = ..., notes: tuple[str, ...] = ..., arcs: Any = ..., slots: Any = ..., flange_slots: Any = ..., return_slots: Any = ..., bend_cuts: Any = ..., kind: str | None = ..., record: object = ...) -> None: ...
 
 class SheetSpec:
     """The sheet a part is cut and bent from."""
@@ -313,6 +315,10 @@ def angle_between(a: Shape, b: Shape) -> float:
 
 def base_flange(points: Any, spec: SheetSpec, plane: Plane = ..., holes: Any = ..., cutouts: Any = ..., corner_treatment: str | None = ..., corner_gap: float | None = ..., slots: Any = ...) -> SheetPart:
     """A base flange: the closed profile on `plane`, `spec.thickness` thick."""
+    ...
+
+def bend_cut(part: SheetPart, *, hole: Any = ..., slot: Any = ..., cutout: Any = ...) -> SheetPart:
+    """`part` with a hole, slot or cutout given on its flat cut across a bend (item 922)."""
     ...
 
 def blendable_edges(shape: Shape) -> list[Shape]:

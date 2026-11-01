@@ -92,6 +92,44 @@ listed under the tools it offers. The directory has to exist: a
 `--directory` that is not there is said on the server's standard error, which
 is what the client's log for the server shows.
 
+## When the server stops
+
+Whenever `dxcad serve` ends it says why in one line in DX-CAD's own log and,
+when something went wrong, the same line on its standard error, which Claude
+Desktop keeps in its log for the server (items 927 and 928):
+
+- Claude Desktop's log: `%APPDATA%\Claude\logs\mcp-server-dxcad.log` on
+  Windows, `~/Library/Logs/Claude/mcp-server-dxcad.log` on macOS.
+- `dxcad.log`: in `%LOCALAPPDATA%\DX-CAD\logs` on Windows,
+  `~/Library/Logs/DX-CAD` on macOS and `~/.local/state/DX-CAD/logs` on Linux,
+  as Help > Report a Problem says.
+
+The line is `dxcad serve: stopped: REASON`, and the reason is one of:
+
+- `the client closed the pipe (end of input)`: the client let the server go,
+  as Claude Desktop does when it quits or restarts the server. Exit status 0.
+  This is the normal end, so it is in `dxcad.log` alone: Claude Desktop's log
+  shows nothing from the server as it ends.
+- `the pipe broke on a write`: the client went while the server was still
+  answering it. Exit status 0. In both logs.
+- `interrupted (Ctrl+C or a signal)`: the server was stopped from outside.
+  Exit status 130. In both logs.
+- `an error, TYPE: MESSAGE`: something went wrong that the server could not
+  answer as a refused tool; the whole trace is in `dxcad.log` alone. Exit
+  status 1; please send it with Help > Report a Problem. The line is in both
+  logs.
+
+No key, token, licence code or e-mail address is written in the line: a long
+run of letters and digits, or an address, is said as `(hidden)`.
+
+With `--window`, a server Claude Desktop starts before DX-CAD is open stays
+up: its first tool call waits up to 30 seconds for a window, saying `dxcad
+serve: no DX-CAD window on CHANNEL yet; waiting up to 30 s for one` in that
+log, and is refused "no DX-CAD window is open" if none comes; the next call
+tries again. A window that closes and opens again is reached at the next
+call, and each time the log says `dxcad serve: connected to the DX-CAD window
+on CHANNEL`.
+
 ## What it runs
 
 `run_model` and `model_set` run a model.py, which is Python, with your own
@@ -161,7 +199,7 @@ can reach through the tools. It is worth giving it one of its own.
 | `rotate` | Turn a part about an axis, by the right-hand rule. | `name`: string, required; `point`: array of number (3), required; `direction`: array of number (3), required; `angle`: number, required; `as`: string |
 | `mirror` | Reflect a part in a plane. With "as", this makes the other hand of a part. | `name`: string, required; `point`: array of number (3), required; `normal`: array of number (3), required; `as`: string |
 | `scale` | Make a part larger or smaller about a point, which stays where it is. | `name`: string, required; `factor`: number, required; `origin`: array of number (3); `as`: string |
-| `cut` | Cut part b out of part a. On a sheet part, give holes, rectangular cutouts and rounded slots with the sheet tools' holes, cutouts and slots, and shape where flanges or returns meet with a corner treatment, rather than cutting: a through cut normal to one face is kept as that face's cutout, hole or slot, a cut across a bend zone or a corner is refused, and any other boolean makes a plain solid that cannot be unfolded. | `a`: string, required; `b`: string, required; `keep`: boolean; `proceed`: boolean; `as`: string |
+| `cut` | Cut part b out of part a. On a sheet part, give holes, rectangular cutouts and rounded slots with the sheet tools' holes, cutouts and slots, and shape where flanges or returns meet with a corner treatment, rather than cutting: a through cut normal to one face is kept as that face's cutout, hole or slot; a round, rectangular or slot prism through one face and on across a bend is cut as it will be bent, wrapped round the bend, and kept as a bend cut (as sheet_bend_cut gives one on the flat); any other cut across a bend zone or a corner is refused, and any other boolean makes a plain solid that cannot be unfolded. | `a`: string, required; `b`: string, required; `keep`: boolean; `proceed`: boolean; `as`: string |
 | `fuse` | Join part b onto part a. | `a`: string, required; `b`: string, required; `keep`: boolean; `proceed`: boolean; `as`: string |
 | `common` | Keep only what part a and part b share. | `a`: string, required; `b`: string, required; `keep`: boolean; `proceed`: boolean; `as`: string |
 | `hole` | Drill a round hole into a flat face of a part, straight in. | `name`: string, required; `facing`: array of number (3), required; `centre`: array of number (3), required; `radius`: number, required; `depth`: number |
@@ -178,8 +216,9 @@ can reach through the tools. It is worth giving it one of its own.
 | `bill_of_materials` | List the document's parts as a bill of materials: parts placed from one source as one shape are one line with a count, every other part a line of its own. Each line gives its name, count, the parts it counts, one part's volume in mm3, its mass in g when a material or a density is given, and its size before it was placed. | `density`: number; `material`: string |
 | `interference` | Check every pair of parts, or of the parts named, for interference: each pair is overlap, with the volume they share and its bounds, touching (they meet but share no volume), or clear. Answers the pairs and how many overlap. | `names`: array of string |
 | `render_view` | Render a PNG picture of the document, or of the parts named, from a standard view in one of the window's display modes, so what was built can be seen. The picture comes back inline, and a copy is saved where the user can open it, beside the window's saved document, else in the server's folder, else in Documents\DX-CAD\renders; the answer says its whole path. | `names`: array of string; `view`: one of front, back, left, right, top, bottom, isometric; `mode`: one of shaded_edges, shaded, wireframe, translucent; `width`: integer; `height`: integer; `explode`: number |
-| `sheet_base_flange` | Add a sheet metal part: a closed outline on a plane, a sheet's thickness thick, that sheet_flange can bend flanges on and flat_pattern can unfold, with any round holes, rectangular cutouts and rounded slots cut through it. Answers its facts, its slots among them. On a sheet part, give holes, rectangular cutouts and rounded slots with the sheet tools' holes, cutouts and slots, and shape where flanges or returns meet with a corner treatment, rather than cutting: a through cut normal to one face is kept as that face's cutout, hole or slot, a cut across a bend zone or a corner is refused, and any other boolean makes a plain solid that cannot be unfolded. | `name`: string, required; `points`: array of array of number (2) (at least 3), required; `thickness`: number, required; `bend_radius`: number, required; `k_factor`: number; `plane`: string or object; `holes`: array of array of number (3); `cutouts`: array of array of number (4); `slots`: array of array of number (5) |
-| `sheet_flange` | Bend a flange on one edge of a sheet part's outline, or on the part of it between start_inset and end_inset: a bend of its inside radius, its own bend_radius or the sheet's, then a straight leg with any round holes, rectangular cutouts and rounded slots cut through it, and with relief a bend relief slot beside each inset end. At angle 180 it is an open hem, its leg back over or under the base, refused with a bend radius of 0 or on an edge sharing a corner with another flange unless it is inset at least the thickness at that corner. With return_length, a 90 degree flange gets a second 90 degree bend at the leg's end and a return leg that long, as a channel's lip. With length_from "outside", length runs to the outside mould line, where the base's and the leg's outside faces meet, as a drawing dimensions it; with a return, length runs outside to outside and return_length to the return's outside mould line. Edge n runs from corner n to corner n + 1. Answers its facts. On a sheet part, give holes, rectangular cutouts and rounded slots with the sheet tools' holes, cutouts and slots, and shape where flanges or returns meet with a corner treatment, rather than cutting: a through cut normal to one face is kept as that face's cutout, hole or slot, a cut across a bend zone or a corner is refused, and any other boolean makes a plain solid that cannot be unfolded. | `name`: string, required; `edge`: integer, required; `length`: number, required; `angle`: number; `direction`: one of up, down; `start_inset`: number; `end_inset`: number; `relief`: boolean; `bend_radius`: number; `holes`: array of array of number (3); `cutouts`: array of array of number (4); `slots`: array of array of number (5); `return_length`: number; `length_from`: one of leg, outside; `corner_treatment`: one of mitre, square, open, none; `corner_gap`: number |
+| `sheet_base_flange` | Add a sheet metal part: a closed outline on a plane, a sheet's thickness thick, that sheet_flange can bend flanges on and flat_pattern can unfold, with any round holes, rectangular cutouts and rounded slots cut through it. Answers its facts, its slots among them. On a sheet part, give holes, rectangular cutouts and rounded slots with the sheet tools' holes, cutouts and slots, and shape where flanges or returns meet with a corner treatment, rather than cutting: a through cut normal to one face is kept as that face's cutout, hole or slot; a round, rectangular or slot prism through one face and on across a bend is cut as it will be bent, wrapped round the bend, and kept as a bend cut (as sheet_bend_cut gives one on the flat); any other cut across a bend zone or a corner is refused, and any other boolean makes a plain solid that cannot be unfolded. | `name`: string, required; `points`: array of array of number (2) (at least 3), required; `thickness`: number, required; `bend_radius`: number, required; `k_factor`: number; `plane`: string or object; `holes`: array of array of number (3); `cutouts`: array of array of number (4); `slots`: array of array of number (5) |
+| `sheet_flange` | Bend a flange on one edge of a sheet part's outline, or on the part of it between start_inset and end_inset: a bend of its inside radius, its own bend_radius or the sheet's, then a straight leg with any round holes, rectangular cutouts and rounded slots cut through it, and with relief a bend relief slot beside each inset end. At angle 180 it is an open hem, its leg back over or under the base, refused with a bend radius of 0 or on an edge sharing a corner with another flange unless it is inset at least the thickness at that corner. With return_length, a 90 degree flange gets a second 90 degree bend at the leg's end and a return leg that long, as a channel's lip. With length_from "outside", length runs to the outside mould line, where the base's and the leg's outside faces meet, as a drawing dimensions it; with a return, length runs outside to outside and return_length to the return's outside mould line. Edge n runs from corner n to corner n + 1. Answers its facts. On a sheet part, give holes, rectangular cutouts and rounded slots with the sheet tools' holes, cutouts and slots, and shape where flanges or returns meet with a corner treatment, rather than cutting: a through cut normal to one face is kept as that face's cutout, hole or slot; a round, rectangular or slot prism through one face and on across a bend is cut as it will be bent, wrapped round the bend, and kept as a bend cut (as sheet_bend_cut gives one on the flat); any other cut across a bend zone or a corner is refused, and any other boolean makes a plain solid that cannot be unfolded. | `name`: string, required; `edge`: integer, required; `length`: number, required; `angle`: number; `direction`: one of up, down; `start_inset`: number; `end_inset`: number; `relief`: boolean; `bend_radius`: number; `holes`: array of array of number (3); `cutouts`: array of array of number (4); `slots`: array of array of number (5); `return_length`: number; `length_from`: one of leg, outside; `corner_treatment`: one of mitre, square, open, none; `corner_gap`: number |
+| `sheet_bend_cut` | Cut a round hole, a rounded slot or a rectangular cutout across a bend of a sheet part, given on its flat pattern, in the flat's own [x, y] as flat_pattern lays it out (on the base, the base's own): cut as it will be on the shop floor, on the flat and then bent, so across the bend it wraps round it. Exactly one of hole, slot and cutout. It may cross two or more bends in a row, as a leg between the base and its return. One wholly on one face is kept as that face's hole, slot or cutout. Refused, naming it: one not wholly inside the flat, meeting a hole, cutout, slot, relief or another cut, or reaching a corner where flanges or returns meet. Answers its facts, its bend_cuts among them. | `name`: string, required; `hole`: array of number (3); `slot`: array of number (5); `cutout`: array of number (4) |
 | `flat_pattern` | Unfold a sheet part and write its flat pattern as a DXF for a laser or a plasma table: the outline on layer CUT, bend lines on BEND, notes on NOTES; or as an SVG when the output ends in .svg, or as a flat solid in STEP when it ends in .step or .stp. Answers the file, the flat's width and height, its bend count and its bend table for the press brake: each bend's number, angle, direction, inside radius, allowance and bend line length; then its cut length, in mm, and its area, in mm², for a quote. | `name`: string, required; `output`: string, required; `force`: boolean |
 | `sheet_flat_part` | Add a sheet part's flat pattern as a part of its own: the flat outline extruded by the sheet's thickness on the XY plane from z = 0, with every hole and cutout cut through it. The sheet part stays as it is. Answers its facts. | `name`: string, required; `result`: string, required |
 | `sheet_edges` | Read a sheet part's outline edge by edge, to choose where sheet_flange bends one: each edge's number, as sheet_flange takes it, its start and end corners, its length, and the flange on it as its note, such as UP 90 R2, and its straight leg, or null for both when it is free. Answers the sheet's thickness, bend_radius and k_factor and the edges. Changes nothing. | `name`: string, required |
@@ -225,8 +264,10 @@ their names are the names those tools were given.
 On a sheet part, a `cut` that passes cleanly through one flat face, a round
 or rectangular prism normal to it and clear of the bends, is kept as that
 face's hole or cutout, so the part still unfolds. A cut across a bend zone or
-a corner is refused: shape corners with a corner treatment, or give cutouts
-on the faces either side. Any other boolean on a sheet part is refused unless
+a corner is refused: shape corners with a corner treatment, and give a hole,
+slot or cutout across a bend on the flat with `sheet_bend_cut`, which cuts it
+as it will be bent, wrapped round the bend (item 922). Any other boolean on a
+sheet part is refused unless
 `proceed` is true, since it makes a plain solid with no flat pattern.
 
 The order of the tools in `tools/list` is not fixed: a new tool may be listed

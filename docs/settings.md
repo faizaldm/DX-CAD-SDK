@@ -23,6 +23,7 @@ These belong to the file in front. They stay with it while you work in other tab
 | A drawing's sheet size | ISO A3 | the file | `sheet` |
 | A drawing's scale, and a view's own | the largest that fits | the file | `scale`, `view_scales` |
 | Where each view of a drawing is, and the views taken off | laid out in first-angle | the file | `views`, `removed`, `unlocked` |
+| How a drawing's views are turned | not turned | the file | `turns` |
 | A drawing's dimensions and their decimals | shown, as the sheet's standard has them | the file | `dimensions`, `precision` |
 | A drawing's parts list and its columns | shown, with the columns chosen last | the file | `parts_list`, `columns` |
 | A drawing's title block | the fields typed last | the file | `fields`, `labels` |

@@ -167,7 +167,8 @@ straight leg `length` long.
   clear of its holes, its cutouts and the other slots; one that reaches the
   bend zone (v within half its width of 0) is refused saying so, naming the
   slot. On the flat its centres follow the leg's holes. A slot that would
-  cross a bend, or holes and slots across several faces, are not made here.
+  cross a bend, or holes and slots across several faces, are not made here
+  but given on the flat with `bend_cut`: see [Cuts across a bend](#cuts-across-a-bend).
 - `return_length` above 0 makes a return flange: a second 90 degree bend of
   the flange's radius at the leg's free end, turning the same way as the
   first, then a straight return leg that long, so an up flange's return
@@ -201,6 +202,82 @@ straight leg `length` long.
   least length allowed. The part keeps
   the leg, so its flat pattern is the leg's. The `sheet_flange` tool takes
   it, and a model.py line says `length_from="outside"` only when it is set.
+
+## Cuts across a bend
+
+On the shop floor a hole, slot or cutout that runs over a bend is cut on
+the flat and then bent, so it is given on the flat here:
+`bend_cut(part, hole=(x, y, diameter))`, `slot=(x1, y1, x2, y2, width)` or
+`cutout=(x, y, width, height)`, exactly one, in the flat pattern's own
+(x, y) as `flat_pattern(part)` lays the part out (on the base, the base's
+own). It answers a new part with the cut kept in its `bend_cuts`, in the
+order given. On a 100 x 60 base of 2 mm sheet bent at 2 mm with a K-factor
+of 0.44, with `flange(part, 0, 30)`, edge 0's bend lies on the flat from
+y = 0 down to y = -4.524, its allowance, and
+`bend_cut(part, slot=(50, 5, 50, -14, 6))` is a slot from the base, over
+the bend, onto the leg.
+
+On each wall the cut runs straight through the thickness. Across the bend
+each point of its outline is carried onto the bend by its developed length
+at the neutral line, the bend allowance the flat uses, and the cut runs
+radially through the thickness, so a round hole across a bend is not a
+cylinder there: it is what the flat's circle becomes when the sheet is
+bent. The volume it takes is its area on the walls times the thickness,
+plus its area in the bend zone times the thickness times (inside radius +
+thickness / 2) over the neutral radius.
+
+The flat holds the cut whole, crossing the bend: a hole as one circle, a
+slot as two lines and two arcs and a cutout as four lines on CUT in the
+DXF, and the bend's centre line and zone edges are broken where they cross
+it. The cut length, the area, the flat solid, the SVG and `dxcad flat`'s
+size line count it with the flat's holes, slots and cutouts, and
+`refold_distance()` carries its outline back onto the part.
+
+One that lies wholly on one wall is kept as that wall's own hole, slot or
+cutout, as `holes=`, `slots=` and `cutouts=` are; a cutout whose sides do
+not run along that wall's own axes stays a cut across a bend. Refused with
+ValueError naming the cut: one not wholly inside the flat's outline (its
+edge, a relief or an open corner), one meeting a hole, cutout, slot or
+another cut across a bend, one reaching a corner where two flanges or
+returns meet, one across a bend with no inside radius, which cannot be cut
+radially, and one on a plugin's kind of part.
+
+A cut may cross two or more bends in a row (item 923): the base, a leg and
+its return, a long slot over a leg between the base and the return, or a
+slot across a channel's base from one leg to the other. Each bend it
+crosses is cut round as above and each wall straight through. One that
+reaches pieces of the part that are not one such run, as two flanges'
+bends at a corner, is refused as reaching that corner.
+
+A model.py line says it as `part = bend_cut(part, slot=(...))`, wrapped
+round the part's expression as `flange()` is, and runs again to the same
+part. `describe` lists each under `bend_cuts`, its kind and its values on
+the flat, and `sheet_bend_cut` makes one over the agent door. The
+[channel example](gallery.md#a-lipped-channel-its-width-depth-and-lips-dimensioned-to-the-outside)
+has a slot across one of its bends.
+
+### Cut across a bend
+
+Cut in the window, a model's `cut` and the agent door's `cut` keep a cut
+through one face as that face's hole, cutout or slot. A round, rectangular
+or rounded-slot prism normal to one wall, through it, that runs on across a
+bend is kept too (item 923): its outline where it passes through that wall,
+on the wall's own plane, is carried onto the flat and kept as a cut across
+the bend, and the part is cut by `bend_cut`. The wall is the first the tool
+passes straight through of the base, then the legs, then the returns; a box
+is a prism every way, so a box through the base is read on the base.
+
+The cut then wraps round the bend, which is not what the straight tool
+would cut there: a straight cylinder through the bend zone would take a
+slanted bite out of the bend and the leg beyond it, which no one could cut
+on the flat before bending, and which unfolds to no outline. Read on the
+flat, the cut is the one the shop floor makes, on the flat and then folded,
+so the part stays sheet metal and its flat holds the cut. The window asks
+nothing and says once on the status bar: "Cut across the bend as it will be
+bent: cut on the flat, then folded." One Undo puts the part back. A tool of
+any other outline across a bend, or one reaching a corner where flanges or
+returns meet, is refused as before, the reason naming the corner treatment
+and `bend_cut`.
 
 ## Corners
 
@@ -580,7 +657,9 @@ per bend as `bend_table()` gives it, then its `cut_length` and `area` as
 `flat_cut_length()` and `flat_area()` give them; `sheet_flat_part`
 adds the flat solid to the document as a part of its own, named by its
 `result`; and `sheet_edges` reads a part's edge table, as `edge_table()` gives it, with
-its thickness, bend radius and K-factor, and changes nothing.
+its thickness, bend radius and K-factor, and changes nothing. `sheet_bend_cut`
+(item 922) cuts a `hole`, `slot` or `cutout` given on the flat across a bend,
+as `bend_cut()` does, and answers the part's facts with its `bend_cuts`.
 
 ## Limits
 
@@ -592,8 +671,9 @@ its thickness, bend radius and K-factor, and changes nothing.
   one where two edges run on in one line, cannot be unfolded, and
   `flat_pattern()` says so.
 - Holes are round, through the base or through a flange's leg; none may
-  reach into a bend. Cutouts are rectangles, through the base square to the
-  plane's axes or through a flange's leg square to its edge; the return
+  reach into a bend, but a hole, slot or cutout given on the flat with
+  `bend_cut` crosses one bend or several in a row. Cutouts are
+  rectangles, through the base square to the plane's axes or through a flange's leg square to its edge; the return
   leg takes none.
 - Still refused: a bend above 180 degrees that is not a teardrop hem's, a
   flange at 180 with a bend radius of 0 that is not named `hem="closed"`,

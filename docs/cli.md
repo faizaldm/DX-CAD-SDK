@@ -223,14 +223,21 @@ is asked to write, and only inside its directory.
   the answer gives the whole path as `written`, and the window's status bar
   says where the file went. A window that closes lets the server go on: while
   no window is open each tool call is refused saying so, and the next window
-  that listens on the channel is found by the next call, with no restart. The
+  that listens on the channel is found by the next call, with no restart. A
+  server started before any window is open stays up too (item 927): its first
+  tool call waits up to 30 seconds for one, saying so once on stderr, and is
+  refused if none comes; each window it reaches later says so on stderr. The
   window listens on a named pipe on Windows
   and a Unix socket elsewhere, never a network port, this user's channel
   unless CHANNEL names another. `--allow-run` still gates the two tools that
   run Python.
 
-Exits `0` at the end of input, `1` when `--window` finds no window
-listening, or `2` when the directory is not there.
+Exits `0` when the client closes the pipe (the end of input) or the pipe
+breaks, `1` on an error, `130` when interrupted, or `2` when the directory is
+not there. As it ends it says why in one line in dxcad.log, such as
+`dxcad serve: stopped: the client closed the pipe (end of input)`, and on
+stderr too unless that was the reason; see
+[agents.md](agents.md#when-the-server-stops).
 
 Not run by the test: a server waits on standard input, so it would never
 return; [examples/bracket.md](examples/bracket.md) drives one from a file
@@ -249,7 +256,7 @@ usage: dxcad serve [-h] [--directory DIR] [--allow-run] [--window [CHANNEL]] [--
 
 - `--directory DIR`: work in DIR: the tools' relative paths are taken from it, since the client that starts the server chooses where and cannot be told
 - `--allow-run`: offer run_model and model_set, which exec a model.py with your own permissions; without this the server has neither tool
-- `--window [CHANNEL]`: drive the open DX-CAD window instead of a document of the server's own, over its local channel (this user's by default); fails at once with no window open
+- `--window [CHANNEL]`: drive the open DX-CAD window instead of a document of the server's own, over its local channel (this user's by default); with no window open, the first tool call waits up to 30 s for one
 - `--config`: start no server: print the JSON an MCP client is configured with, naming this Python and --directory's DIR, to paste into Claude Desktop's claude_desktop_config.json or Claude Code's .mcp.json
 - `--install`: start no server: write what --config prints into Claude Desktop's configuration, keeping its other servers and backing the old file up beside it
 - `--config-file FILE`: the configuration --install writes; Claude Desktop's own on this platform by default
@@ -1087,8 +1094,8 @@ Which plugins are installed and what each one brings. The first line is
 each plugin gives its name, its version and the distribution it came from,
 and four indented lines list the model names, commands, tools and window
 actions it registered, `none` where it registered nothing. A plugin that was
-skipped gives its reason instead, such as `needs plugin API 3, this DX-CAD
-has 2`. With no plugin installed it prints `no plugins`. See
+skipped gives its reason instead, such as `needs plugin API 6, this DX-CAD
+has 5`. With no plugin installed it prints `no plugins`. See
 [plugins.md](plugins.md) for how to write one.
 
 Takes nothing. Writes nothing but its own output.
@@ -1119,7 +1126,10 @@ version, its publisher, its licence state (`open`, `unlocked`, or `locked`
 and what it needs), whether it is `enabled` and the folder it lives in; `no
 add-ons` when there are none. `install WHEEL` checks a plugin wheel first: one that declares no
 `dxcad.plugins` entry point, is built for another platform or for another
-plugin API is refused with the reason. A plugin wheel says its API with the
+plugin API is refused with the reason. The platform is read from the Tag lines
+of the wheel's own `.dist-info/WHEEL`, as pip reads it, never from the file's
+name, so a download the browser saved as `... (1).whl` installs; a wheel whose
+WHEEL file has no Tag line is refused. A plugin wheel says its API with the
 classifier `Framework :: DX-CAD :: Plugin API :: N`; one without it is taken
 as built for API 1. The wheel is installed into DX-CAD's own add-ons folder
 (`DX-CAD\addons` under the local app data on Windows,

@@ -97,7 +97,7 @@ first four may be absent; one that is not of its kind is passed over.
 
 | Key | Kind | Meaning |
 |---|---|---|
-| `"version"` | text | the newest release, such as 0.1.2 |
+| `"version"` | text | the newest release, such as 0.1.3 |
 | `"date"` | text | the day it was released, as an ISO date (2026-10-25) |
 | `"note"` | text | a line saying what it is |
 | `"url"` | text | where it is downloaded |

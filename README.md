@@ -8,7 +8,7 @@ Everything needed to build on DX-CAD, under the Apache License 2.0:
   plugin meets. A plugin adds model names, subcommands, MCP tools for agents,
   window actions and dialogs, kinds of sheet part that unfold through DX-CAD's
   flat pipeline, its own section of a saved file, and may say it needs an
-  entitlement.
+  entitlement. It is plugin API 5 (`API_VERSION`), the API DX-CAD 0.1.3 has.
 - **Type stubs** (`dxcad-stubs`): every function and class a DX-CAD model.py
   starts with, so an editor completes and checks a model.
 - **A checker**: `dxcad-sdk check PATH` checks an add-on's declarations

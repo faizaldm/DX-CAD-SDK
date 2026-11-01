@@ -167,7 +167,7 @@ add-on's command is greyed the same way where it says it does not apply.
 | `Adopt Parts` | | Write every part the model does not build to a file beside the project, and add the line that reads it back. |
 | `Save to Its Own File` | | On an assembly, with one part picked that the assembly's own model builds (a virtual part): write it as a part file, NAME.dxcprt, beside the assembly, and replace its statement in the model with `place(NAME, use("NAME.dxcprt", part=NAME))`, so the assembly uses it from there, where it was; one Undo takes the statement back. Also on the view's right-click menu while it applies. An assembly not yet saved is asked to be saved first. |
 | `Fuse` | | Make the picked parts (two or more; Ctrl+click adds one) one new part, `fuse` by name. The inputs stay in the model as plain variables the new part's line is built from. Also on the Operations toolbar; hidden in 2D drafting. |
-| `Cut` | | As Fuse, taking the other picked parts away from the first picked. On a sheet part a through cut normal to one face, round, rectangular or a rounded slot in any direction, and clear of the bends, is kept as that face's hole, cutout or slot, and the part stays sheet metal with no question; one across a bend or a corner is refused, and any other asks whether to lose the flat. |
+| `Cut` | | As Fuse, taking the other picked parts away from the first picked. On a sheet part a through cut normal to one face, round, rectangular or a rounded slot in any direction, and clear of the bends, is kept as that face's hole, cutout or slot, and the part stays sheet metal with no question. Such a prism through one face that runs on across a bend is cut as it will be bent, its outline on that face carried onto the flat and wrapped round the bend, as the shop floor cuts it on the flat and then folds it, since the straight tool's bite into a bend unfolds to no outline: the part stays sheet metal, nothing is asked, the status bar says "Cut across the bend as it will be bent: cut on the flat, then folded." and one Undo puts it back (item 923); see [sheetmetal.md](sheetmetal.md#cut-across-a-bend). Any other across a bend or a corner is refused, and any other cut asks whether to lose the flat. |
 | `Common` | | As Fuse, keeping only where the picked parts overlap; parts that do not meet are refused. |
 | `Pattern...` | | Repeat the one picked part as one new part, `pattern` by name: linear (along X, Y or Z, how many, how far apart), circular (about X, Y or Z through the origin, how many, over what angle) or grid (how many along X and along Y, how far apart each way). The original stays in the model as a plain variable the pattern's line is built from. A count below 2 is refused. Hidden in 2D drafting. |
 | `Pattern Feature...` | | Repeat the picked part's drilled feature, a `hole`, `countersink` or `counterbore` whose centre the model gives as `world=` numbers, across the same part, asked as Pattern... asks. The model's line becomes the one drill given every position, and the part is rebuilt. Places off the face or overlapping each other are refused with nothing cut. Hidden in 2D drafting. A part extruded from a Sketch works too when a circle inside its outline is the hole: the copies are written into that sketch as circles and the part is rebuilt; a circular pattern turns about the centre of another circle or arc of the sketch, the outline's by default, or a centre typed, and copies that would leave the outline or overlap are refused before anything is written. |
@@ -385,6 +385,15 @@ drag moves it; the wheel zooms at the pointer and a middle drag pans, and
 View > Fit Sheet shows the whole sheet again. A right-click on a view or on
 the sheet has what can be changed there. With several sheets, the tabs along
 the bottom choose the one shown.
+
+A view may be turned a quarter turn at a time about its own centre, which
+stays where it is: Rotate 90 Anticlockwise and Rotate 90 Clockwise on the
+view's right-click menu, or Rotation in Drawing properties, 0, 90, 180 or 270
+degrees anticlockwise. Its lines, hidden lines, centre lines and sizes turn
+with it; a size says what it said before, and the words and the view's label
+stay level. Each turn is one undo step, and the drawing keeps it when saved.
+A top or right view turned is no longer kept in line with the front, as one
+unlocked; turning the front turns only the front.
 
 ### The Parts list
 

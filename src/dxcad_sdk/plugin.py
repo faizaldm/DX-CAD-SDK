@@ -39,8 +39,13 @@ ENTITLEMENT_GROUP = "dxcad.entitlements"
 
 #: The version of the plugin API this SDK describes; a plugin that needs it
 #: says so with Registry.require(API_VERSION). 2 (DX-CAD item 889):
-#: Registry.licence_words, offer_end and trial_end.
-API_VERSION = 2
+#: Registry.licence_words, offer_end and trial_end. 3 (DX-CAD item 926):
+#: toolbar=NAME, Registry.hide_toolbar and Registry.api_version; a plugin that
+#: also loads on an older DX-CAD tests getattr(registry, "api_version", 2) >= 3.
+#: 4 (DX-CAD item 930): Registry.toolbar_applies_to, tested with >= 4.
+#: 5 (DX-CAD item 937): a drawing view's turn: view_point(view, point, turn),
+#: Pick.turn, the views' "turn" and Drawing.turn and Drawing.set_turn.
+API_VERSION = 5
 
 #: What a locked plugin's actions, tools and files say.
 LOCKED = "Requires {name}: see {link}"
@@ -127,6 +132,8 @@ PLUGIN_FUNCTIONS = (
     # DX-CAD item 763: view_point(view, point) answers where model point
     # (x, y, z) lies in a standard view's own plane, (u, v) in the model's mm,
     # for "front", "top", "right" and "iso": the frame a Pick's `plane` is in.
+    # DX-CAD item 937 (plugin API 5): view_point(view, point, turn) turns the
+    # (u, v) by the view's turn, a Pick's `turn`.
     "view_point",
 )
 
@@ -232,8 +239,10 @@ class Document(Protocol):
         is seen is left out. Worked out the first time it is asked for, then
         read only and the same object until `revision` changes; None while the
         view's lines are still being worked out; KeyError for a view there is
-        not (DX-CAD item 866). A DX-CAD from before it has no view_regions:
-        call it when hasattr(document, "view_regions")."""
+        not (DX-CAD item 866). DX-CAD's window works out a drawing's standard
+        views' regions behind it as the drawing opens (item 934), so the first
+        call finds them ready or waits for that work. A DX-CAD from before it
+        has no view_regions: call it when hasattr(document, "view_regions")."""
         ...
 
     def flat_pattern(self, name: str) -> FlatPattern | None:
@@ -612,6 +621,19 @@ class Drawing(Protocol):
         as (plugin, index); None for no such view."""
         ...
 
+    def turn(self, view: str | tuple[str, int]) -> int | None:
+        """How a view is drawn turned, in degrees anticlockwise about its centre, 0, 90,
+        180 or 270: a standard view by name, or 0 for a plugin view as (plugin, index);
+        None for no such view (DX-CAD item 937)."""
+        ...
+
+    def set_turn(self, view: str, turn: int) -> bool:
+        """Turn a standard view to `turn` degrees anticlockwise, a whole multiple of 90,
+        0 taking the turn off; in the window, one undo step, and a drawing file is
+        written again. False for no such view, a turn that is not a quarter one, or
+        the sheet being drawn, which is drawn as its drawing turns it (DX-CAD item 937)."""
+        ...
+
 
 class Tool(Protocol):
     """An MCP tool: `call(document, arguments)` answers plain data json.dumps takes.
@@ -646,8 +668,9 @@ class Action(Protocol):
     shortcut: str | None
     menu: str | None
     fields: tuple[Field, ...]
-    #: DX-CAD item 774: on the plugin's toolbar, and in which submenu of its menu.
-    toolbar: bool
+    #: DX-CAD item 774: on the plugin's toolbar, and in which submenu of its menu;
+    #: item 926: or the name of a toolbar of the plugin's own it is on.
+    toolbar: bool | str
     submenu: str | None
     #: DX-CAD item 822: the command's steps, a line each, which the help shows.
     steps: tuple[str, ...]
@@ -756,6 +779,11 @@ class AnnotationKind(Protocol):
     right, top) in mm, or None on a plugin view. dxcad.plugins.view_point(
     view, point) answers a model point in a standard view's plane.
 
+    Since DX-CAD's item 937 (plugin API 5) a standard view may be drawn turned
+    by 90, 180 or 270 degrees anticlockwise about its centre: the points
+    handed to `draw` are turned with it, and each of `views` says its "turn",
+    so a mark drawn from them turns with the view.
+
     Since DX-CAD's item 819: `title`, such as "Balloon", is what Undo and Redo
     call one, "Move Balloon" or "Delete Balloon"; None for the kind's name in
     words. An annotation is drawn over the sheet in a layer of its own: while
@@ -816,6 +844,10 @@ class Pick(Protocol):
     #: For a tool made with typed=True, what the user has typed while it
     #: waits, digits, "." and ":" as "4:1", or None for nothing (DX-CAD item 860).
     typed: str | None
+    #: How the view is drawn turned, in degrees anticlockwise, 0, 90, 180 or
+    #: 270: a model point is drawn at origin + scale * view_point(view, point,
+    #: turn). `plane` stays the view's own, unturned. 0 off a view (DX-CAD item 937).
+    turn: int
 
 
 class Unfolds(Protocol):
@@ -887,7 +919,8 @@ class SheetTool(Protocol):
     hover: Callable[..., list[Polyline] | None] | None
     clicks: int
     icon: str | None
-    toolbar: bool
+    #: True, False or (DX-CAD item 926) the name of a toolbar of the plugin's own.
+    toolbar: bool | str
     submenu: str | None
     steps: tuple[str, ...]
     #: Whether the tool takes a press, a drag and a release as its two picks
@@ -919,6 +952,31 @@ class Registry(Protocol):
     """
 
     plugin: str
+
+    @property
+    def api_version(self) -> int:
+        """The plugin API the host has (plugin API 3, DX-CAD item 926). A DX-CAD before
+        it has no api_version: getattr(registry, "api_version", 2) >= 3 says whether
+        toolbar=NAME and hide_toolbar may be used, so the plugin still loads there."""
+        ...
+
+    def hide_toolbar(self, name: str | None = None) -> None:
+        """Hide the plugin's main toolbar (None), or its toolbar `name`, the first time
+        DX-CAD starts with the plugin (plugin API 3, DX-CAD item 926): unticked in
+        View > Toolbars until the user shows it, whose choice is then kept. A name
+        none of the plugin's commands puts a toolbar under skips the plugin."""
+        ...
+
+    def toolbar_applies_to(self, places: Sequence[str], name: str | None = None) -> None:
+        """Show the plugin's main toolbar (None), or its toolbar `name`, only while the tab
+        in front is one of `places` (plugin API 4, DX-CAD item 930), some of "part",
+        "assembly", "drawing" and "sketch" as action()'s applies_to takes them, such
+        as ("drawing",); on any other tab, and on the start page, it is hidden. View
+        > Toolbars' tick stays the user's choice: the toolbar shows when it is ticked
+        and the tab applies. Bad places, or a name none of the plugin's commands puts
+        a toolbar under, skip the plugin. A DX-CAD before it has none:
+        getattr(registry, "api_version", 2) >= 4 says whether it may be called."""
+        ...
 
     def require(self, version: int) -> None:
         """Say the plugin needs plugin API `version`; a later one than the host's skips it."""
@@ -1003,7 +1061,7 @@ class Registry(Protocol):
         icon: str | os.PathLike[str] | None = None,
         shortcut: str | None = None,
         menu: str | None = None,
-        toolbar: bool = True,
+        toolbar: bool | str = True,
         submenu: str | None = None,
         steps: Sequence[str] | None = None,
         applies_to: Sequence[str] | None = None,
@@ -1021,6 +1079,11 @@ class Registry(Protocol):
         "assembly", "drawing" and "sketch" (a sketch in progress), such as
         ("drawing",): with another tab in front DX-CAD greys it, its tooltip
         saying why, as it greys its own commands. None is everywhere.
+        Since item 926 (plugin API 3), `toolbar` may be a name, "Cones": the
+        action goes on a toolbar of the plugin's own titled "PLUGIN: Cones",
+        listed in View > Toolbars beside its main one. A toolbar holds its
+        commands in the order they were registered, actions, dialogs and sheet
+        tools together, with no limit; DX-CAD wraps toolbars into rows.
         """
         ...
 
@@ -1033,7 +1096,7 @@ class Registry(Protocol):
         icon: str | os.PathLike[str] | None = None,
         shortcut: str | None = None,
         menu: str | None = None,
-        toolbar: bool = True,
+        toolbar: bool | str = True,
         submenu: str | None = None,
         applies_to: Sequence[str] | None = None,
         steps: Sequence[str] | None = None,
@@ -1107,7 +1170,7 @@ class Registry(Protocol):
         hover: Callable[..., list[Polyline] | None] | None = None,
         clicks: int | None = None,
         icon: str | os.PathLike[str] | None = None,
-        toolbar: bool = False,
+        toolbar: bool | str = False,
         submenu: str | None = None,
         steps: Sequence[str] | None = None,
         drag: bool = False,
@@ -1151,7 +1214,8 @@ class Registry(Protocol):
         `hover` and `clicks` are optional: see SheetTool. Since DX-CAD's item
         774 the tool is listed on the plugin's menu too, in `submenu` when one
         is named, and with `toolbar` True on the plugin's toolbar wearing
-        `icon`, an SVG or PNG file.
+        `icon`, an SVG or PNG file; since item 926 (plugin API 3) `toolbar`
+        may name a toolbar of the plugin's own, as action() takes it.
         """
         ...
 

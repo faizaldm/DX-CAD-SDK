@@ -37,11 +37,23 @@ reads the new types instead of what it kept.
 ## macOS
 
 The release carries `DX-CAD-<version>-macos.dmg`, for Apple silicon. Open
-it and drag DX-CAD into Applications. The build is not signed by Apple yet,
-so the first time macOS says it cannot check it for malicious software.
-Right-click (or Control-click) DX-CAD in Applications, choose Open, and
-then Open in the dialog; macOS remembers the choice. Or, in a terminal,
-take the download's quarantine mark off it once:
+it and drag DX-CAD into Applications. The build is not notarised by Apple
+yet, so the first time macOS says "DX-CAD" Not Opened: Apple could not
+verify "DX-CAD" is free of malware. Until the build is notarised, open it
+this way once:
+
+1. Open DX-CAD from Applications, and choose Done in that message.
+2. Open System Settings, then Privacy & Security.
+3. At the bottom, beside the words about DX-CAD, choose Open Anyway. The
+   button is there for about an hour after the message.
+4. Type your Mac's password.
+5. Open DX-CAD again, and choose Open.
+
+macOS keeps the choice, so DX-CAD then opens as any other app. On macOS 14
+and earlier there is a shorter way: right-click (or Control-click) DX-CAD
+in Applications, choose Open, and then Open in the dialog.
+
+Or, in a terminal, take the download's quarantine mark off it once:
 
 ```text
 xattr -dr com.apple.quarantine /Applications/DX-CAD.app

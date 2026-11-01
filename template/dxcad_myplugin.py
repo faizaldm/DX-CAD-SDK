@@ -39,3 +39,19 @@ def register(registry):
         QMessageBox.information(window, ABOUT_TITLE, about_text(registry))
 
     registry.action("about", ABOUT_TITLE, about, toolbar=False)
+    # Plugin API 3: toolbar="Plates" puts a command on a toolbar of the plugin's
+    # own, "My Plugin: Plates", listed beside its main one, its buttons in the
+    # order the commands were registered, with no limit to how many; and
+    # registry.hide_toolbar("Plates") hides it until the user shows it. A DX-CAD
+    # with plugin API 2 has neither, so test first and the plugin loads on both:
+    #
+    #     if getattr(registry, "api_version", 2) >= 3:
+    #         registry.action("plate_box", "Plate", make_plate, toolbar="Plates")
+    #         registry.hide_toolbar("Plates")
+    #
+    # Plugin API 4: registry.toolbar_applies_to(("drawing",), "Plates") shows the
+    # toolbar only while a drawing tab is in front; View > Toolbars' tick stays
+    # the user's. Test getattr(registry, "api_version", 2) >= 4 before calling it.
+    #
+    # Plugin API 5: a drawing view may be turned; a Pick's `turn` says by how
+    # much, and view_point(view, point, turn) gives the turned (u, v).

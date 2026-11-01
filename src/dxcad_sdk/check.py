@@ -120,6 +120,54 @@ class Recorder:
     icons: list[tuple[str, Path]] = field(default_factory=list)
     #: Sheet tool keys as given, to find one an action has (item 774).
     tool_keys: list[str] = field(default_factory=list)
+    #: DX-CAD item 926: the toolbars the commands name, and those hide_toolbar names.
+    toolbars: list[str] = field(default_factory=list)
+    hidden: list[str] = field(default_factory=list)
+    #: DX-CAD item 930: the toolbars toolbar_applies_to names.
+    applied: list[str] = field(default_factory=list)
+
+    @property
+    def api_version(self) -> int:
+        # DX-CAD item 926: the plugin API this SDK describes.
+        return API_VERSION
+
+    def toolbar_applies_to(self, places, name: str | None = None) -> None:
+        # DX-CAD item 930: places as applies_to takes them, for the main toolbar
+        # (None) or a toolbar a command names.
+        if name is not None and (not isinstance(name, str) or not name.strip()):
+            self._fail(f"toolbar_applies_to names a toolbar as text, or None, got {name!r}")
+            return
+        if (
+            places is None
+            or isinstance(places, str)
+            or not places
+            or not all(one in APPLIES_TO for one in places)
+        ):
+            self._fail(
+                f"toolbar_applies_to: a toolbar shows on some of {', '.join(APPLIES_TO)}, "
+                f"as a tuple, not {places!r}"
+            )
+        if name is not None:
+            self.applied.append(name.strip())
+
+    def unknown_applied(self) -> list[str]:
+        """Each toolbar toolbar_applies_to named that no command puts a toolbar under
+        (item 930): DX-CAD skips such a plugin as it loads."""
+        return [name for name in self.applied if name not in self.toolbars]
+
+    def hide_toolbar(self, name: str | None = None) -> None:
+        # DX-CAD item 926: None for the main toolbar, or a toolbar a command names.
+        if name is None:
+            return
+        if not isinstance(name, str) or not name.strip():
+            self._fail(f"hide_toolbar names a toolbar as text, or None, got {name!r}")
+            return
+        self.hidden.append(name.strip())
+
+    def unknown_hidden(self) -> list[str]:
+        """Each toolbar hide_toolbar named that no command puts a toolbar under (item 926):
+        DX-CAD skips such a plugin as it loads."""
+        return [name for name in self.hidden if name not in self.toolbars]
 
     def _fail(self, said: str) -> None:
         self.problems.append(said)
@@ -139,9 +187,15 @@ class Recorder:
             self.icons.append((f"{what} {key!r}", where))
 
     def _placing(self, what: str, key: str, toolbar: object, menu, submenu) -> None:
-        """Hold toolbar and submenu to the rules DX-CAD loads them by (item 774)."""
-        if not isinstance(toolbar, bool):
-            self._fail(f"{what} {key!r}: toolbar is True or False, got {toolbar!r}")
+        """Hold toolbar and submenu to the rules DX-CAD loads them by (item 774); a
+        toolbar's name (item 926, plugin API 3) is kept."""
+        if isinstance(toolbar, str) and toolbar.strip():
+            if toolbar.strip() not in self.toolbars:
+                self.toolbars.append(toolbar.strip())
+        elif not isinstance(toolbar, bool):
+            self._fail(
+                f"{what} {key!r}: toolbar is True, False or a toolbar's name, got {toolbar!r}"
+            )
         if submenu is not None and (not isinstance(submenu, str) or not submenu.strip()):
             self._fail(f"{what} {key!r} names a submenu that is not text: {submenu!r}")
         if submenu is not None and menu is not None:
@@ -824,6 +878,14 @@ def _check_plugin(folder: Path, name: str, value: object) -> list[Line]:
         register(recorder)
     except Exception as error:  # noqa: BLE001 - a plugin's own fault, reported
         return [*lines, Line(False, f"plugin {name!r}: register raised {error!r}")]
+    for toolbar in recorder.unknown_hidden():
+        recorder.problems.append(
+            f"hide_toolbar({toolbar!r}): no command puts a toolbar under that name"
+        )
+    for toolbar in recorder.unknown_applied():
+        recorder.problems.append(
+            f"toolbar_applies_to({toolbar!r}): no command puts a toolbar under that name"
+        )
     lines += [Line(False, f"plugin {name!r}: {problem}") for problem in recorder.problems]
     lines += [
         Line(
