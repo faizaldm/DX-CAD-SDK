@@ -86,6 +86,17 @@ It prints what goes in the file, which on Windows looks like this:
 }
 ```
 
+An installed DX-CAD (the Windows installer or zip, or the Mac app) has no
+Python of its own to name. There `dxcad serve --config`, and the start page's
+Connect Claude Desktop, name the command-line program it carries, by its
+whole path, with `serve` and the options after it: `dxcad.exe` in the folder
+DX-CAD.exe is in on Windows, and `DX-CAD.app/Contents/MacOS/dxcad` on a Mac,
+so that a Mac's entry is `"command": "/Applications/DX-CAD.app/Contents/MacOS/dxcad"`
+with `"args": ["serve", "--window"]` (item 942). DX-CAD 0.1.3 and earlier
+wrote the program that opens the window there, with `-m dxcad`, which it
+refuses, so Claude Desktop could not connect; Connect Claude Desktop puts
+such an entry right.
+
 If the file already holds an `"mcpServers"` object, add the `"dxcad"` entry
 to it and leave the others. Restart Claude Desktop afterwards; the server is
 listed under the tools it offers. The directory has to exist: a

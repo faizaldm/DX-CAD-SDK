@@ -5,7 +5,7 @@ names for model.py, `dxcad` subcommands, tools for the MCP server and actions
 in the window. Install it into the same environment as DX-CAD and the window,
 the command line and `dxcad serve` all load it when they start.
 `dxcad doctor` prints a `plugins` line naming each one loaded and its version,
-and the plugin API this DX-CAD has, `plugin API 5` (DX-CAD 0.1.3). `dxcad plugins` says
+and the plugin API this DX-CAD has, `plugin API 5` (DX-CAD 0.1.4). `dxcad plugins` says
 more: for each one, the names, commands, tools and actions it registered, or
 why it was skipped (see [cli.md](cli.md#plugins)).
 
