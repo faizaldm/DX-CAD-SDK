@@ -45,7 +45,9 @@ ENTITLEMENT_GROUP = "dxcad.entitlements"
 #: 4 (DX-CAD item 930): Registry.toolbar_applies_to, tested with >= 4.
 #: 5 (DX-CAD item 937): a drawing view's turn: view_point(view, point, turn),
 #: Pick.turn, the views' "turn" and Drawing.turn and Drawing.set_turn.
-API_VERSION = 5
+#: 6 (DX-CAD item 976): a drawing's units: Drawing.units and
+#: Drawing.length_text, and drawing_settings' "units" and "inch_places".
+API_VERSION = 6
 
 #: What a locked plugin's actions, tools and files say.
 LOCKED = "Requires {name}: see {link}"
@@ -462,7 +464,9 @@ class Window(Protocol):
         "view_scales", "dimensions", "parts_list", "hidden_off", "font",
         "text_height", "labels", "columns", "fields" and "precision", the
         dimensions' precision in mm (1, 0.1 or 0.01), the drawing's own or the
-        one the sheet draws at. None with no drawing tab in front."""
+        one the sheet draws at; "units", "mm", "inch", "mm [inch]" or "inch [mm]",
+        and "inch_places", the inch values' decimals, 0 to 4 (DX-CAD item 976,
+        plugin API 6). None with no drawing tab in front."""
         ...
 
 
@@ -632,6 +636,20 @@ class Drawing(Protocol):
         0 taking the turn off; in the window, one undo step, and a drawing file is
         written again. False for no such view, a turn that is not a quarter one, or
         the sheet being drawn, which is drawn as its drawing turns it (DX-CAD item 937)."""
+        ...
+
+    def units(self) -> str | None:
+        """The units the drawing's dimensions and callouts are given in: "mm", "inch",
+        "mm [inch]" or "inch [mm]"; None for the window with no drawing tab in front
+        (DX-CAD item 976, plugin API 6)."""
+        ...
+
+    def length_text(self, mm: float) -> str | None:
+        """A length of `mm` true millimetres as the drawing says its overall sizes, in
+        its units: "100", "3.937", "100 [3.937]" or "3.937 [100]" for 100 mm, the mm
+        to the drawing's precision and the inches to its inch decimals, so an
+        add-on's dimension reads as the core's; None for the window with no drawing
+        tab in front (DX-CAD item 976, plugin API 6)."""
         ...
 
 

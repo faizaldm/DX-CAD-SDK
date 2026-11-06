@@ -279,6 +279,22 @@ any other outline across a bend, or one reaching a corner where flanges or
 returns meet, is refused as before, the reason naming the corner treatment
 and `bend_cut`.
 
+### A cut-out of any outline
+
+A through cut of any other closed outline of lines and arcs, normal to one
+wall and through it, clear of its edges and of the bends, is kept too (item
+959): a door panel's window with rounded corners, a polygon, a shape of
+lines and arcs. The part stays sheet metal and keeps the cut in its
+`profile_cuts`, each the wall (`"base"`, `"leg"` or `"return"`), the
+flange's edge, the outline's corners in that wall's own (x, y) and which of
+its edges are arcs. The flat holds it as an opening where the wall lies on
+the flat; the DXF, the default and a shop profile's that keeps arcs, cuts it
+as LINEs and true ARCs, each of its exact centre and radius, and a shop
+profile that draws holes as polylines traces it. The cut length and the area
+count its arcs as arcs. One whose outline meets another such cut-out is
+refused, as one reaching the wall's edge is; one of any other outline across
+a bend is refused as above, since `bend_cut` takes holes, slots and cutouts.
+
 ## Corners
 
 Where the return legs of two flanges meet at a corner, in one plane, a

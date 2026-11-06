@@ -5,7 +5,7 @@ names for model.py, `dxcad` subcommands, tools for the MCP server and actions
 in the window. Install it into the same environment as DX-CAD and the window,
 the command line and `dxcad serve` all load it when they start.
 `dxcad doctor` prints a `plugins` line naming each one loaded and its version,
-and the plugin API this DX-CAD has, `plugin API 5` (DX-CAD 0.1.4). `dxcad plugins` says
+and the plugin API this DX-CAD has, `plugin API 6` (DX-CAD 0.1.5). `dxcad plugins` says
 more: for each one, the names, commands, tools and actions it registered, or
 why it was skipped (see [cli.md](cli.md#plugins)).
 
@@ -31,8 +31,8 @@ toolbar in the window carry it.
 
 | Call | What it adds |
 | --- | --- |
-| `registry.require(version)` | Nothing: it says the plugin needs plugin API `version`, a whole number from 1. A DX-CAD whose plugin API is older skips the plugin, saying "needs plugin API 6, this DX-CAD has 5", and uses nothing it registered. Call it first. |
-| `registry.hide_toolbar(name=None)`, `registry.api_version` | Nothing: plugin API 3 (item 926). `hide_toolbar()` hides the plugin's main toolbar, and `hide_toolbar("Elbows")` its toolbar named so by `toolbar="Elbows"`, the first time DX-CAD starts with the plugin: it stands unticked in View > Toolbars, and once the user shows or hides it, that choice is kept. A name none of the plugin's commands puts a toolbar under skips the plugin as it loads, naming it. `registry.api_version` is the plugin API this DX-CAD has, 4. A DX-CAD before it has neither, so a plugin that also loads there tests first: `if getattr(registry, "api_version", 2) >= 3: registry.action("cone", "Cone", cone, toolbar="Cones"); registry.hide_toolbar("Cones")`, and otherwise registers `toolbar=True` as before. |
+| `registry.require(version)` | Nothing: it says the plugin needs plugin API `version`, a whole number from 1. A DX-CAD whose plugin API is older skips the plugin, saying "needs plugin API 7, this DX-CAD has 6", and uses nothing it registered. Call it first. |
+| `registry.hide_toolbar(name=None)`, `registry.api_version` | Nothing: plugin API 3 (item 926). `hide_toolbar()` hides the plugin's main toolbar, and `hide_toolbar("Elbows")` its toolbar named so by `toolbar="Elbows"`, the first time DX-CAD starts with the plugin: it stands unticked in View > Toolbars, and once the user shows or hides it, that choice is kept. A name none of the plugin's commands puts a toolbar under skips the plugin as it loads, naming it. `registry.api_version` is the plugin API this DX-CAD has, 6. A DX-CAD before it has neither, so a plugin that also loads there tests first: `if getattr(registry, "api_version", 2) >= 3: registry.action("cone", "Cone", cone, toolbar="Cones"); registry.hide_toolbar("Cones")`, and otherwise registers `toolbar=True` as before. |
 | `registry.toolbar_applies_to(places, name=None)` | Nothing: plugin API 4 (item 930). The plugin's main toolbar (no `name`), or its toolbar named so by `toolbar="Dims"`, shows only while the tab in front is one of `places`, some of `"part"`, `"assembly"`, `"drawing"` and `"sketch"` as `applies_to` takes them, as a tuple such as `("drawing",)`; on any other tab, and on the start page, it is hidden, so a drafting add-on's toolbars are there only while a drawing is in front when several files are open. The user's choice stays the user's: View > Toolbars' tick, and the shown state DX-CAD keeps for the next start, say whether they want the toolbar, and it shows when they want it and the tab applies; hidden for the tab, it stays ticked. `hide_toolbar` still decides the first start's choice. Bad places, or a name none of the plugin's commands puts a toolbar under, skip the plugin as it loads, naming them. A DX-CAD before it has none, so a plugin that also loads there tests first: `if getattr(registry, "api_version", 2) >= 4: registry.toolbar_applies_to(("drawing",), "Dims")`. |
 | `registry.licence_words(name=None)`, `registry.offer_end()`, `registry.trial_end()` | Nothing: plugin API 2 (item 889), so a plugin that calls them says `registry.require(2)`. `licence_words` answers the line DX-CAD shows for an add-on's licence now, by its name, the plugin it installs as or its licence's product id, this plugin's own with no name: "Free during your 30-day trial (ends DATE)" while the install's own 30-day trial grants it, the licence's line ("Licensed (licence 42, 3 seats); works offline until DATE.") while a licence naming it is active, the words for a licence that could not be checked online in 14 days or a computer clock set back, and else what its commands say while it is locked, "Requires NAME: see LINK". `trial_end()` answers the last day of this install's own 30-day trial (a `datetime.date`; editing locks at 23:59 UK time on it), and `offer_end()`, kept for plugin API 2 now that there is no offer, answers the same. An add-on's About box shows them so it says what Help > Licence says, with no import of `dxcad.licence`, which is private to a plugin. |
 | `registry.add_name(name, value)` | A name every model.py starts with, as `part` and `make_box` are. |
@@ -75,6 +75,18 @@ view is turned with `drawing.turn(view)` (0, 90, 180 or 270, 0 for a
 plugin's own view, None for no such view) and turns one with
 `drawing.set_turn(view, turn)`, one undo step in the window; it answers
 False on the sheet being drawn, which is drawn as its drawing turns it.
+
+Plugin API 6 (item 976): a drawing's dimensions are given in the units its
+Drawing properties choose, `"mm"` (the default, as before), `"inch"`,
+`"mm [inch]"` or `"inch [mm]"`, with two the second following the first in
+square brackets; the mm to the drawing's Dimension precision and the inches
+to its inch decimals, 3 unless set, 0 to 4. A drawing a tool or a drawing
+function is handed says its units with `drawing.units()` and formats a length
+as the drawing does with `drawing.length_text(mm)`: a true 100 mm answers
+`"100"`, `"3.937"`, `"100 [3.937]"` or `"3.937 [100]"`, as the sheet's own
+overall sizes read, so an add-on's dimensions follow the drawing; in the
+window, with no drawing tab in front, both answer None.
+`window.drawing_settings()` carries `"units"` and `"inch_places"` too.
 
 A plugin's tests can start the window (item 815): `dxcad.plugins.open_window()`
 answers DX-CAD's main window, shown, the one an action is handed, with the
@@ -366,7 +378,7 @@ function alike:
   and cryptography) unless the add-on's wheel carries it.
 
 `dxcad doctor --addons` imports every module of every installed add-on,
-every OCP module and those Qt modules, and names each that fails with its
+its compiled ones (`.pyd`, `.so`) as well as its `.py` files, every OCP module and those Qt modules, and names each that fails with its
 error; DX-CAD's CI runs it over every build it makes, with a test add-on
 whose command imports `OCP.BRepLProp` and `PySide6.QtSvgWidgets` inside a
 function. A sheet tool's hover that fails says so once on the status bar,

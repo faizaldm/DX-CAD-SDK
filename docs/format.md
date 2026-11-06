@@ -83,6 +83,8 @@ UTF-8 JSON, one object:
 | `"font"` | text or null | the font the sheet is lettered in; null for the bundled font |
 | `"text_height"` | number or null | the text height in mm (2.5, 3.5 or 5); null for the sheet's own |
 | `"precision"` | number | the precision the overall sizes are held to, in mm (1, 0.1 or 0.01), their trailing zeros kept; absent for the sheet's own, from its scale and the general tolerance |
+| `"units"` | text | the units the dimensions and callouts are given in (DX-CAD item 976): `"inch"`, `"mm [inch]"` or `"inch [mm]"`, with two the second in square brackets after the first; absent for `"mm"`, as a drawing saved before it is |
+| `"inch_places"` | integer | the inch values' decimals, 0 to 4, their trailing zeros kept; absent for 3 |
 | `"removed"` | list of text | the standard views taken off the sheet (DX-CAD item 790), which it does not draw; absent when none is |
 | `"plugins"` | object | each plugin's section, by name: its `"views"` (each `{"kind", "at", "data"}`), its `"annotations"` (each `{"kind", "view", "ref", "data"}`) and the `"output"` it last drew (`{"strokes", "texts", "images"}` in the sheet's millimetres, each image a PNG as base64 and the box it fills), shown in its place, with a notice, where the plugin is not installed or is locked; empty when absent |
 
@@ -97,7 +99,7 @@ first four may be absent; one that is not of its kind is passed over.
 
 | Key | Kind | Meaning |
 |---|---|---|
-| `"version"` | text | the newest release, such as 0.1.4 |
+| `"version"` | text | the newest release, such as 0.1.5 |
 | `"date"` | text | the day it was released, as an ISO date (2026-10-25) |
 | `"note"` | text | a line saying what it is |
 | `"url"` | text | where it is downloaded |

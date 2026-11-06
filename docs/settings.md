@@ -10,14 +10,13 @@ These belong to the file in front. They stay with it while you work in other tab
 
 | Setting | Default | Kept in | Found as |
 | --- | --- | --- | --- |
-| Where the model is looked at from | isometric, fitted to the parts | the file | `target`, `distance`, `azimuth`, `elevation`, `front`, `back`, `left`, `right`, `top`, `bottom`, `iso` |
+| Where the model is looked at from | isometric, fitted to the parts | the file | `target`, `distance`, `azimuth`, `elevation`, `projection`, `front`, `back`, `left`, `right`, `top`, `bottom`, `iso`, `orthographic`, `perspective` |
 | Hidden parts | every part shown | the file | `hidden` |
 | Section View: its plane, how far it is moved and the side shown | off | the file | `section_view`, `section` |
 | Explode | assembled | the file | `explode` |
 | How parts are drawn: shaded with edges, shaded, wireframe or translucent | shaded with edges | the file | `display_shaded_edges`, `display_shaded`, `display_wireframe`, `display_translucent`, `mode` |
 | What an add-on keeps for the document | nothing | the file | `settings` |
 | Run on Change | off | the open document | `run_on_change` |
-| No Time Limit | off | the open document | `no_time_limit` |
 | Show Overhangs | off | the open document | `show_overhangs` |
 | Flat Pattern of the picked part | off | the open document | `flat_part` |
 | A drawing's sheet size | ISO A3 | the file | `sheet` |
@@ -25,9 +24,12 @@ These belong to the file in front. They stay with it while you work in other tab
 | Where each view of a drawing is, and the views taken off | laid out in first-angle | the file | `views`, `removed`, `unlocked` |
 | How a drawing's views are turned | not turned | the file | `turns` |
 | A drawing's dimensions and their decimals | shown, as the sheet's standard has them | the file | `dimensions`, `precision` |
+| The units a drawing's dimensions are given in, and the inch values' decimals | mm; inch values to 3 decimals | the file | `units`, `inch_places` |
 | A drawing's parts list and its columns | shown, with the columns chosen last | the file | `parts_list`, `columns` |
 | A drawing's title block | the fields typed last | the file | `fields`, `labels` |
+| Where each text of a drawing's title block is | where its template puts it | the file | `text_offsets` |
 | Hidden lines of each view of a drawing | off in a new view | the file | `hidden_off` |
+| Centre marks of a drawing and of each of its views | off in a new drawing, unless its model calls centre_marks(True) | the file | `centre_marks`, `centre_views` |
 | A drawing's lettering | the sheet's own | the file | `font`, `text_height` |
 | Small parts left out of a view of a drawing | none left out | the file | `leave_out` |
 | The line type Line and Polyline draw with on a drawing | thin | the file | `line_style` |
@@ -57,8 +59,13 @@ These are kept for you across starts, whatever file is open. Most are changed in
 | Setting | Default | Found as |
 | --- | --- | --- |
 | Theme | light | `theme_light`, `theme_dark`, `view/theme` |
+| What the camera does after a run, and how much of the view the parts fill | fit the model, filling the view | `view/after_run`, `view/after_run_fill` |
+| Whether the wheel zooms about the cursor | off | `zoom_about_cursor`, `view/zoom_about_cursor` |
+| How a new window's view projects, the last chosen | perspective | `view/projection` |
 | Planes shown | shown | `show_planes`, `view/show_planes` |
 | Turn the view after a run | on | `turn_after_run`, `view/turn_after_run` |
+| How long a run of the model is given | 60 seconds | `model/run_time_limit` |
+| No Time Limit | off | `no_time_limit`, `model/no_time_limit` |
 | The Parts and History panels shown | shown | `parts_pane`, `history_pane`, `view/parts_dock`, `view/history_dock` |
 | Each toolbar shown | shown | `view/toolbar_{name}` |
 | Documents as tabs, tiled or cascaded | tabs | `tabbed_windows`, `tile_windows`, `cascade_windows`, `window/arrangement` |
@@ -77,7 +84,7 @@ These are kept for you across starts, whatever file is open. Most are changed in
 | The slicer Send to Slicer starts | asked for | `slicer/program` |
 | The sheet a new base flange is made of | 2 mm, bend radius 2 mm, K 0.44 | `sheet/thickness`, `sheet/bend_radius`, `sheet/k_factor` |
 | Flat pattern profiles | none | `flat/profiles` |
-| The Assistant: on or off, its provider, model, address and limits, and its panel's place | off | `assistant/enabled`, `assistant/model`, `assistant/reply_limit`, `assistant/context_tokens`, `assistant/provider`, `assistant/endpoint`, `assistant/models/{provider}`, `assistant/addresses/{provider}`, `assistant/noted/{provider}`, `assistant/warn_at`, `assistant/area`, `assistant/floating`, `assistant/height` |
+| The Assistant: on or off, its provider, model, address and limits, and its panel's place | off | `assistant/enabled`, `assistant/model`, `assistant/reply_limit`, `assistant/context_tokens`, `assistant/provider`, `assistant/endpoint`, `assistant/models/{provider}`, `assistant/listed/{provider}`, `assistant/addresses/{provider}`, `assistant/noted/{provider}`, `assistant/warn_at`, `assistant/area`, `assistant/floating`, `assistant/height` |
 | Add-ons bought, and where they are bought | none | `paid/addons`, `paid/assistant_endpoint`, `paid/buy_url` |
 | The licence: this install, its key and what it was last told | a trial | `licence/install_id`, `licence/token`, `licence/key`, `licence/noticed`, `licence/trial_started/{install}`, `licence/latest_seen`, `licence/latest_pending`, `licence/clock_gap`, `licence/licences_from`, `licence/trial_until` |
 | What an add-on keeps for you | the add-on's own | `plugins/{name}` |

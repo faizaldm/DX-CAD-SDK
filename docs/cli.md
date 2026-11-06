@@ -185,7 +185,9 @@ is asked to write, and only inside its directory.
   permissions. Without it the server has neither of them.
 - `--config` starts no server and prints the JSON an MCP client is configured
   with, naming this Python and this directory. On stderr it names the file
-  `--install` would write.
+  `--install` would write. With `--window` (and its channel, when one is
+  named) the entry carries it too, as Connect Claude Desktop writes it, and
+  so does the one `--install` writes (item 968).
 - `--install` starts no server either: it writes what `--config` prints into
   Claude Desktop's configuration file. On Windows that is the Microsoft Store
   edition's, under
@@ -579,7 +581,18 @@ PROJECT-drawing.pdf beside it, or the files named.
   title block's fields: 2.5, 3.5, 5 or 7.
 - `--field NAME=VALUE` fills a field the title block names, such as
   `customer_name` or `project_name`; it may be given again for another. Fields
-  nobody fills are left empty.
+  nobody fills are left empty. Every text the title block shows takes it, the
+  ones the sheet fills itself too: `drawing_title`, `model_name`,
+  `drawing_scale`, `drawing_size`, `sheet_no` and `create_date` are used in
+  place of the title, model, scale, size, sheet and date it would fill them
+  with (item 974). The default sheets' title block also shows
+  `customer_name`, `project_name`, `drawing_type`, `dwg_status`,
+  `mfg_order_no`, `copyright_statement`, `sheet_count` and its revision
+  table's `rev_no_1`, `rev_desc_1` and so on, the names the Title Block
+  dialog lists.
+- `--centre-marks` draws two centre lines across each hole a view sees
+  round, and `--no-centre-marks` leaves them off; with neither they are off
+  unless the model calls `centre_marks(True)` (item 960).
 - `--force` writes over a file that is already there.
 - `--timeout SECONDS`, as everywhere.
 
@@ -597,8 +610,8 @@ dxcad drawing bracket.dxcprt --sheet A4 --field customer_name=ACME
 ```text
 usage: dxcad drawing [-h] [--output PATH]
                      [--sheet {A4,A3,A2,A1,ISO-A4-portrait,ISO-A4,ISO-A3,ISO-A2,ISO-A1,ISO-A0,ANSI-A,ANSI-B,ANSI-C,ANSI-D}]
-                     [--font NAME] [--text-height MM] [--field NAME=VALUE] [--force]
-                     [--timeout SECONDS]
+                     [--font NAME] [--text-height MM] [--field NAME=VALUE] [--centre-marks]
+                     [--no-centre-marks] [--force] [--timeout SECONDS]
                      project [OUTPUT]
 ```
 
@@ -608,7 +621,9 @@ usage: dxcad drawing [-h] [--output PATH]
 - `--sheet {A4,A3,A2,A1,ISO-A4-portrait,ISO-A4,ISO-A3,ISO-A2,ISO-A1,ISO-A0,ANSI-A,ANSI-B,ANSI-C,ANSI-D}`: the sheet: A4 to A1 landscape, or one of the ISO and ANSI sheets; A3 by default
 - `--font NAME`: a TrueType font of the system's, by its file's name such as arial, or a .ttf path, named in the DXF and embedded in the PDF; the bundled DejaVuSans by default
 - `--text-height MM`: the height of the dimensions, labels and title block fields: 2.5, 3.5, 5 or 7
-- `--field NAME=VALUE`: fill a field the title block names, such as customer_name=ACME; may be repeated
+- `--field NAME=VALUE`: fill a text the title block shows, such as customer_name=ACME, or one the sheet fills itself in place of its own: drawing_title, model_name, drawing_scale, drawing_size, sheet_no or create_date; may be repeated
+- `--centre-marks`: draw two centre lines across each hole seen round; off unless the model calls centre_marks(True)
+- `--no-centre-marks`: leave the centre lines off, whatever the model says
 - `--force`: write over an output file that is already there
 - `--timeout SECONDS`: stop a model that runs longer than this; no limit by default
 
@@ -963,7 +978,9 @@ usage: dxcad gui [-h] [project]
 ## doctor
 
 What is installed and whether it works: one line each for DX-CAD, Python,
-cadquery-ocp, PySide6, the platform and the plugins loaded (`none`, or each
+cadquery-ocp, PySide6, the Assistant's anthropic package (`assistant
+anthropic` and its version, or `not installed`), the platform and the plugins
+loaded (`none`, or each
 with its version, or why it was skipped; see [plugins.md](plugins.md)) and
 whether DX-CAD's files are associated (see `associate` below), and the folder
 DX-CAD's log is kept in (`log`, `DX-CAD\logs` under the local app data on
@@ -1094,8 +1111,8 @@ Which plugins are installed and what each one brings. The first line is
 each plugin gives its name, its version and the distribution it came from,
 and four indented lines list the model names, commands, tools and window
 actions it registered, `none` where it registered nothing. A plugin that was
-skipped gives its reason instead, such as `needs plugin API 6, this DX-CAD
-has 5`. With no plugin installed it prints `no plugins`. See
+skipped gives its reason instead, such as `needs plugin API 7, this DX-CAD
+has 6`. With no plugin installed it prints `no plugins`. See
 [plugins.md](plugins.md) for how to write one.
 
 Takes nothing. Writes nothing but its own output.

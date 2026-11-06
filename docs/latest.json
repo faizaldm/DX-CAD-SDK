@@ -1,8 +1,8 @@
 {
-  "version": "0.1.4",
-  "date": "2026-11-01",
-  "note": "DX-CAD 0.1.4 is out: see what changed in its release notes.",
-  "url": "https://pypi.org/project/dxcad/0.1.4/",
+  "version": "0.1.5",
+  "date": "2026-11-03",
+  "note": "DX-CAD 0.1.5 is out: see what changed in its release notes.",
+  "url": "https://pypi.org/project/dxcad/0.1.5/",
   "licences_from": "2026-11-01",
   "trial_until": "2026-11-16"
 }

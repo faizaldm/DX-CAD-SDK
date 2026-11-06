@@ -143,17 +143,16 @@ on CHANNEL`.
 
 ## What it runs
 
-`run_model` and `model_set` run a model.py, which is Python, with your own
+`run_model`, `model_set` and `script_run` run a model.py, which is Python, with your own
 permissions: whatever you may do on the machine, a model may do. That is the
 bargain `dxcad run` already makes, and it is what makes a saved project
-parametric, but it is the one thing here that is not bounded by the kernel.
-The server's annotations say so, `run_model` and `model_set` being the two
-tools marked open-world, and a client that asks before a call will ask
-before these. `project_save` and `export` write where they are told, and
-refuse to write over a file that is already there unless `force` is given.
+parametric, but it is the one thing here that is not bounded by the kernel. The server's annotations say so, the three being the tools marked
+open-world, and a client that asks before a call will ask before these.
+`project_save` and `export` write where they are told, and refuse to write
+over a file that is already there unless `force` is given.
 
-So the two are off unless you say otherwise. A server started plainly has
-neither in `tools/list`, and a call of either is refused in the words a tool
+So the three are off unless you say otherwise. A server started plainly has
+none of them in `tools/list`, and a call of one is refused in the words a tool
 the server has never heard of is refused in, naming the option. `--allow-run`
 turns them on:
 
@@ -172,6 +171,20 @@ Every other tool is there either way: an agent can draw, drill, pattern,
 measure, save and export a part without the server running a line of Python.
 `--allow-run` is what a parametric model is worth, and what it costs.
 
+A model that came in a project file is somebody else's until you trust it.
+In DX-CAD, File > Trust This Project's Model trusts the model the project in
+front carries, kept by the file's path and the SHA-256 of the model's text,
+so the same file with the same model is trusted from then on and any other
+model at that path is not. Until then `run_model` and `model_set` on that
+document open no dialog and run nothing: they fail at once, the document
+unchanged, with a sentence and `structuredContent` of
+`{"code": "model_not_trusted", "hint": ...}`, the hint naming that command.
+This holds in the window and in `dxcad serve` alike, which reads the same
+trust for a project `project_open` opened. `project_trust_status` answers
+whether the document carries a model, whether it is trusted, the project's
+path and the model's SHA-256. A document that carries no model, and every
+other tool, are as before.
+
 ## Where it may write
 
 The server works in one directory and reads and writes nowhere else. That
@@ -186,6 +199,61 @@ given has the same directory as its base.
 
 So the directory named in the configuration is the whole of what an agent
 can reach through the tools. It is worth giving it one of its own.
+
+## The model as the user sees it
+
+`get_model` answers the model the document carries. Linked to the DX-CAD
+window, `script_read`, `script_find` and `script_goto` work on the script
+pane as it is typed, saved or not: `script_read` answers lines by number,
+`script_find` every match by line and column, and `script_goto` puts the
+caret on a line in the pane, centred, selecting and briefly marking lines
+for the user to see. Each answers the text's line count and the SHA-256 of
+its UTF-8 bytes, and none changes the text or the document. In `dxcad serve`
+on its own the first two read the document's model, and `script_goto`, which
+needs the window, is refused in words.
+
+`script_edit` replaces lines of the pane with new text as one step of the
+editor's own undo, so one Ctrl+Z in the pane takes it back; `end_line` one
+before `start_line` inserts, and with `expect_old` lines that are no longer
+what the agent read are left alone, the answer's code `text_changed`.
+`type_speed` types the edit on screen for a recording, still one undo step.
+An edit never makes a model trusted. `script_run` runs the pane as typed, as
+Run Script does but with no dialog; its `values` give top-level constants new
+values for that run only, the text left as it was. It runs Python, so it
+needs `--allow-run` as `run_model` does, and on a model not trusted it
+answers `model_not_trusted`.
+
+So a change to a model the document already carries is made by its lines:
+`script_find` or `script_read` to find them, `script_edit` to replace only
+those, and `script_run` to build it, or `model_set` for its numbers. The
+server's instructions, and the descriptions of `get_model` and `run_model`,
+tell an agent so: `run_model` takes the whole model, and an agent that sends
+a 3,000-line model again to add two parts spends minutes writing it out. A
+large model may need longer than a run's 60-second default, so give
+`script_run` a `timeout`.
+
+Which limit a run is held to (item 977): linked to the DX-CAD window, a run
+of `run_model`, `model_set` or `script_run` is held to the window's limit,
+the seconds Settings > Runs gives (60 at first, from 5 to 3600), and to none
+while Model > No Time Limit is ticked, which lifts it; in `dxcad serve`, to
+60 s. A `timeout` argument overrides either, and the three
+tools' descriptions say so. The run of the model an `export` to a DXF or SVG
+drawing makes is held to the same limit.
+
+Long runs send progress when the client asks for it (item 978). A
+`tools/call` of `run_model`, `model_set` or `script_run` whose params carry
+`_meta.progressToken`, as MCP lets a client give, gets a
+`notifications/progress` with that token at least every 10 seconds until it
+is answered, so a client that ends a quiet call after a few minutes keeps
+waiting. Its `progress` is the parts the model has built so far, rising by a
+fraction while none comes, as MCP asks that it always rise, and its
+`message` says the seconds and the last part's name, as
+`"42 s: 3 parts built, the last bracket"`. It works through `dxcad serve`
+and through `dxcad serve --window`, the window sending its progress down the
+channel to be passed on. A call without a token sends none, and the answer
+is the same either way. Over HTTP there is none, each request being answered
+by one reply. One long OCCT operation, a boolean of large parts, holds
+Python, and the next notification waits for it.
 
 ## The tools
 
@@ -240,11 +308,28 @@ can reach through the tools. It is worth giving it one of its own.
 | `project_save` | Save the document as a .dxcprt or .dxcasm project file: a .dxcprt for one part, a .dxcasm for an assembly. The dxcad window and command line open. It carries the model too, when there is one. | `path`: string, required; `force`: boolean |
 | `export` | Write one part to a STEP, STL, 3MF or BREP file, by the path's extension: .step for other CAD, .stl or .3mf for a slicer, .brep for OpenCASCADE; or, ending .dxf or .svg, a drawing of the Sketches the document's model names, one layer each. | `path`: string, required; `name`: string; `force`: boolean |
 | `import_part` | Read a part from a STEP or BREP file into the document as a new part, and answer its facts. The file is not changed. | `path`: string, required; `name`: string |
-| `drawing` | Draw the document's parts on a drawing sheet and write it as a DXF or a PDF, by the path's extension: the front, top, right and isometric views, hidden edges dashed, at one scale that fits, in the title block with its fields filled, and a parts list. Answers the sheet, the scale, the views and the parts listed. | `path`: string, required; `sheet`: one of A4, A3, A2, A1, ISO-A4-portrait, ISO-A4, ISO-A3, ISO-A2, ISO-A1, ISO-A0, ANSI-A, ANSI-B, ANSI-C, ANSI-D; `fields`: object; `file_name`: string; `force`: boolean |
-| `get_model` | The model.py the document carries: the Python that builds its parts, or null. | none |
-| `run_model` | Run a model.py, Python source that builds parts with the kernel's functions (make_box, cut, hole, Sketch, ...) and registers each with part("name", shape). The document becomes what it builds, as one undoable step, and carries the source as its model, so the project saved afterwards is parametric. It runs with the user's own permissions. Answers what describe would, with what the model printed as output. | `source`: string, required; `timeout`: number |
+| `drawing` | Draw the document's parts on a drawing sheet and write it as a DXF or a PDF, by the path's extension: the front, top, right and isometric views, hidden edges dashed, at one scale that fits, in the title block with its fields filled, and a parts list. Answers the sheet, the scale, the views and the parts listed. | `path`: string, required; `sheet`: one of A4, A3, A2, A1, ISO-A4-portrait, ISO-A4, ISO-A3, ISO-A2, ISO-A1, ISO-A0, ANSI-A, ANSI-B, ANSI-C, ANSI-D; `fields`: object; `file_name`: string; `centre_marks`: boolean; `force`: boolean |
+| `get_model` | The model.py the document carries: the Python that builds its parts, or null. For part of a long model, script_read gives its numbered lines and script_find where something is. | none |
+| `project_trust_status` | Whether the document carries a model.py and whether it may be run: a model that came in a project file runs only once the user has trusted it in DX-CAD (File > Trust This Project's Model); until then run_model and model_set answer model_not_trusted. Answers carries_model, trusted, the project's path and the SHA-256 of the model's text. | none |
+| `script_read` | Read lines of the model as the user sees it: the DX-CAD window's script pane, as typed, or the document's model.py in dxcad serve. Answers the lines, numbered from 1, from start_line to end_line inclusive, clamped to the text, with the text's line_count and the SHA-256 of its UTF-8 bytes. Changes nothing. | `start_line`: integer, required; `end_line`: integer, required |
+| `script_find` | Find text in the model as the user sees it (the window's script pane, or the document's model.py in dxcad serve): every match as its line and column, each from 1, and the line's text, up to 1000, with truncated true beyond; and the text's line_count and SHA-256. Changes nothing. | `pattern`: string, required; `regex`: boolean; `case`: boolean |
+| `script_goto` | Show a line of the model in the DX-CAD window's script pane: the caret put on it, at col when given, the line centred, select_lines lines selected and briefly marked, on screen for the user. Needs the window; dxcad serve refuses it. Answers the line and column the caret is on, and the text's line_count and SHA-256. The text is not changed. | `line`: integer, required; `col`: integer; `select_lines`: integer |
+| `script_edit` | Replace lines start_line to end_line of the model as the user sees it (the DX-CAD window's script pane, or the document's model.py in dxcad serve) with new_text, as one undo step; end_line = start_line - 1 inserts before start_line, and an empty new_text takes the lines out. With expect_old, lines that are not it are left alone and the answer's code is text_changed. reveal scrolls to the edit and marks it; type_speed above 0 types it on screen at that many characters a second, for a recording. It never makes a model trusted. Answers the lines the new text is on, and the text's line_count and SHA-256. | `start_line`: integer, required; `end_line`: integer, required; `new_text`: string, required; `expect_old`: string; `reveal`: boolean; `type_speed`: number |
+| `script_run` | Run the model as the user sees it, as Run Script does, with no dialog: the DX-CAD window's script pane as typed, or the document's model.py in dxcad serve. values gives top-level NAME = value lines new values for this run only, as model_set does, and the text is left as it was. It runs the model, with the user's own permissions, and a model the user has not trusted answers model_not_trusted. Answers what run_model would. Linked to the DX-CAD window, a run is held to the window's limit (Model > No Time Limit lifts it); in dxcad serve, to 60 s; a timeout argument overrides either. | `values`: object; `timeout`: number |
+| `view_get` | How the DX-CAD window's 3D view is looking: projection (perspective or orthographic), eye, target and up in mm, fov_deg in perspective or visible_height in mm in orthographic, and the viewport's width and height in px. Needs the window; dxcad serve refuses it. Changes nothing. | none |
+| `view_set` | Set the DX-CAD window's 3D view: view turns it to one of front, back, top, bottom, left, right, iso keeping what it looks at; projection is perspective or orthographic; eye and target place it in mm (up, if given, must be about the up the view keeps, Z up the screen). animate_ms, at most 2000, moves it there over that time. Answers what view_get would once it is there. Not an undo step; the model is not changed. Needs the window. | `view`: one of front, back, top, bottom, left, right, iso; `projection`: one of perspective, orthographic; `eye`: array of number (3); `target`: array of number (3); `up`: array of number (3); `animate_ms`: integer |
+| `view_fit` | Frame parts in the DX-CAD window's 3D view: names (every part shown when left out), from view if given, keeping the direction otherwise, their boxes centred in region and filling 1 / margin of its tighter side. region is [x0, y0, x1, y1], fractions of the viewport from its top left; [0.05, 0.55, 0.95, 0.95] keeps them in the lower part, clear of an overlay at the centre. Answers what view_get would. Not an undo step, and it is not undone by the fit after the agent's calls. Needs the window. | `names`: array of string; `view`: one of front, back, top, bottom, left, right, iso; `margin`: number; `region`: array of number (4); `animate_ms`: integer |
+| `view_zoom` | Zoom the DX-CAD window's 3D view by factor: 2 halves the distance (perspective) or the visible height (orthographic), 0.5 doubles it. about is centre, cursor (where the pointer is over the view, else the centre) or [x, y] in px from the view's top left: that point stays where it is on screen. Answers what view_get would. Needs the window. | `factor`: number, required; `about`: string or array |
+| `view_pan` | Pan the DX-CAD window's 3D view: the target moves dx to the right and dy up the screen, in px of the view (at the target's depth) or in mm. Answers what view_get would. Needs the window. | `dx`: number; `dy`: number; `units`: one of px, mm |
+| `view_orbit` | Turn the DX-CAD window's 3D view about its target: yaw_deg about the vertical, pitch_deg up or down, Z staying up the screen. Answers what view_get would. Needs the window. | `yaw_deg`: number; `pitch_deg`: number |
+| `display_mode` | Draw the DX-CAD window's parts shaded_edges, shaded, wireframe or translucent, as View's display modes do; another name is refused with the ones there are. The camera does not move. Answers the mode and the modes. Needs the window. | `mode`: string, required |
+| `select` | Select parts in the DX-CAD window by name, as clicking them does (the Parts panel follows); an empty list selects none. The camera does not move. Answers the parts selected. Needs the window. | `names`: array of string, required |
+| `isolate` | Hide every part of the DX-CAD window's view but those named, as View > Hide Others does; hiding is not an undo step. The camera does not move, and a framing view_fit made is kept. Answers the parts shown and hidden. Needs the window. | `names`: array of string, required |
+| `show_all` | Show every part the DX-CAD window's view hides, as View > Show All does. The camera does not move, and a framing view_fit made is kept. Answers the parts shown and hidden. Needs the window. | none |
+| `view_capture` | A PNG of the DX-CAD window's 3D view exactly as the user sees it now: its own camera and framing, at the view's size in px, inline. render_view turns to a standard view instead. Needs the window with a 3D view on screen. | none |
+| `run_model` | Run a model.py, Python source that builds parts with the kernel's functions (make_box, cut, hole, Sketch, ...) and registers each with part("name", shape). The document becomes what it builds, as one undoable step, and carries the source as its model, so the project saved afterwards is parametric. It runs with the user's own permissions. Answers what describe would, with what the model printed as output. It takes the whole model: to change the one the document carries, script_edit and script_run send only the lines that change, and model_set its numbers. Linked to the DX-CAD window, a run is held to the window's limit (Model > No Time Limit lifts it); in dxcad serve, to 60 s; a timeout argument overrides either. | `source`: string, required; `timeout`: number |
 | `model_values` | The numbers the model.py is made of: every top-level NAME = value line whose value is a number, a string or a boolean, by name. These are what model_set changes. | none |
-| `model_set` | Change some of the model.py's numbers, as model_values lists them, and run it again: the way to make a parametric part longer or its holes wider without writing the model again. One undoable step, and a model that fails with its new numbers leaves everything as it was. It runs the model, with the user's own permissions. Answers what run_model would. | `values`: object, required; `timeout`: number |
+| `model_set` | Change some of the model.py's numbers, as model_values lists them, and run it again: the way to make a parametric part longer or its holes wider without writing the model again. One undoable step, and a model that fails with its new numbers leaves everything as it was. It runs the model, with the user's own permissions. Answers what run_model would. Linked to the DX-CAD window, a run is held to the window's limit (Model > No Time Limit lifts it); in dxcad serve, to 60 s; a timeout argument overrides either. | `values`: object, required; `timeout`: number |
 
 <!-- end of generated tools -->
 

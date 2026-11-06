@@ -28,7 +28,7 @@ way to try a policy out before deploying it.
 | `AgentDoor` | DWORD, 0 or 1 | Whether `dxcad serve`, its `--install` and the live window link may run. With 0, `dxcad serve` refuses with the policy's message. |
 | `AllowedProviders` | REG_SZ, comma-separated, or REG_MULTI_SZ | The Assistant's providers that may be used, by key: `own_key` (Anthropic, the user's own key), `openai`, `azure_openai`, `gemini`, `openai_compatible` and `account` (the DX-CAD account). The rest are not offered. Unset, all are. |
 | `AllowedEndpoints` | REG_SZ, comma-separated, or REG_MULTI_SZ | The addresses an Azure OpenAI or OpenAI-compatible provider may use, each a prefix such as `https://contoso.openai.azure.com`. Unset, any. |
-| `SendScripts` | DWORD, 0 or 1 | Whether a document's model script may be sent to a provider. With 0, the Assistant's tools that would answer it (`get_model`, `model_values`) are refused inside the chat with the policy's reason. |
+| `SendScripts` | DWORD, 0 or 1 | Whether a document's model script may be sent to a provider. With 0, the Assistant's tools that would answer it (`get_model`, `model_values`, `script_read`, `script_find`) are refused inside the chat with the policy's reason. |
 | `SendRenders` | DWORD, 0 or 1 | Whether pictures of the view may be sent. With 0, a render the Assistant asks for is refused inside the chat with the policy's reason. |
 | `SendImages` | DWORD, 0 or 1 | Whether scans and photos may be attached to a prompt and sent (the hosted Assistant add-on). With 0, the attach button is hidden whatever the licence, and paste and drop attach nothing. |
 | `Message` | REG_SZ | What DX-CAD adds when it refuses, such as who to ask. |
